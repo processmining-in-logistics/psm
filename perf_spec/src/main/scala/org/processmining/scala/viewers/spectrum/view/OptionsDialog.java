@@ -1,5 +1,6 @@
 package org.processmining.scala.viewers.spectrum.view;
 
+import org.processmining.scala.log.common.utils.common.EH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         jSpinnerMin.setValue(options.minCount());
         jSpinnerMax.setValue(options.maxCount());
         checkBoxReverseColorsOrder.setSelected(options.reverseColors());
+        PreProcessingDialog.centerWindow(this);
     }
 
     private static String patternsToString(final Pattern[] patterns) {
@@ -283,7 +285,11 @@ public class OptionsDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCopyActionPerformed
 
     private void jButtonClearIdsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearIdsActionPerformed
-        parent.controller.clearSelectionMode();
+        try {
+            parent.controller.clearSelectionMode();
+        } catch (Exception ex) {
+            EH.apply().error(ex);
+        }
     }//GEN-LAST:event_jButtonClearIdsActionPerformed
 
     private void jButtonLoadIdsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadIdsActionPerformed
@@ -299,6 +305,8 @@ public class OptionsDialog extends javax.swing.JDialog {
             } catch (IOException ex) {
                 logger.warn(ex.toString());
                 JOptionPane.showMessageDialog(frame, "Cannot pre-processed file " + path + ": " + ex, "Wrong ID file", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                EH.apply().error(ex);
             }
         }
     }//GEN-LAST:event_jButtonLoadIdsActionPerformed
@@ -337,7 +345,7 @@ public class OptionsDialog extends javax.swing.JDialog {
                 }
             }
 
-            String ids = jTextFieldIds.getText();
+            final String ids = jTextFieldIds.getText();
 
             options = new Options(tmpWhiteListFilter,
                     tmpBlackListFilter,
@@ -353,8 +361,7 @@ public class OptionsDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Wrong regex pattern: " + ex.toString(), "Regex filter error", JOptionPane.ERROR_MESSAGE);
             return false;
         } catch (Exception ex) {
-            logger.error(Form.getStackTrace(ex));
-            //TODO:???
+            EH.apply().error("Error in onApply", ex);
         }
         return true;
     }

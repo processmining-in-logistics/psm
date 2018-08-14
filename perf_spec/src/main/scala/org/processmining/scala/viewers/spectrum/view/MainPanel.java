@@ -41,17 +41,17 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
     final static ZoneId zoneId = ZoneId.of("UTC");
     private final boolean isOpenEnabled;
 
-    public MainPanel(final String dir, final OpenImpl openImpl, final boolean isOpenEnabled) {
+    public MainPanel(final AbstractDataSource ds, final OpenImpl openImpl, final boolean isOpenEnabled) {
         try {
             this.openImpl = openImpl;
             this.isOpenEnabled = isOpenEnabled;
-            controller = createNew(dir, false, false);
+            this.controller = new TimeDiffController(ds);
             initComponents();
             jButtonOpen.addActionListener(e -> openImpl.onOpen());
-            if (!dir.isEmpty()) {
+            if (controller.ds().twCount() > 0) {
                 subscribe();
             }
-            enableControls(!dir.isEmpty());
+            enableControls(controller.ds().twCount() > 0);
         } catch (Exception ex) {
             EH.apply().error("MainPanel", ex);
             throw new RuntimeException(ex);
@@ -63,12 +63,16 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
 
         jPanelWhiteBoard.setBackground(Color.WHITE);
         controller.view().subscribeToSelectionEvent((x) -> {
-                    jLabelPos.setText(
-                            String.format(
-                                    "%s %s", (LocalDateTime.ofInstant(Instant.ofEpochMilli(x), zoneId)).format(timestampFormatter),
-                                    ""/*zoneId.toString()*/)
-                    );
-                    jLabelDayOfWeek.setText(LocalDateTime.ofInstant(Instant.ofEpochMilli(x), zoneId).format(weekOfDayFormatter));
+                    try {
+                        jLabelPos.setText(
+                                String.format(
+                                        "%s %s", (LocalDateTime.ofInstant(Instant.ofEpochMilli(x), zoneId)).format(timestampFormatter),
+                                        ""/*zoneId.toString()*/)
+                        );
+                        jLabelDayOfWeek.setText(LocalDateTime.ofInstant(Instant.ofEpochMilli(x), zoneId).format(weekOfDayFormatter));
+                    } catch (Exception ex) {
+                        EH.apply().error(ex);
+                    }
                 }
         );
         jContentScrollPane.addComponentListener(new ComponentAdapter() {
@@ -77,99 +81,20 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
                 try {
                     jPanelWhiteBoard.onComponentResized(e.getComponent().getSize());
                 } catch (Exception ex) {
-                    logger.error(ex.toString());
+                    EH.apply().error(ex);
                 }
             }
         });
 
-        jSliderXZoom.addChangeListener(e -> {
-            logger.info("XZoom");
-            adjustVisualizationParams();
-        });
-        jSliderYZoom.addChangeListener(e -> {
-            logger.info("YZoom");
-            adjustVisualizationParams();
-        });
+        jSliderXZoom.addChangeListener(e -> adjustVisualizationParams());
+        jSliderYZoom.addChangeListener(e -> adjustVisualizationParams());
         jSliderPos.addChangeListener(e -> adjustVisualizationParams());
         checkBoxShowTraces.addChangeListener(e -> adjustVisualizationParams());
-
-
-        jButtonClearSelection.addActionListener(e -> {
-            //clearSelectionMode();
-        });
         checkBoxShowBins.addChangeListener(e -> adjustVisualizationParams());
-//            textFieldId.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    if (!textFieldId.getText().isEmpty()) {
-//                        controller.addId(textFieldId.getText());
-//                    }
-//                }
-//            });
-//            buttonLoadIds.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    final JFileChooser dirDlg = new JFileChooser();
-//                    dirDlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
-//                    if (dirDlg.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
-//                        final String path = dirDlg.getSelectedFile().getPath();
-//                        try {
-//                            byte[] encoded = Files.readAllBytes(Paths.get(path));
-//                            final String file = new String(encoded, StandardCharsets.UTF_8);
-//                            controller.addId(file);
-//                        } catch (IOException ex) {
-//                            logger.warn(ex.toString());
-//                            JOptionPane.showMessageDialog(frame, "Cannot pre-processed file " + path + ": " + ex, "Wrong ID file", JOptionPane.ERROR_MESSAGE);
-//                        }
-//                    }
-//                }
-//            });
-
-        checkBoxHideSelection.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                adjustVisualizationParams();
-            }
-        });
-        checkBoxegmentNames.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                adjustVisualizationParams();
-            }
-        });
+        checkBoxHideSelection.addChangeListener(e -> adjustVisualizationParams());
+        checkBoxegmentNames.addChangeListener(e -> adjustVisualizationParams());
     }
 
-    private static TimeDiffController createNew(final String dir,
-                                                final boolean usePreviousFilenameAndLeftRightAggregation,
-                                                final boolean useLeftAggregation) throws IOException, BackingStoreException {
-        final String sortingOrderFilename = dir + "/sorting_order.txt";
-        final File sortingOrderFile = new File(sortingOrderFilename);
-        final String[] sortingOrder = sortingOrderFile.exists() && sortingOrderFile.isFile() ? readSortingOrder(sortingOrderFilename) : new String[0];
-        final String aggregatorFilename = dir + "/aggregator.ini";
-        final File aggregatorFile = new File(aggregatorFilename);
-        EventAggregator ea;
-        if (usePreviousFilenameAndLeftRightAggregation) {
-            ea = new ManyToOneEventAggregator(useLeftAggregation);
-        } else {
-            ea = (aggregatorFile.exists() && aggregatorFile.isFile()) ? new EventAggregatorImpl(aggregatorFilename) : new EventAggregatorImpl();
-        }
-        final AbstractDataSource fds = dir.isEmpty() ? new EmptyDatasource() : new FilesystemDataSource(dir, ea, TimeDiffController.segmentNameLt(sortingOrder));
-        return new TimeDiffController(fds);
-    }
-
-    private static String[] readSortingOrder(final String filename) throws IOException {
-        final java.util.List<String> list =
-                Files
-                        .lines(Paths.get(filename))
-                        .map(x -> x.trim())
-                        .filter(x -> !x.isEmpty())
-                        .distinct()
-                        .collect(Collectors.toList());
-        ;
-        logger.info("Sorting order:");
-        list.forEach(logger::info);
-        return list.toArray(new String[list.size()]);
-    }
 
     static final double HundredPercent = 100.0;
     static final double SliderPosUnitPercent = 0.01;
@@ -207,7 +132,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
                 controller.addId(options.ids());
             }
 
-            logger.info(state.toString());
+            logger.debug(state.toString());
             final int startTwIndex = (int) (state.pos() / HundredPercent * SliderPosUnitPercent * controller.ds().twCount());
             final int twsFitIntoScreen = (int) (controller.ds().twCount() / (state.xZoom() / HundredPercent * SliderXZoomUnitZoomingPercent));
             final int lastTwIndexExclusive = startTwIndex + Math.min(twsFitIntoScreen, controller.ds().twCount() - startTwIndex);
@@ -218,7 +143,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
             jTimeScalePanel2.adjustVisualizationParamsAndRepaint(state, pip, jPanelWhiteBoard);
 
         } catch (Exception ex) {
-            logger.error(ex.toString());
+            EH.apply().error("adjustVisualizationParams", ex);
         }
     }
 
@@ -237,15 +162,23 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
 
     @Override
     public void changeVerticalZoom(final int delta) {
-        jSliderYZoom.setValue(jSliderYZoom.getValue() + delta * 1);
-        adjustVisualizationParams();
+        try {
+            jSliderYZoom.setValue(jSliderYZoom.getValue() + delta * 1);
+            adjustVisualizationParams();
+        } catch (Exception ex) {
+            EH.apply().error(ex);
+        }
 
     }
 
     @Override
     public void changeHorizontalZoom(final int delta) {
-        jSliderXZoom.setValue(jSliderXZoom.getValue() + delta * 1);
-        adjustVisualizationParams();
+        try {
+            jSliderXZoom.setValue(jSliderXZoom.getValue() + delta * 1);
+            adjustVisualizationParams();
+        } catch (Exception ex) {
+            EH.apply().error(ex);
+        }
     }
 
     private String[] localSort(final String[] names) {
@@ -378,11 +311,6 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
 
         jButtonOpen.setText("Open...");
         jButtonOpen.setToolTipText("Open new dataset");
-        jButtonOpen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonOpenActionPerformed(evt);
-            }
-        });
         jPanelControls.add(jButtonOpen, java.awt.BorderLayout.WEST);
 
         jPanelOpenR.setLayout(new java.awt.BorderLayout());
@@ -409,11 +337,6 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         checkBoxShowTraces.setText("Lines");
         checkBoxShowTraces.setToolTipText("Show detailed spectrum");
         checkBoxShowTraces.setMargin(new java.awt.Insets(2, 5, 2, 5));
-        checkBoxShowTraces.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxShowTracesActionPerformed(evt);
-            }
-        });
         jPanelR02.add(checkBoxShowTraces, java.awt.BorderLayout.WEST);
 
         jPanelR03.setLayout(new java.awt.BorderLayout());
@@ -421,11 +344,6 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         checkBoxShowBins.setText("Bars");
         checkBoxShowBins.setToolTipText("Show aggregated spectrum");
         checkBoxShowBins.setMargin(new java.awt.Insets(2, 5, 2, 25));
-        checkBoxShowBins.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxShowBinsActionPerformed(evt);
-            }
-        });
         jPanelR03.add(checkBoxShowBins, java.awt.BorderLayout.WEST);
 
         jPanelR04.setLayout(new java.awt.BorderLayout());
@@ -433,11 +351,6 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         checkBoxShowGrid.setText("Grid");
         checkBoxShowGrid.setToolTipText("Show vertical grid");
         checkBoxShowGrid.setMargin(new java.awt.Insets(2, 5, 2, 5));
-        checkBoxShowGrid.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxShowGridActionPerformed(evt);
-            }
-        });
         jPanelR04.add(checkBoxShowGrid, java.awt.BorderLayout.WEST);
 
         jPanelR05.setLayout(new java.awt.BorderLayout());
@@ -447,11 +360,6 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         checkBoxHideSelection.setText("Hide selection");
         checkBoxHideSelection.setToolTipText("Hide selected spectrum");
         checkBoxHideSelection.setMargin(new java.awt.Insets(2, 25, 2, 5));
-        checkBoxHideSelection.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxHideSelectionActionPerformed(evt);
-            }
-        });
         jPanelR06.add(checkBoxHideSelection, java.awt.BorderLayout.WEST);
 
         jPanelR07.setLayout(new java.awt.BorderLayout());
@@ -464,11 +372,6 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
 
         jButtonIds.setText("IDs...");
         jButtonIds.setToolTipText("Define case IDs for highlighting");
-        jButtonIds.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonIdsActionPerformed(evt);
-            }
-        });
         jPanelR08.add(jButtonIds, java.awt.BorderLayout.WEST);
 
         jPanelR09.setLayout(new java.awt.BorderLayout());
@@ -481,11 +384,6 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
 
         jButtonClearSelection.setText("Clear");
         jButtonClearSelection.setToolTipText("Clear selection");
-        jButtonClearSelection.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonClearSelectionActionPerformed(evt);
-            }
-        });
         jPanelL10.add(jButtonClearSelection, java.awt.BorderLayout.EAST);
 
         jPanelL11.setLayout(new java.awt.BorderLayout());
@@ -528,11 +426,6 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         checkBoxegmentNames.setText("Names");
         checkBoxegmentNames.setToolTipText("Show names of segments");
         checkBoxegmentNames.setMargin(new java.awt.Insets(2, 5, 2, 5));
-        checkBoxegmentNames.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxegmentNamesActionPerformed(evt);
-            }
-        });
         jPanelR05.add(checkBoxegmentNames, java.awt.BorderLayout.WEST);
 
         jPanelR04.add(jPanelR05, java.awt.BorderLayout.CENTER);
@@ -569,36 +462,13 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         (new OptionsDialog(this, true, options)).setVisible(true);
     }
 
-    private void jButtonOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOpenActionPerformed
-        //openImpl.onOpen();
-    }//GEN-LAST:event_jButtonOpenActionPerformed
-
-    private void checkBoxShowTracesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxShowTracesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkBoxShowTracesActionPerformed
-
-    private void checkBoxShowBinsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxShowBinsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkBoxShowBinsActionPerformed
-
-    private void checkBoxShowGridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxShowGridActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkBoxShowGridActionPerformed
-
-    private void checkBoxegmentNamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxegmentNamesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkBoxegmentNamesActionPerformed
-
-    private void checkBoxHideSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxHideSelectionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkBoxHideSelectionActionPerformed
-
-    private void jButtonIdsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIdsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonIdsActionPerformed
 
     private void jButtonClearSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearSelectionActionPerformed
-        controller.clearSelectionMode();
+        try {
+            controller.clearSelectionMode();
+        } catch (Exception ex) {
+            EH.apply().error(ex);
+        }
     }//GEN-LAST:event_jButtonClearSelectionActionPerformed
 
 

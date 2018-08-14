@@ -2,6 +2,7 @@ package org.processmining.scala.viewers.spectrum.view;
 
 import javax.swing.*;
 
+import org.processmining.scala.log.common.utils.common.EH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.awt.*;
@@ -42,7 +43,7 @@ final class LegendPanel extends JPanel {
                 g2.drawString(legend.get(i), ShiftXPx + WidthPx + 10, ShiftYPx + (i + 1) * HeightPx - 5);
             }
         } catch (Exception ex) {
-            logger.error("Paint", ex);
+            EH.apply().error("Paint", ex);
         }
     }
 

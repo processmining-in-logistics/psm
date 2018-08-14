@@ -33,7 +33,7 @@ abstract class SegmentProcessor(val config: SegmentProcessorConfig, clazzCount: 
 
   def getVisualizationDataset(export: => ParSeq[(Long, SegmentWithClazz)] => Unit): (ParSeq[SegmentVisualizationItem], PreprocessingSession) = {
 
-    val session = PreprocessingSession(config.timestamp1Ms, config.timestamp2Ms, config.twSize, clazzCount)
+    val session = PreprocessingSession(config.timestamp1Ms, config.timestamp2Ms, config.twSize, clazzCount, config.aaf.getClass.getSimpleName, "")
     val segments = getClassifiedSegments()
 
     export(segments.map(x =>

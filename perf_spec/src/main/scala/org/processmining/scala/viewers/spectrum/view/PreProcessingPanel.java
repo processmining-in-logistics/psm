@@ -6,11 +6,11 @@
 package org.processmining.scala.viewers.spectrum.view;
 
 import org.deckfour.xes.model.XLog;
-import org.processmining.scala.log.common.enhancment.segments.common.InventoryAggregation;
 import org.processmining.scala.log.common.utils.common.EH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,11 +18,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.time.Duration;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-
-import javax.swing.*;
 
 /**
  * @author nlvden
@@ -37,34 +37,18 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     private final XLog xLog;
     private final Consumer<String> consumer;
 
-    /**
-     * Creates new form PreProcessingPanel
-     */
-//    public PreProcessingPanel(final Consumer<String> consumer) {
-//        this.consumer = consumer;
-//        initComponents();
-//        xLog = null;
-////        jTextFieldFileName.setText("D:\\logs\\psm\\input\\BPIC15_1.xes");
-////        jTextFieldOutDir.setText("C:\\psm_datasets_parallel_prom2");
-////        jTextFieldTimeWindow.setText(Long.toString(Duration.ofDays(30).toMillis()));
-//        timer.setRepeats(false);
-//    }
-
     public String getDir() {
         return directory;
     }
 
     public PreProcessingPanel(final XLog xLog, final Consumer<String> consumer) {
-
         this.consumer = consumer;
         this.xLog = xLog;
         initComponents();
         timer.setRepeats(false);
-        if(xLog != null) {
+        if (xLog != null) {
             disableControlsForProm();
         }
-
-
     }
 
     private void disableControlsForProm() {
@@ -72,14 +56,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         jTextFieldFileName.setEnabled(false);
         jButtonRun.setEnabled(false);
         jButtonRun.setVisible(false);
-//        jButtonCancel.setEnabled(false);
-//        jButtonCancel.setVisible(false);
     }
-
-
-    private void jTextFieldActivityClassifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldActivityClassifierActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldActivityClassifierActionPerformed
 
     private void jButtonOpenLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOpenLogActionPerformed
         final JFileChooser dirDlg = new JFileChooser();
@@ -88,10 +65,6 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
             jTextFieldFileName.setText(dirDlg.getSelectedFile().getPath());
         }
     }//GEN-LAST:event_jButtonOpenLogActionPerformed
-
-    private void jComboBoxAggregationFunctionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAggregationFunctionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxAggregationFunctionActionPerformed
 
     private void jButtonOpenLog1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOpenLog1ActionPerformed
         final JFileChooser dirDlg = new JFileChooser();
@@ -102,7 +75,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     }//GEN-LAST:event_jButtonOpenLog1ActionPerformed
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
-        if(consumer != null){
+        if (consumer != null) {
             consumer.accept("");
         }
     }//GEN-LAST:event_jButtonCancelActionPerformed
@@ -140,11 +113,12 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
 
     }//GEN-LAST:event_jButtonRunActionPerformed
 
-    void process(final boolean callConsumer){
-        callConsumerFlag = callConsumer;
-        executorService = Executors.newSingleThreadExecutor();
-        clearProgress();
-        try{
+    void process(final boolean callConsumer) {
+        try {
+
+            callConsumerFlag = callConsumer;
+            executorService = Executors.newSingleThreadExecutor();
+            clearProgress();
             final PreProcessor pp = new PreProcessor(jTextFieldFileName.getText(),
                     xLog,
                     "",
@@ -159,13 +133,12 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
             enableControls(false);
             executorService.shutdown();
             timer.start();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             EH.apply().errorAndMessageBox("Cannot parse parameters", ex);
         }
     }
 
-
-    static long timeWindowTextToMs(final String text) {
+    private static long timeWindowTextToMs(final String text) {
         final long ms = TimeWindowTranslator.apply(text);
         logger.info(String.format("'%s' = %d", text, ms));
         return ms;
@@ -200,7 +173,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
                 jLabelPreProcessingProgress.setText("Done");
                 enableControls(true);
                 directory = task.get();
-                if(consumer != null && callConsumerFlag){
+                if (consumer != null && callConsumerFlag) {
                     consumer.accept(directory);
                 }
             } else {
@@ -467,11 +440,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         jPanel9.add(jLabel2, java.awt.BorderLayout.LINE_START);
 
         jComboBoxAggregationFunction.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Cases pending", "Cases started", "Cases stopped"}));
-        jComboBoxAggregationFunction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxAggregationFunctionActionPerformed(evt);
-            }
-        });
+
         jPanel9.add(jComboBoxAggregationFunction, java.awt.BorderLayout.CENTER);
 
         jPanel8.add(jPanel9, java.awt.BorderLayout.NORTH);
@@ -501,11 +470,6 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         jLabel4.setPreferredSize(new java.awt.Dimension(220, 0));
         jPanel13.add(jLabel4, java.awt.BorderLayout.LINE_START);
 
-        jTextFieldActivityClassifier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldActivityClassifierActionPerformed(evt);
-            }
-        });
         jPanel13.add(jTextFieldActivityClassifier, java.awt.BorderLayout.CENTER);
 
         jPanel12.add(jPanel13, java.awt.BorderLayout.NORTH);
@@ -597,6 +561,10 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     }// </editor-fold>
 
     private void onHelp() {
+        showHelp();
+    }
+
+    static void showHelp() {
         final String ref = "https://github.com/processmining-in-logistics/psm";
         try {
             openWebpage(new URL(ref));
@@ -609,14 +577,14 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         process(true);
     }
 
-    public static void openWebpage(URI uri) throws IOException {
+    private static void openWebpage(URI uri) throws IOException {
         final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
             desktop.browse(uri);
         }
     }
 
-    public static void openWebpage(URL url) throws URISyntaxException, IOException {
+    private static void openWebpage(URL url) throws URISyntaxException, IOException {
         openWebpage(url.toURI());
     }
 

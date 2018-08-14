@@ -40,13 +40,17 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if (zooming != null) {
-            if (e.isShiftDown()) {
-                zooming.changeVerticalZoom(e.getWheelRotation());
+        try {
+            if (zooming != null) {
+                if (e.isShiftDown()) {
+                    zooming.changeVerticalZoom(e.getWheelRotation());
+                }
+                if (e.isControlDown()) {
+                    zooming.changeHorizontalZoom(e.getWheelRotation());
+                }
             }
-            if (e.isControlDown()) {
-                zooming.changeHorizontalZoom(e.getWheelRotation());
-            }
+        } catch (Exception ex) {
+            EH.apply().error(ex);
         }
     }
 
@@ -55,17 +59,15 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
     }
 
 
-
-    public TimeDiffGraphics(final TimeDiffController tdf)  {
+    public TimeDiffGraphics(final TimeDiffController tdf) {
         this.tdf = tdf;
         ds = tdf.ds();
 
         try {
             image = ImageIO.read(new File("./res/logo.png"));
-        }catch(IOException ex){
+        } catch (IOException ex) {
             image = null;
         }
-
 
 
         this.addMouseListener(new MouseAdapter() {
@@ -92,26 +94,30 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
                         }
                     }
                 } catch (Exception ex) {
-                    logger.error(ex.toString());
+                    EH.apply().error(ex);
                 }
             }
 
 
             private void doPop(final MouseEvent e, final PopupHandler handler) {
-                final JPopupMenu menu = new JPopupMenu();
-                {
-                    JMenuItem menuItem = new JMenuItem("All");
-                    menuItem.addActionListener(ae -> handler.handler(AllClasses, e));
-                    menu.add(menuItem);
+                try {
+                    final JPopupMenu menu = new JPopupMenu();
+                    {
+                        JMenuItem menuItem = new JMenuItem("All");
+                        menuItem.addActionListener(ae -> handler.handler(AllClasses, e));
+                        menu.add(menuItem);
+                    }
+                    final List<String> legend = LegendPanel.splitLegend(tdf.view().ds.legend());
+                    for (int clazz = 0; clazz < legend.size() - 1; clazz++) {
+                        final int currentClazz = clazz;
+                        final JMenuItem menuItem = new JMenuItem(legend.get(clazz + 1));
+                        menuItem.addActionListener(ae -> handler.handler(currentClazz, e));
+                        menu.add(menuItem);
+                    }
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                } catch (Exception ex) {
+                    EH.apply().error(ex);
                 }
-                final List<String> legend = LegendPanel.splitLegend(tdf.view().ds.legend());
-                for (int clazz = 0; clazz < legend.size() - 1; clazz++) {
-                    final int currentClazz = clazz;
-                    final JMenuItem menuItem = new JMenuItem(legend.get(clazz + 1));
-                    menuItem.addActionListener(ae -> handler.handler(currentClazz, e));
-                    menu.add(menuItem);
-                }
-                menu.show(e.getComponent(), e.getX(), e.getY());
             }
         });
 
@@ -123,7 +129,7 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
                         forceRepaint();
                     }
                 } catch (Exception ex) {
-                    logger.error(ex.toString());
+                    EH.apply().error(ex);
                 }
             }
 
@@ -135,7 +141,7 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
                         onMouseTimeChanged.handler(absTime);
                     }
                 } catch (Exception ex) {
-                    logger.error(ex.toString());
+                    EH.apply().error(ex);
                 }
             }
 
@@ -143,11 +149,15 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
     }
 
     void firePopup(final int clazz, final MouseEvent e) {
-        System.out.print(Integer.toString(clazz));
-        selectTraces(makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY()), clazz);
-        startDrag = null;
-        endDrag = null;
-        forceRepaint();
+        try {
+            //System.out.print(Integer.toString(clazz));
+            selectTraces(makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY()), clazz);
+            startDrag = null;
+            endDrag = null;
+            forceRepaint();
+        } catch (Exception ex) {
+            EH.apply().error(ex);
+        }
     }
 
     private void selectTraces(final Shape r, final int clazz) {
@@ -232,7 +242,7 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
 //            g2.setPaint(Color.LIGHT_GRAY);
 //            g2.fill(r);
                 }
-            }else{
+            } else {
 //                if(image != null) {
 //                    g.drawImage(image, 0, 0, null);
 //                }

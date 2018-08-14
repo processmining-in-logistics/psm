@@ -12,6 +12,7 @@ public class LegendDialog2 extends javax.swing.JDialog {
         legendPanel1.setLegend(legend);
         jScrollPane1.setViewportView(legendPanel1);
         setTitle(legendPanel1.getLegendTitle());
+        PreProcessingDialog.centerWindow(this);
     }
 
     @SuppressWarnings("unchecked")

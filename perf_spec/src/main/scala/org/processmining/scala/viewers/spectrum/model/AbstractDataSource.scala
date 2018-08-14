@@ -1,5 +1,6 @@
 package org.processmining.scala.viewers.spectrum.model
 
+import java.util.function.Consumer
 import java.util.regex.Pattern
 
 
@@ -46,6 +47,14 @@ private[viewers] trait AbstractDataSource {
   def segmentIds(twIndex: Int): Map[String, Map[String, Int]] // name -> ID -> class
 
   def segments(twIndex: Int): Map[String, Map[Int, List[(String, Long, Long)]]] // name -> class ->{(ID, startTimeMs, durationMs)}
+
+  def fetchAll(callback: Consumer[Int]): Unit =
+    (0 until twCount)
+      .foreach { tw =>
+        segmentIds(tw)
+        segments(tw)
+        if (tw % 10 == 0) callback.accept(tw)
+      }
 
 
 }

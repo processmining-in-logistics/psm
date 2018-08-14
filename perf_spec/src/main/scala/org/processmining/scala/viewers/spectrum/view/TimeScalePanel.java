@@ -1,5 +1,6 @@
 package org.processmining.scala.viewers.spectrum.view;
 
+import org.processmining.scala.log.common.utils.common.EH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,7 @@ final class TimeScalePanel extends JPanel {
             }
 
         } catch (Exception ex) {
-            logger.error("Paint", ex);
+            EH.apply().error("TimeScalePanel.paintComponent", ex);
         }
     }
 

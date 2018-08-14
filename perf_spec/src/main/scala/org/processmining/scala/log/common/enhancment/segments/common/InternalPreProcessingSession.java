@@ -16,7 +16,9 @@ class InternalPreProcessingSession {
                                         long preprocessingStartMs,
                                         long preprocessingEndMs,
                                         String userInfo,
-                                        String legend) {
+                                        String legend,
+                                        String aggregationFunction,
+                                        String durationClassifier) {
         this.startMs = startMs;
         this.endMs = endMs;
         this.twSizeMs = twSizeMs;
@@ -25,6 +27,8 @@ class InternalPreProcessingSession {
         this.preprocessingEndMs = preprocessingEndMs;
         this.userInfo = userInfo;
         this.legend = legend;
+        this.aggregationFunction = aggregationFunction;
+        this.durationClassifier = durationClassifier;
 
     }
 
@@ -37,6 +41,8 @@ class InternalPreProcessingSession {
     long preprocessingEndMs;
     String userInfo;
     String legend;
+    String aggregationFunction;
+    String durationClassifier;
 
     public long getStartMs() {
         return startMs;
@@ -100,5 +106,21 @@ class InternalPreProcessingSession {
 
     public void setLegend(String legend) {
         this.legend = legend;
+    }
+
+    public String getAggregationFunction() {
+        return aggregationFunction;
+    }
+
+    public void setAggregationFunction(String aggregationFunction) {
+        this.aggregationFunction = aggregationFunction;
+    }
+
+    public String getDurationClassifier() {
+        return durationClassifier;
+    }
+
+    public void setDurationClassifier(String durationClassifier) {
+        this.durationClassifier = durationClassifier;
     }
 }
