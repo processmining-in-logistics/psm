@@ -119,10 +119,11 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
             callConsumerFlag = callConsumer;
             executorService = Executors.newSingleThreadExecutor();
             clearProgress();
+            final String activityClassifier = jTextFieldActivityClassifier.getText().trim();
             final PreProcessor pp = new PreProcessor(jTextFieldFileName.getText(),
                     xLog,
-                    "",
-                    new String[]{},
+                    "-",
+                    activityClassifier.isEmpty() ? new String[]{} :  activityClassifier.split("\\s+"),
                     jTextFieldOutDir.getText(),
                     timeWindowTextToMs(jTextFieldTimeWindow.getText()),
                     jComboBoxAggregationFunction.getSelectedIndex(),

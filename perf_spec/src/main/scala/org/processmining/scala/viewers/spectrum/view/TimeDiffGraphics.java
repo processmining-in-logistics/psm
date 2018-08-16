@@ -247,6 +247,7 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
 //                    g.drawImage(image, 0, 0, null);
 //                }
             }
+            enableHourglass(false);
         } catch (Exception ex) {
             EH.apply().error("paintComponent", ex);
         }
@@ -355,7 +356,21 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
         this.dimension = dimension;
     }
 
+
+    private boolean waitingCoursorEnabled = false;
+
+    private void enableHourglass(final boolean e){
+        if(e && !waitingCoursorEnabled){
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            waitingCoursorEnabled = true;
+        }else if(!e && waitingCoursorEnabled){
+            setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            waitingCoursorEnabled = false;
+        }
+    }
+
     int adjustVisualizationParamsAndRepaint(final ViewerState viewerState, final PaintInputParameters paintInputParameters) {
+
         this.viewerState = viewerState;
         this.paintInputParameters = paintInputParameters;
         adjustPanelSize();
@@ -364,6 +379,7 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
     }
 
     public void forceRepaint() {
+        enableHourglass(true);
         invalidate();
         repaint();
     }

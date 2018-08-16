@@ -93,6 +93,8 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         checkBoxShowBins.addChangeListener(e -> adjustVisualizationParams());
         checkBoxHideSelection.addChangeListener(e -> adjustVisualizationParams());
         checkBoxegmentNames.addChangeListener(e -> adjustVisualizationParams());
+        checkBoxShowGrid.addChangeListener(e -> adjustVisualizationParams());
+        jButtonClearSelection.addActionListener(e -> controller.clearSelectionMode());
     }
 
 
@@ -138,6 +140,9 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
             final int lastTwIndexExclusive = startTwIndex + Math.min(twsFitIntoScreen, controller.ds().twCount() - startTwIndex);
             final String[] filteredNames = localSort(controller.ds().segmentNames(state.whiteList(), state.blackList(), state.minCount(), state.maxCount()));
             final PaintInputParameters pip = new PaintInputParameters(startTwIndex, lastTwIndexExclusive, twsFitIntoScreen, filteredNames);
+
+
+
             final int h = jPanelWhiteBoard.adjustVisualizationParamsAndRepaint(state, pip);
             jContentScrollPane.getVerticalScrollBar().setUnitIncrement(h);
             jTimeScalePanel2.adjustVisualizationParamsAndRepaint(state, pip, jPanelWhiteBoard);

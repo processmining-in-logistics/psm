@@ -1,6 +1,7 @@
 package org.processmining.scala.viewers.spectrum.view;
 
 import org.deckfour.xes.model.XLog;
+import org.processmining.scala.log.common.enhancment.segments.common.PreprocessingSession;
 import org.processmining.scala.log.common.enhancment.segments.parallel.SegmentProcessor;
 import org.processmining.scala.log.common.utils.common.EH;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
@@ -124,4 +125,22 @@ public class FramePanel extends JPanel implements OpenImpl {
         }
     }
 
+    public static boolean checkJvm() {
+
+        if (!PreprocessingSession.isJavaVersionCorrect()) {
+            final String msg = "You are using an incompartible version of Java: '" + PreprocessingSession.javaVersion() +
+                    "'. Java 1.8.xxx 64bit is required. The application will not work stable!";
+            logger.error(msg);
+            logger.info(PreprocessingSession.javaVersion());
+            logger.info(PreprocessingSession.javaPlatform());
+            JOptionPane.showMessageDialog(null, msg, "Wrong JRE/JDK version", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+//            if (!PreprocessingSession.isJavaPlatformCorrect()) {
+//                final String msg = "You are using an incompartible platform of Java: '" + PreprocessingSession.javaPlatform() +
+//                        "'. Java 1.8.xxx 64bit is required. The application will not work stable!";
+//                logger.error(msg);
+//
+    }
 }

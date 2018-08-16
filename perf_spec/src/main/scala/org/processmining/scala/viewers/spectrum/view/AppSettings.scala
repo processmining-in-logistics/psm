@@ -34,7 +34,7 @@ object AppSettings {
         val customThickVerticalGridDates= getDates(generalNode.get("customThickVerticalGridDates", ""), csvImportHelper)
         val customThinVerticalGridDates= getDates(generalNode.get("customThinVerticalGridDates", ""), csvImportHelper)
 
-        new AppSettings(generalNode.getInt("paletteId", 0), customThickVerticalGridDates, customThinVerticalGridDates)
+        new AppSettings(generalNode.getInt("paletteId", 3), customThickVerticalGridDates, customThinVerticalGridDates)
       } else {
         logger.info(s"No $filename found")
         AppSettings()
@@ -46,5 +46,5 @@ object AppSettings {
     }
   }
 
-  def apply() = new AppSettings(0, Set(), Set())
+  def apply() = new AppSettings(3, Set(), Set())
 }

@@ -387,6 +387,7 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
             }
         } catch (Exception ex) {
             EH.apply().errorAndMessageBox("Cannot open dataset", ex);
+            enableControls(true);
         }
 
     }    // End of variables declaration//GEN-END:variables
