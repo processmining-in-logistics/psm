@@ -28,7 +28,6 @@ public class PreProcessingDialog extends javax.swing.JDialog {
     public PreProcessingDialog(java.awt.Frame parent, final XLog xlog) {
         super(parent, true);
         initComponents(xlog);
-        preProcessingPanel1.jTextFieldFileName.setText("");
         centerWindow(this);
 
     }
