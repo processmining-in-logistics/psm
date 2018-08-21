@@ -22,7 +22,7 @@ class EH {
 
   def error(msg: String, ex: Throwable): Unit = {
     logger.error(msg, ex)
-    if (showMessageBox) msgBox(msg, ex)
+    if (showMessageBox) msgBox(msg, ex, JOptionPane.ERROR_MESSAGE)
     if (stopByError) System.exit(-1)
     if (ex.isInstanceOf[OutOfMemoryError]) System.exit(-2)
   }
@@ -33,14 +33,21 @@ class EH {
 
   def errorAndMessageBox(msg: String, ex: Throwable) = {
     logger.error(msg, ex)
-    msgBox(msg, ex)
+    msgBox(msg, ex, JOptionPane.ERROR_MESSAGE)
 
   }
 
-  private def msgBox(msg: String, ex: Throwable): Unit =
-    msgBox(if (showLongMessages) EH.formatError(msg, ex) else EH.formatShortError(msg, ex))
+  def warnAndMessageBox(msg: String, ex: Throwable) = {
+    logger.warn(msg, ex)
+    msgBox(msg, ex, JOptionPane.WARNING_MESSAGE)
 
-  private def msgBox(msg: String): Unit = JOptionPane.showMessageDialog(null, msg, "Application error", JOptionPane.ERROR_MESSAGE)
+  }
+
+
+  private def msgBox(msg: String, ex: Throwable, flag: Int): Unit =
+    msgBox(if (showLongMessages) EH.formatError(msg, ex) else EH.formatShortError(msg, ex), flag)
+
+  private def msgBox(msg: String, flag: Int): Unit = JOptionPane.showMessageDialog(null, msg, "Application error", flag)
 }
 
 

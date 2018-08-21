@@ -4,11 +4,12 @@ import java.awt.datatransfer.StringSelection
 import java.awt.{BasicStroke, Color, Font, Graphics2D, Rectangle, Toolkit}
 
 import org.apache.commons.lang3.tuple.Pair
-import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource
+import org.processmining.scala.viewers.spectrum.view.TimeDiffController.palettes
 
 
-private[viewers] trait Zooming{
+private[viewers] trait Zooming {
   def changeVerticalZoom(delta: Int)
 
   def changeHorizontalZoom(delta: Int)
@@ -21,13 +22,17 @@ private[viewers] case class PaintParams(g: Graphics2D,
                                         names: Array[(String, Int)]
                                        )
 
-private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
+private[viewers] class TimeDiffController(val ds: AbstractDataSource, val appSettings: AppSettings) {
+
+  //val appSettings = AppSettings("config.ini");
+  val fontSize = appSettings.fontSize
+  val font = new Font(appSettings.fontName, Font.PLAIN, fontSize)
 
   val view: TimeDiffGraphics = new TimeDiffGraphics(this)
   private val logger = LoggerFactory.getLogger(classOf[TimeDiffController].getName)
 
   def setZooming(zooming: Zooming): Unit = {
-     view.setZooming(zooming)
+    view.setZooming(zooming)
   }
 
   def paint(g: Graphics2D): Unit = {
@@ -50,8 +55,8 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
     if (view.viewerState.showGrid) {
       view.drawVerticalGrid(g);
     }
-    TimeDiffController.appSettings.customThickVerticalGridDates.foreach(view.drawCustomGrid(g, _, false))
-    TimeDiffController.appSettings.customThinVerticalGridDates.foreach(view.drawCustomGrid(g, _, true))
+    appSettings.customThickVerticalGridDates.foreach(view.drawCustomGrid(g, _, false))
+    appSettings.customThinVerticalGridDates.foreach(view.drawCustomGrid(g, _, true))
     drawNames(pp)
   }
 
@@ -82,16 +87,14 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
   def isSelectedTracesDefined(): Boolean = selectedIds.nonEmpty
 
 
-
-
   private def drawSegmentPart(g: Graphics2D, x: Int, y: Int, w: Int, h: Int, drawRect: Boolean) =
     if (view.viewerState.show3DBars) g.fill3DRect(x, y, w, h, true)
     else {
       g.fillRect(x, y, w, h)
-//      if (drawRect) {
-//        g.setColor(Color.red)
-//        g.drawRect(x, y, w, h)
-//      }
+      //      if (drawRect) {
+      //        g.setColor(Color.red)
+      //        g.drawRect(x, y, w, h)
+      //      }
     }
 
 
@@ -109,7 +112,7 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
       val clazz = s._1
       val count = s._2
       val top = z - ((count.toDouble / max) * height).toInt
-      pp.g.setColor(if (isSelectedBinsDefined) TimeDiffController.getGrayscaleClazzColor(clazz, alpha) else TimeDiffController.getDefaultClazzColor(clazz, alpha))
+      pp.g.setColor(if (isSelectedBinsDefined) TimeDiffController.getGrayscaleClazzColor(clazz, alpha) else getDefaultClazzColor(clazz, alpha))
 
       drawSegmentPart(pp.g, chartXx._1, top, chartXx._2 - chartXx._1, z - top, view.viewerState.showTraces)
       if (isSelectedBinsDefined) {
@@ -140,10 +143,8 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
   }
 
   def drawNames(pp: PaintParams): Unit = {
-    if(view.viewerState.showNamesOfSegments) {
-      val fontSize = view.viewerState.fontSize
-      //  private val font = new Font("Arial Narrow", Font.BOLD, fontSize)
-      val font = new Font("Gill Sans MT Condensed", Font.PLAIN, fontSize)
+    if (view.viewerState.showNamesOfSegments) {
+
 
       //pp.g.setFont(pp.g.getFont().deriveFont(fontSize).deriveFont(Font.BOLD))
       pp.g.setFont(font)
@@ -161,7 +162,7 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
         //      val yTop = yBottom - height
         pp.g.setColor(Color.white)
         pp.g.fillRect(1, yTop, width, height)
-        pp.g.setColor(TimeDiffController.getDefaultFontColor())
+        pp.g.setColor(getDefaultFontColor())
         pp.g.drawString(label, 2, yBottom - 1)
       }
       )
@@ -231,7 +232,7 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
   }
 
   private val dash1 = Array(4.0f, 4.0f)
-  private val dashed   = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f)
+  private val dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f)
 
   def drawTrace(pp: PaintParams, twIndex: Int, name: (String, Int), clazz: Int, segment: (String, Long, Long), color: Color): Unit = {
     if (selectedClazzOfTraces.isEmpty || selectedClazzOfTraces.contains(clazz)) {
@@ -245,8 +246,6 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
   }
 
 
-
-
   def drawTraces(pp: PaintParams, twIndex: Int, name: (String, Int), segments: Map[Int, List[(String, Long, Long)]], step: Int): Unit = {
 
     val initialStroke = pp.g.getStroke
@@ -256,21 +255,21 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
       entry._2.foreach(segment => {
         if (isSelectedTracesDefined() && !selectedIds.contains(segment._1)) {
           if (step == 1) {
-            if(dashed != prevStroke){
+            if (dashed != prevStroke) {
               prevStroke = dashed
               pp.g.setStroke(dashed)
             }
 
-            drawTrace(pp, twIndex, name, entry._1, segment, TimeDiffController.getBackgroundTracesColor())
+            drawTrace(pp, twIndex, name, entry._1, segment, getBackgroundTracesColor())
           }
         }
         else {
-          if (step == 2  && !view.viewerState.hideSelected) {
-            if(initialStroke != prevStroke){
+          if (step == 2 && !view.viewerState.hideSelected) {
+            if (initialStroke != prevStroke) {
               prevStroke = initialStroke
               pp.g.setStroke(initialStroke)
             }
-            drawTrace(pp, twIndex, name, entry._1, segment, TimeDiffController.getDefaultClazzColor(entry._1, TimeDiffController.NotTransparent))
+            drawTrace(pp, twIndex, name, entry._1, segment, getDefaultClazzColor(entry._1, TimeDiffController.NotTransparent))
           }
         }
       }
@@ -294,15 +293,24 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource) {
       }
 
   }
+
+  def getDefaultClazzColor(clazz: Int, a: Int): Color =
+    palettes(appSettings.paletteId).getClazzColor(clazz, a)
+
+
+  def getDefaultFontColor(): Color =
+    palettes(appSettings.paletteId).getDefaultFontColor()
+
+  def getDefaultGridColor(): Color =
+    palettes(appSettings.paletteId).getDefaultGridColor()
+
+  def getBackgroundTracesColor(): Color = palettes(appSettings.paletteId).getBackgroundTracesColor()
+
 }
 
 object TimeDiffController {
-
-
   val Transparant = 150
   val NotTransparent = 255
-
-  val appSettings = AppSettings("config.ini");
 
   val palettes: Map[Int, Palette] =
     (new DefaultPalette() :: new OriginalPalette() :: new Bw5Palette() :: new BwQ4Palette() :: Nil)
@@ -334,17 +342,6 @@ object TimeDiffController {
       case _ => new Color(colorPart(clazz), colorPart(clazz), 0, a)
     }
 
-  def getDefaultClazzColor(clazz: Int, a: Int): Color =
-    palettes(appSettings.paletteId).getClazzColor(clazz, a)
-
-
-  def getDefaultFontColor(): Color =
-    palettes(appSettings.paletteId).getDefaultFontColor()
-
-  def getDefaultGridColor(): Color =
-    palettes(appSettings.paletteId).getDefaultGridColor()
-
-  def getBackgroundTracesColor(): Color = palettes(appSettings.paletteId).getBackgroundTracesColor()
 
   val getGrayscaleClazzColor: (Int, Int) => Color = getClazzColorMonochrome(0)
 

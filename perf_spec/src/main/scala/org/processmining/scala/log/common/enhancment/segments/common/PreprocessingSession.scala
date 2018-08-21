@@ -28,7 +28,7 @@ case class PreprocessingSession(
 
 object PreprocessingSession {
 
-  val Version: String = "0.9.9.2018-08-16"
+  val Version: String = "1.0.0.2018-08-21"
 
   def apply(startMs: Long,
             endMs: Long,
@@ -113,7 +113,9 @@ object PreprocessingSession {
 
   def reportToLog(logger: Logger, title: String) = {
     logger.info(title)
-    logger.info("Version: " + Version)
+    logger.info("Specification version: " +   getClass().getPackage().getSpecificationVersion())
+    logger.info("Implementation version: " +   getClass().getPackage().getImplementationVersion())
+    logger.info("Internal version: " + Version)
     //logger.info("User: " + PreprocessingSession.getHostName)
     logger.info("Args: " + PreprocessingSession.getVmArguments)
     logger.info(PreprocessingSession.getMemoryReport)

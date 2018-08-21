@@ -52,7 +52,8 @@ public class FramePanel extends JPanel implements OpenImpl {
 
     private void performanceSpectrumFactory(final AbstractDataSource ds, final String dir, final boolean isOpenEnabled) {
         try {
-            final MainPanel newMainPanel = new MainPanel(ds, this, isOpenEnabled);
+            final MainPanel newMainPanel = new MainPanel(ds, this, isOpenEnabled,
+                    dir.isEmpty() ? AppSettings.apply() : AppSettings.apply(String.format("%s/config.ini", dir)));
             if (mainPanel != null) {
                 remove(mainPanel);
             }
@@ -76,12 +77,12 @@ public class FramePanel extends JPanel implements OpenImpl {
     @Override
     public void onOpen() {
         try {
-            final JFileChooser dirDlg = new JFileChooser();
+            final JFileChooser dirDlg = new JFileChooser(PreProcessingPanel.getPsmHomeDir());
             dirDlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            final FileNameExtensionFilter filterXes = new FileNameExtensionFilter("XES Event Log Files", "xes", "gz", "zip", "xml");
             final FileNameExtensionFilter filterPsm = new FileNameExtensionFilter("PSM Session Files", "psm");
-            dirDlg.setFileFilter(filterXes);
+            final FileNameExtensionFilter filterXes = new FileNameExtensionFilter("XES Event Log Files", "xes", "gz", "zip", "xml");
             dirDlg.setFileFilter(filterPsm);
+            dirDlg.setFileFilter(filterXes);
             if (dirDlg.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 final String path = dirDlg.getSelectedFile().getPath();
                 if (!path.isEmpty()) {
@@ -89,7 +90,6 @@ public class FramePanel extends JPanel implements OpenImpl {
                         openPreProcessingDialog(path, null);
                     } else {
                         openDatasetDialog(path.substring(0, path.length() - SegmentProcessor.SessionFileName().length()), true);
-                        //performanceSpectrumFactory(path.substring(0, path.length() - SegmentProcessor.SessionFileName().length()), true);
                     }
                 }
             }
@@ -129,7 +129,7 @@ public class FramePanel extends JPanel implements OpenImpl {
 
         if (!PreprocessingSession.isJavaVersionCorrect()) {
             final String msg = "You are using an incompartible version of Java: '" + PreprocessingSession.javaVersion() +
-                    "'. Java 1.8.xxx 64bit is required. The application will not work stable!";
+                    "'. Java 1.8.xxx 64bit is required.";
             logger.error(msg);
             logger.info(PreprocessingSession.javaVersion());
             logger.info(PreprocessingSession.javaPlatform());
@@ -142,5 +142,10 @@ public class FramePanel extends JPanel implements OpenImpl {
 //                        "'. Java 1.8.xxx 64bit is required. The application will not work stable!";
 //                logger.error(msg);
 //
+    }
+
+    //for ProM
+    public static void reportToLog(final String msg) {
+        PreprocessingSession.reportToLog(logger, msg);
     }
 }

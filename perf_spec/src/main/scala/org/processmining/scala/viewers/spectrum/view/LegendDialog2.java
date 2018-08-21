@@ -4,10 +4,11 @@ import javax.swing.*;
 
 public class LegendDialog2 extends javax.swing.JDialog {
 
-    private LegendPanel legendPanel1 = new LegendPanel();
+    private LegendPanel legendPanel1;
 
-    public LegendDialog2(JComponent parent, final String legend) {
+    public LegendDialog2(JComponent parent, final String legend, final TimeDiffController tdf) {
         super((JFrame) SwingUtilities.getWindowAncestor(parent), true);
+        legendPanel1 = new LegendPanel(tdf);
         initComponents();
         legendPanel1.setLegend(legend);
         jScrollPane1.setViewportView(legendPanel1);

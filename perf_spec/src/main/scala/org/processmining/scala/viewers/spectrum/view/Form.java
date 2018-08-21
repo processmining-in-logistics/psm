@@ -20,7 +20,7 @@ public final class Form extends javax.swing.JFrame {
     public static void main(String args[]) {
         try {
             System.setProperty("sun.java2d.opengl", "True");
-            PropertyConfigurator.configure("./res/log4j.properties");
+            PropertyConfigurator.configure("./log4j.properties");
             PreprocessingSession.reportToLog(logger, "Performance Spectrum Miner started");
             if(!FramePanel.checkJvm()){
                 System.exit(0);

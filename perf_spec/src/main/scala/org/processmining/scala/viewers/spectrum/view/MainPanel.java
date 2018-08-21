@@ -1,32 +1,20 @@
 package org.processmining.scala.viewers.spectrum.view;
 
 import org.processmining.scala.log.common.utils.common.EH;
-import org.processmining.scala.log.common.utils.common.EventAggregator;
-import org.processmining.scala.log.common.utils.common.EventAggregatorImpl;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
-import org.processmining.scala.viewers.spectrum.model.EmptyDatasource;
-import org.processmining.scala.viewers.spectrum.model.FilesystemDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.prefs.BackingStoreException;
-import java.util.stream.Collectors;
 
 /**
  * @author nlvden
@@ -35,17 +23,16 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
 
     private static final Logger logger = LoggerFactory.getLogger(MainPanel.class.getName());
     final TimeDiffController controller;
-    private final OpenImpl openImpl;
-    final static DateTimeFormatter timestampFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH.mm.ss", Locale.US);
-    final static DateTimeFormatter weekOfDayFormatter = DateTimeFormatter.ofPattern("E", Locale.US);
-    final static ZoneId zoneId = ZoneId.of("UTC");
+    private final static DateTimeFormatter timestampFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH.mm.ss", Locale.US);
+    private final static DateTimeFormatter weekOfDayFormatter = DateTimeFormatter.ofPattern("E", Locale.US);
+    private final ZoneId zoneId;
     private final boolean isOpenEnabled;
 
-    public MainPanel(final AbstractDataSource ds, final OpenImpl openImpl, final boolean isOpenEnabled) {
+    MainPanel(final AbstractDataSource ds, final OpenImpl openImpl, final boolean isOpenEnabled, final AppSettings appSettings) {
         try {
-            this.openImpl = openImpl;
             this.isOpenEnabled = isOpenEnabled;
-            this.controller = new TimeDiffController(ds);
+            this.controller = new TimeDiffController(ds, appSettings);
+            zoneId = controller.appSettings().zoneId();
             initComponents();
             jButtonOpen.addActionListener(e -> openImpl.onOpen());
             if (controller.ds().twCount() > 0) {
@@ -126,8 +113,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
                     options.reverseColors(),
                     checkBoxShowBins.isSelected(),
                     checkBoxHideSelection.isSelected(),
-                    checkBoxegmentNames.isSelected(),
-                    20
+                    checkBoxegmentNames.isSelected()
             );
 
             if (!options.ids().isEmpty()) {
@@ -403,7 +389,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jButtonLegend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 final LegendDialog2 legendDialog =
-                        new LegendDialog2((JComponent) evt.getSource(), controller.view().ds.legend());
+                        new LegendDialog2((JComponent) evt.getSource(), controller.view().ds.legend(), controller);
                 legendDialog.setVisible(true);
 
             }

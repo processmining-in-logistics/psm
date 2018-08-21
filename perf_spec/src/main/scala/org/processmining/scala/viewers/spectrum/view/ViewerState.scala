@@ -15,11 +15,10 @@ private[viewers] case class ViewerState(pos: Int,
                                         reverseColors: Boolean,
                                         showBins: Boolean,
                                         hideSelected: Boolean,
-                                        showNamesOfSegments: Boolean,
-                                        fontSize: Int
+                                        showNamesOfSegments: Boolean
                                        ) {
   override def toString: String =
-    s"pos=$pos xZoom=$xZoom yZoom=$yZoom whiteList='${whiteList.mkString(";")}' blackList='${blackList.mkString(";")}' minCount=$minCount maxCount=$maxCount showTraces=$showTraces showGrid=$showGrid show3DBars=$show3DBars reverseColors=$reverseColors showBins=$showBins showNamesOfSegments=$showNamesOfSegments fontSize=$fontSize"
+    s"pos=$pos xZoom=$xZoom yZoom=$yZoom whiteList='${whiteList.mkString(";")}' blackList='${blackList.mkString(";")}' minCount=$minCount maxCount=$maxCount showTraces=$showTraces showGrid=$showGrid show3DBars=$show3DBars reverseColors=$reverseColors showBins=$showBins showNamesOfSegments=$showNamesOfSegments"
 
   def copyWithGrid(grid: Boolean) = copy(showGrid = grid)
 }
@@ -27,5 +26,5 @@ private[viewers] case class ViewerState(pos: Int,
 
 private[viewers] object ViewerState {
 
-  val EmptyState = new ViewerState(0, 0, 0, Array(), Array(), 0, 0, false, false, false, false, true, false, true, 20)
+  val EmptyState = new ViewerState(0, 0, 0, Array(), Array(), 0, 0, false, false, false, false, true, false, true)
 }

@@ -3,7 +3,7 @@ import Keys._
 
 name := "perf_spec"
 
-version := "0.9.1"
+version := "1.0.0"
 
 scalaVersion := "2.11.8"
 

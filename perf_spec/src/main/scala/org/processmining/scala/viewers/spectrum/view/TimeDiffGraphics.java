@@ -317,14 +317,14 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
     private final Stroke thin = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5}, 0);
 
     void drawCustomGrid(final Graphics2D g2, final long date, final boolean isThin) {
-        g2.setColor(TimeDiffController.getDefaultGridColor());
+        g2.setColor(tdf.getDefaultGridColor());
         g2.setStroke(isThin ? thin : thick);
         final int x = getXByAbsTime(date);
         drawLine(g2, x, 0, x, getHeight());
     }
 
     void drawHorizontalGrid(final Graphics2D g2) {
-        g2.setColor(TimeDiffController.getDefaultGridColor());
+        g2.setColor(tdf.getDefaultGridColor());
         for (int i = 0; i < paintInputParameters.names().length; i++) {
             final Pair<Integer, Integer> yy = getYIntervalInclusiveByIndex(i);
             drawLine(g2, 0, yy.getRight(), getWidth(), yy.getRight());
@@ -333,7 +333,7 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
     }
 
     void drawVerticalGrid(final Graphics2D g2) {
-        g2.setColor(TimeDiffController.getDefaultGridColor());
+        g2.setColor(tdf.getDefaultGridColor());
         for (long twIndex = paintInputParameters.startTwIndex(); twIndex < paintInputParameters.lastTwIndexExclusive(); twIndex++) {
             final Pair<Integer, Integer> pair = getXIntervalInclusiveByTwIndex(twIndex);
             drawLine(g2, pair.getLeft(), 0, pair.getLeft(), getHeight());

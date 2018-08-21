@@ -18,8 +18,10 @@ final class LegendPanel extends JPanel {
     private final static int WidthPx = 90;
     private final static int ShiftXPx = WidthPx;
     private final static int ShiftYPx = HeightPx;
+    private final TimeDiffController tdf;
 
-    LegendPanel() {
+    LegendPanel(final TimeDiffController tdf) {
+        this.tdf = tdf;
         this.setMinimumSize(new Dimension(500, 300));
     }
 
@@ -37,7 +39,7 @@ final class LegendPanel extends JPanel {
             super.paintComponent(g);
             final Graphics2D g2 = (Graphics2D) g;
             for (int i = 1; i < legend.size(); i++) {
-                g.setColor(TimeDiffController.getDefaultClazzColor(i - 1, TimeDiffController.NotTransparent()));
+                g.setColor(tdf.getDefaultClazzColor(i - 1, TimeDiffController.NotTransparent()));
                 g2.fill3DRect(ShiftXPx, ShiftYPx + i * HeightPx + 1, WidthPx, HeightPx - 2, true);
                 g.setColor(Color.BLACK);
                 g2.drawString(legend.get(i), ShiftXPx + WidthPx + 10, ShiftYPx + (i + 1) * HeightPx - 5);

@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -36,6 +39,9 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     private String directory = "";
     private final XLog xLog;
     private final Consumer<String> consumer;
+    private static final String DefaultPromFilename = "(imported in ProM)";
+    private static final String DefaultTwSize = "1d";
+    private static final String DefaultActivityClassifier = "(default)";
 
     public String getDir() {
         return directory;
@@ -45,6 +51,9 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         this.consumer = consumer;
         this.xLog = xLog;
         initComponents();
+        jTextFieldTimeWindow.setText(DefaultTwSize);
+        jTextFieldActivityClassifier.setText(DefaultActivityClassifier);
+        jTextFieldOutDir.setText(getDefaultOutDir());
         timer.setRepeats(false);
         if (xLog != null) {
             disableControlsForProm();
@@ -54,6 +63,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     private void disableControlsForProm() {
         jButtonOpenLog.setEnabled(false);
         jTextFieldFileName.setEnabled(false);
+        jTextFieldFileName.setText(DefaultPromFilename);
         jButtonRun.setEnabled(false);
         jButtonRun.setVisible(false);
     }
@@ -120,10 +130,11 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
             executorService = Executors.newSingleThreadExecutor();
             clearProgress();
             final String activityClassifier = jTextFieldActivityClassifier.getText().trim();
-            final PreProcessor pp = new PreProcessor(jTextFieldFileName.getText(),
+            final String jTextFieldFileNamePath = jTextFieldFileName.getText();
+            final PreProcessor pp = new PreProcessor( jTextFieldFileNamePath.equals(DefaultPromFilename) ? "" : jTextFieldFileNamePath,
                     xLog,
                     "-",
-                    activityClassifier.isEmpty() ? new String[]{} :  activityClassifier.split("\\s+"),
+                    activityClassifier.equals(DefaultActivityClassifier) ? new String[]{} :  activityClassifier.split("\\s+"),
                     jTextFieldOutDir.getText(),
                     timeWindowTextToMs(jTextFieldTimeWindow.getText()),
                     jComboBoxAggregationFunction.getSelectedIndex(),
@@ -467,7 +478,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         jPanel13.setPreferredSize(new java.awt.Dimension(640, 43));
         jPanel13.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setText("Activity classifier (opt., e.g. a1;a2):");
+        jLabel4.setText("Activity classifier:");
         jLabel4.setPreferredSize(new java.awt.Dimension(220, 0));
         jPanel13.add(jLabel4, java.awt.BorderLayout.LINE_START);
 
@@ -488,7 +499,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         jPanelInput1.setPreferredSize(new java.awt.Dimension(640, 43));
         jPanelInput1.setLayout(new java.awt.BorderLayout());
 
-        jLabel7.setText("Output directory:");
+        jLabel7.setText("Intermediate storage directory:");
         jLabel7.setPreferredSize(new java.awt.Dimension(220, 0));
         jPanelInput1.add(jLabel7, java.awt.BorderLayout.LINE_START);
 
@@ -587,6 +598,21 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
 
     private static void openWebpage(URL url) throws URISyntaxException, IOException {
         openWebpage(url.toURI());
+    }
+
+    static String getPsmHomeDir(){
+        final String tmpHome = System.getProperty("user.home");
+        final String home =  tmpHome == null ? "" : tmpHome;
+        return String.format("%s/PSM", home);
+    }
+
+    private static String getDefaultOutDir(){
+        final String pattern = "yyyy-MM-dd_HH-mm-ss";
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.US);
+        final LocalDateTime localDateTime = LocalDateTime.now();
+        final String dateText = localDateTime.format(formatter);
+        return  String.format("%s/perf_spec_%s", getPsmHomeDir(), dateText);
+
     }
 
 
