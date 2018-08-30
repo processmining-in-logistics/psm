@@ -18,7 +18,27 @@ The PSM project is the result of the joint research project on [Process Mining i
 
 # How to Install
 
-** TODO Vadim** (system requirements, installation of ProM plugin, stand-alone installation)
+## System requirements
+
+  * Microsoft Windows 10/8/7. The PSM is not *tested* yet on other OS.
+  * 2 GB RAM minimum, 8 GB RAM recommended
+  * 100MB hard disk space for ProM, 2 GB hard disk space for caches recommended
+  * 1024x768 minimum screen resolution
+    
+## Installation as a ProM plugin
+
+1. Install JRE/JDK 1.8.x, 64bit recommended
+1. Download [ProM nightly build](http://www.promtools.org/doku.php?id=nightly). The PSM is tested with version **TODO add a link to version 14.08.18**
+1. Run *ProM Package Manager* and install plugin **PerformanceSpectrum**
+1. Exit *ProM Package Manager*
+1. Recommended for large datasets: open file `ProM.bat` in any text editor and change parameter `–Xmx` from `4` to a value equal to your laptop's RAM size minus 2
+1. Execute `ProM.bat` to run the PSM
+
+## Installation of a stand-alone version of the PSM
+
+1. Install JRE/JDK 1.8.x, 64bit recommended
+1. Download and unzip **TODO add a link to the uberjar**
+1. Execute `java -jar perf_spec-assembly-1.0.2.jar` to run the PSM
 
 # Getting Started
 
