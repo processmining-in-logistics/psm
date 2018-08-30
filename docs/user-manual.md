@@ -42,3 +42,5 @@ You can always check a zone ID, which the PSM uses, in the log, enabling `INFO` 
 
 `30-08-18 17:52:45,559 AppSettings.scala:21 [INFO ] zoneId = Europe/Berlin`
 
+*It does not make sence to use time zone offsets instead of 'geographical' IDs, because an offset does not have information about daylight saving time of the location where events were recorded.*
+
