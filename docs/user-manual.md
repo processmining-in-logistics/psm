@@ -26,7 +26,7 @@ outline how the tool works in general (log as input, pre-process with various pa
 * selection with mouse controls
 * options panel for filtering
 
-## Understanding Time Zones of Date/Time Shown in the PSM
+## Understanding Time Zones of Time Shown in the PSM
 
 The PSM relies on time zones in timestamps of XES files. While working with performance spectra, it shows the date and time of traces under the mouse pointer, converting them into system time of a user's OS. For example, if a timestamp in a XES event log is `30.08.2018 18:00:00 UTC` and the time zone of the user is `Europe/Amsterdam`, the PSM shows `30.08.2018 20:00:00 UTC`.
 
