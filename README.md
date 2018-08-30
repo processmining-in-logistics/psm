@@ -30,15 +30,14 @@ The PSM project is the result of the joint research project on [Process Mining i
 The PSM is implemented and tested for Java 1.8 and is not compatible with previous Java version (e.g. with Java 1.7).
 
 1. Install JRE/JDK 1.8.x, 64bit recommended
-1. Make sure that a correct installation of Java is configured: execute `java -version` in the command line. You should get a response as follows:
+1. Make sure that a correct installation of Java is configured: execute `java -version` in the command line. You should get a response like this:
 
-`java version "**1.8**.0_171"`
+`java version "1.8.0_171"`
 
-`Java(TM) SE Runtime Environment (build **1.8**.0_171-b11)`
+`Java(TM) SE Runtime Environment (build 1.8.0_171-b11)`
 
-`Java HotSpot(TM) **64-Bit** Server VM (build 25.171-b11, mixed mode)`
+`Java HotSpot(TM) 64-Bit Server VM (build 25.171-b11, mixed mode)`
 
-Minor number of Java's version can be vary.
 
 *If you do not want to change your current Java installation to Java 1.8, you can download Java 1.8 and explicitly call it while starting the PSM or ProM (in 'ProM.bat'), for example:*
 
