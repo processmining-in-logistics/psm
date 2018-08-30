@@ -39,6 +39,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
                 subscribe();
             }
             enableControls(controller.ds().twCount() > 0);
+            jButtonIds.setVisible(false);
         } catch (Exception ex) {
             EH.apply().error("MainPanel", ex);
             throw new RuntimeException(ex);
