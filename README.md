@@ -90,6 +90,8 @@ More detailed information can be found in
 1. Go to the folder and run `sbt`
 1. Execute command `package` to build the PSM without dependecies or command `assembly` to build an Überjar
 
+*You can also use your favorite IDE with support of Java and Scala languages, e.g. [IntelliJ IDEA Community](https://www.jetbrains.com/idea/download/#section=windows), to build the PSM or work with the sources.*
+
 ## Roadmap
 
 **TODO Vadim, Dirk**
