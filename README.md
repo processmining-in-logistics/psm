@@ -85,7 +85,7 @@ More detailed information can be found in
 ## How to build
 
 1. Install JDK 1.8
-1. Install [sbt 1.2.1](https://www.scala-sbt.org/download.html) (Scala Build Tool) or a higher version.
+1. Install [sbt](https://www.scala-sbt.org/download.html) 1.2.1 or a higher version.
 1. Clone this repository into a folder on your local disk
 1. Go to the folder and run `sbt`
 1. Execute command `package` to build the PSM without dependecies or command `assembly` to build an Überjar
