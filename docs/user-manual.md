@@ -38,4 +38,7 @@ Sometimes a user may want to see date/time for a different time zone, for exampl
 
 Afterwards the dataset should be re-opened in the PSM. Possible values of zone IDs are available in [Java documentation](https://docs.oracle.com/javase/8/docs/api/java/time/ZoneId.html)
 
+You can always check a zone ID, which the PSM uses, in the log, enabling `INFO` logging messages:
+
+`30-08-18 17:52:45,559 AppSettings.scala:21 [INFO ] zoneId = Europe/Berlin`
 
