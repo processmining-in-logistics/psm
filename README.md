@@ -25,11 +25,11 @@ The PSM project is the result of the joint research project on [Process Mining i
   * 100MB hard disk space for ProM, 2 GB hard disk space for caches recommended
   * 1024x768 minimum screen resolution
   
-## Prerequisites: Java 1.8
+## Prerequisite: Java 1.8
 
 The PSM is implemented and tested for Java 1.8 and is not compatible with previous Java version (e.g. with Java 1.7).
 
-1. Install JRE/JDK 1.8.x, 64bit recommended
+1. Install JRE/JDK 1.8, 64bit recommended
 1. Make sure that a correct installation of Java is configured: execute `java -version` in the command line. You should get a response like this:
 
 `java version "1.8.0_171"`
