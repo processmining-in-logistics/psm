@@ -24,10 +24,29 @@ The PSM project is the result of the joint research project on [Process Mining i
   * 2 GB RAM minimum, 8 GB RAM recommended
   * 100MB hard disk space for ProM, 2 GB hard disk space for caches recommended
   * 1024x768 minimum screen resolution
-    
-## Installation of the PSM as a ProM plugin
+  
+## Prerequisites: Java 1.8
+
+The PSM is implemented and tested for Java 1.8 and is not compatible with previous Java version (e.g. with Java 1.7).
 
 1. Install JRE/JDK 1.8.x, 64bit recommended
+1. Make sure that a correct installation of Java is configured: execute `java -version` in the command line. You should get a response as follows:
+
+`java version "**1.8**.0_171"`
+
+`Java(TM) SE Runtime Environment (build **1.8**.0_171-b11)`
+
+`Java HotSpot(TM) **64-Bit** Server VM (build 25.171-b11, mixed mode)`
+
+Minor number of Java's version can be vary.
+
+*If you do not want to change your current Java installation to Java 1.8, you can download Java 1.8 and explicitly call it while starting the PSM or ProM (in 'ProM.bat'), for example:*
+
+`"C:\Program Files\Java\jre1.8.0_171\bin\java.exe" -jar perf_spec-assembly-1.0.2.jar`
+  
+   
+## Installation of the PSM as a ProM plugin
+
 1. Download [ProM nightly build](http://www.promtools.org/doku.php?id=nightly). The PSM is tested with version **TODO add a link to version 14.08.18**
 1. Run *ProM Package Manager* (execute `PackageManager.bat`)
 1. Go to tab 'Not installed', find and install plugin **PerformanceSpectrum**.
@@ -43,7 +62,6 @@ The PSM project is the result of the joint research project on [Process Mining i
 
 ## Installation of a stand-alone version of the PSM
 
-1. Install JRE/JDK 1.8.x, 64bit recommended
 1. Download and unzip **TODO add a link to the uberjar**
 1. Execute `java -jar perf_spec-assembly-1.0.2.jar` to run the PSM
 
