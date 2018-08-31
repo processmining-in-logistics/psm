@@ -25,9 +25,9 @@ The PSM project is the result of the joint research project on [Process Mining i
   * 100MB hard disk space for ProM, 2 GB hard disk space for caches recommended
   * 1024x768 minimum screen resolution
   
-## Prerequisite: Java 1.8
+## Prerequisite: Java 8
 
-The PSM is implemented and tested for Java 1.8 and is not compatible with previous Java version (e.g. with Java 1.7).
+The PSM is implemented and tested with Java 8 and is not compatible with previous Java version (e.g. with Java 7).
 
 1. Install JRE/JDK 1.8, 64bit recommended
 1. Make sure that a correct installation of Java is configured: execute `java -version` in the command line. You should get a response like this:
@@ -39,7 +39,7 @@ The PSM is implemented and tested for Java 1.8 and is not compatible with previo
 `Java HotSpot(TM) 64-Bit Server VM (build 25.171-b11, mixed mode)`
 
 
-*If you do not want to change your current Java installation to Java 1.8, you can download Java 1.8 and explicitly call it while starting the PSM or ProM (in 'ProM.bat'), for example:*
+*If you do not want to change your current Java installation to Java 8, you can download Java 8 and explicitly call it while starting the PSM or ProM (in 'ProM.bat'), for example:*
 
 `"C:\Program Files\Java\jre1.8.0_171\bin\java.exe" -jar perf_spec-assembly-1.0.2.jar`
   
@@ -84,10 +84,10 @@ More detailed information can be found in
 
 ## How to build
 
-1. Install JDK 1.8
+1. Install JDK 8
 1. Install [sbt](https://www.scala-sbt.org/download.html) 1.2.1 or a higher version.
 1. Clone this repository into a folder on your local disk
-1. Go to the folder and run `sbt`
+1. Go to subfolder `perf_spec` and run `sbt`
 1. Execute command `package` to build the PSM without dependecies or command `assembly` to build an Überjar
 
 *You can also use your favorite IDE with support of Java and Scala languages, e.g. [IntelliJ IDEA Community](https://www.jetbrains.com/idea/download/#section=windows), to build the PSM or work with the sources.*
