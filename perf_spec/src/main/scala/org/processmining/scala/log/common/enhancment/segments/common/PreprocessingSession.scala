@@ -28,7 +28,7 @@ case class PreprocessingSession(
 
 object PreprocessingSession {
 
-  val Version: String = "1.0.0.2018-08-21"
+  val Version: String = "1.0.2.2018-09-02"
 
   def apply(startMs: Long,
             endMs: Long,
