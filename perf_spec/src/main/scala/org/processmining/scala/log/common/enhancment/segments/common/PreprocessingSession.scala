@@ -28,7 +28,7 @@ case class PreprocessingSession(
 
 object PreprocessingSession {
 
-  val Version: String = "1.0.2.2018-09-02"
+  val Version: String = getSpecificationVersion()
 
   def apply(startMs: Long,
             endMs: Long,
@@ -110,11 +110,14 @@ object PreprocessingSession {
 
   def javaPlatform(): String = if (System.getProperty("sun.arch.data.model") != null) System.getProperty("sun.arch.data.model") else "Unknown"
 
+  def getSpecificationVersion() : String = getClass().getPackage().getSpecificationVersion()
+
+  def getImplementationVersion() : String = getClass().getPackage().getImplementationVersion()
 
   def reportToLog(logger: Logger, title: String) = {
     logger.info(title)
-    logger.info("Specification version: " +   getClass().getPackage().getSpecificationVersion())
-    logger.info("Implementation version: " +   getClass().getPackage().getImplementationVersion())
+    logger.info("Specification version: " +  getSpecificationVersion() )
+    logger.info("Implementation version: " +   getImplementationVersion())
     logger.info("Internal version: " + Version)
     //logger.info("User: " + PreprocessingSession.getHostName)
     logger.info("Args: " + PreprocessingSession.getVmArguments)
