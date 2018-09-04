@@ -13,11 +13,11 @@ outline how the tool works in general (log as input, pre-process with various pa
 
 ### ProM Mode
 
-  * import an event log in ProM using standard ProM capabilities (import of XES and CSV files)
-  * select the imported event log and click button 'Use Resource'
-  * select **Performance Spectrum Miner** in the list of plugins and click 'Start'
+  * import an event log into ProM as usual (import of XES and CSV files)
+  * select the imported event log and click button **Use Resource**
+  * select **Performance Spectrum Miner** in the list of plugins and click **Start**
 ### Stand-Alone Mode
-  * click button 'Open...'
+  * click button **Open...**
     * follow the steps described in the next paragraph
 
 ## Parameters for Pre-Processing
@@ -28,21 +28,21 @@ An event log has to be pre-processed to obtain information required to draw its 
 
 | Keyword        | Meaning           
 | ------------- |:-------------
-| mo      | month (30 days) 
-| w      | week 
-| d      | day 
-| h      | hour
-| m      | minute
-| s      | second
-| ms      | millisecond
+| `mo`      | month (30 days) 
+| `w`      | week 
+| `d`      | day 
+| `h`      | hour
+| `m`      | minute
+| `s`      | second
+| `ms`      | millisecond
 
 Examples: 
 
 | Line        | Meaning           
 | ------------- |:-------------
-| 1w 3d      | 10 days 
-| 10m      | 10 minutes
-| 3d      | 3 days
+| `1w 3d`      | 10 days 
+| `10m`      | 10 minutes
+| `3d`      | 3 days
 
 * values of combobox **Aggregation function** are explained in the following table:
 
@@ -61,11 +61,11 @@ Examples:
 
 | Class value        | Quartile (Quartile-based classifier) | Interval (Median-proportional classifier)
 | ------------- |:------------- |:-------------
-| 0 | Q1 | \[0; 0.5m\) 
-| 1 | Q2 | \[0.5m; 1.5m\)
-| 2 | Q3 | \[1.5m; 2m\)
-| 3 | Q4 | \[2m; 3m\)
-| 4 | - | \[3m; inf.)
+| `0` | Q1 | \[0; 0.5m\) 
+| `1` | Q2 | \[0.5m; 1.5m\)
+| `2` | Q3 | \[1.5m; 2m\)
+| `3` | Q4 | \[2m; 3m\)
+| `4` | - | \[3m; inf.)
 
   * field **Activity classifier** allows to override a default activity classifier in an XES event log file. In order to do that, a list of mandatory attributes, separated by spaces, should be provided. Example: `org:resource (case)_department`.
   
