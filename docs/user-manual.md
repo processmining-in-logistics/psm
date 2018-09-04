@@ -43,7 +43,28 @@ Examples:
 | 10m      | 10 minutes
 | 3d      | 3 days
 
+* values of combobox **Aggregation function** are explained in the following table:
 
+| Function name        | Meaning           
+| ------------- |:-------------
+| Cases pending  | How many segments intersect a bin, or start/stop within a bin
+| Cases started  | How many segments start within a bin
+| Cases stopped  | How many segments stop within a bin
+
+* values of combobox **Duration classifier** are explained in the following table:
+
+| Function name        | Segments classification
+| ------------- |:-------------
+| Quartile-based  | A class value is assigned to a segment according a quartile number where its duration sits: 0 for the first quartile, 1 for the second and so on.
+| Median-proportional  | A class value is assigned to a segment according to intervals, defined in terms of the median duration for the segment. The intervals are presented in the table below
+
+| Class value        | Interval
+| ------------- |:-------------
+| 0 | \[0; 0.5m\)
+| 1 | \[0.5m; 1.5m\)
+| 2 | \[1.5m; 2m\)
+| 3 | \[2m; 3m\)
+| 4 | \[3m; inf.)
 
 
 * briefly describe structure of storage and .psm file
