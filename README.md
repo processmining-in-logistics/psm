@@ -95,6 +95,10 @@ More detailed information can be found in
 ## Roadmap
 
 **TODO Vadim, Dirk**
+  * #3
+  * #4
+  * #7
+  * #8
 
 ## How to contribute
 
