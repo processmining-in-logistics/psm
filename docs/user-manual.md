@@ -8,6 +8,7 @@ copy of intro paragraphs from README.md for completeness
 
 outline how the tool works in general (log as input, pre-process with various parameters explained later, stores to disk, then visualize with PSM, many interaction controls to explore)
 
+
 ## Importing Event Logs into Performance Spectrum
 
 ### ProM Mode
@@ -117,7 +118,25 @@ On the top level an intermediate storage directory contains the following files 
 * selection with mouse controls
 * options panel for filtering
 
-## Understanding Time Zones of Time Shown in the PSM
+## Advanced Features
+
+### Custom Sorting Order
+
+By default the PSM sort segments alphabetically. Quiteoften it is required to define another order, e.g. according a process model. A user can create text file `sorting_order.ini` in an intermediate storage directory and provide segment names in the required order, one name per line. Example:
+
+`Create Fine:Payment`
+
+`Create Fine:Send Fine`
+
+`Send Fine:Insert Fine Notification`
+
+### Activity-Based Aggregation
+
+By default the PSM sort segments alphabetically. Quiteoften it is required to define another order, e.g. according a process model. A user can create text file `sorting_order.ini` in an intermediate storage directory and provide segment names in the required order, one 
+
+
+
+### Understanding Time Zones of Time Shown in the PSM
 
 The PSM relies on time zones in timestamps of XES files. While working with performance spectra, it shows the date and time of traces under the mouse pointer, converting them into system time of a user's OS. For example, if a timestamp in a XES event log is `30.08.2018 18:00:00 UTC` and the time zone of the user is `Europe/Amsterdam`, the PSM shows `30.08.2018 20:00:00 UTC`.
 
