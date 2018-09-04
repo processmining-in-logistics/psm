@@ -577,7 +577,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     }
 
     static void showHelp() {
-        final String ref = "https://github.com/processmining-in-logistics/psm";
+        final String ref = "https://github.com/processmining-in-logistics/psm/blob/master/docs/user-manual.md";
         try {
             openWebpage(new URL(ref));
         } catch (Exception ex) {
