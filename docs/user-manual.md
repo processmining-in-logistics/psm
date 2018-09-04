@@ -59,7 +59,7 @@ Examples:
 | Median-proportional  | A class value is assigned to a segment according to intervals, defined in terms of the median duration for the segment. The intervals are presented in the table below
 
 | Class value        | Quartile (Quartile-based classifier) | Interval (Median-proportional classifier)
-| ------------- |:-------------
+| ------------- |:------------- |:-------------
 | 0 | Q1 | \[0; 0.5m\) 
 | 1 | Q2 | \[0.5m; 1.5m\)
 | 2 | Q3 | \[1.5m; 2m\)
@@ -91,7 +91,19 @@ During the pre-processing step all required files are stored into an intermediat
 | Load on demand  | Required segments are loaded on demand, while scrolling and zooming (recommended for large dataset that do not fit into memory)
 
 
-## Files structure in intermediate storage directories
+### Files structure in intermediate storage directories
+
+On the top level an intermediate storage directory contains the following files and directories:
+
+| File name        | Data contained
+| ------------- |:-------------
+| dir. `data`  | A set of CSV files for every bin, each of which contains non-zero values of the chosen aggregation function for each segment and class
+| dir. `segments`  | A set of CSV files for every bin, each of which contains case ID, timestamp, duration and class of segemnts that start in this bin
+| file `max.csv`  | The file contains maximal values of the chosen aggregation function
+| file `sorting_order.ini`  | User-defined soring order of segments (optional)
+| file `aggregator.ini`  | User-defined activity aggregation (optional)
+| file `config.ini`  | User-defined visualization parameters (optional)
+
 
 ## Visualizing Performance Spectrum
 
