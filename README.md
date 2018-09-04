@@ -95,10 +95,10 @@ More detailed information can be found in
 ## Roadmap
 
 **TODO Vadim, Dirk**
-  * #3
-  * #4
-  * #7
-  * #8
+  * https://github.com/processmining-in-logistics/psm/issues/3
+  * https://github.com/processmining-in-logistics/psm/issues/4
+  * https://github.com/processmining-in-logistics/psm/issues/7
+  * https://github.com/processmining-in-logistics/psm/issues/8
 
 ## How to contribute
 
