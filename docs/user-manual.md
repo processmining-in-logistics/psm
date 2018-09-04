@@ -10,8 +10,42 @@ outline how the tool works in general (log as input, pre-process with various pa
 
 ## Importing Event Logs into Performance Spectrum
 
-* input requirements: XES event log
-* parameters for pre-processing
+### ProM Mode
+
+  * import an event log in ProM using standard ProM capabilities (import of XES and CSV files)
+  * select the imported event log and click button 'Use Resource'
+  * select **Performance Spectrum Miner** in the list of plugins and click 'Start'
+### Stand-Alone Mode
+  * click button 'Open...'
+    * follow the steps described in the next paragraph
+
+## Parameters for Pre-Processing
+
+An event log has to be pre-processed to obtain information required to draw its performance spectrum. Parameters required for pre-processing cna be configured in dialog 'Event Log Pre-Processing':
+  * button **Open...** serves for selecting a XES event log file in the file open dialog (disabled in the ProM mode)
+  * field **Bin size** allows to assign a time window size for calculating aggregated part of the performance spectrum. Provide size using the following keywords:
+
+| Keyword        | Meaning           
+| ------------- |:-------------
+| mo      | month (30 days) 
+| w      | week 
+| d      | day 
+| h      | hour
+| m      | minute
+| s      | second
+| ms      | millisecond
+
+Examples: 
+
+| Line        | Meaning           
+| ------------- |:-------------
+| 1w 3d      | 10 days 
+| 10m      | 10 minutes
+| 3d      | 3 days
+
+
+
+
 * briefly describe structure of storage and .psm file
 
 ## Visualizing Performance Spectrum
