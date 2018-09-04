@@ -132,10 +132,12 @@ By default the PSM sort segments alphabetically. Quiteoften it is required to de
 
 ### Activity-Based Aggregation
 
-The PSM allows to rename activities or merge several activities into one. A user can create file `aggregator.ini` in an intermediate storage directory and provide aggregation rules there. This file must contain section `\[MAPPING\]`, which contains one line per every new activity. Each line starts from a name of a new activity and one or more regular expressions, separated by spaces. each expression defines a pattern for activities that should be aggregated into the new one. Example:
+The PSM allows to rename activities or merge several activities into one. A user can create file `aggregator.ini` in an intermediate storage directory and provide aggregation rules there. This file must contain section `[MAPPING]`, which contains one line per every new activity. Each line starts from a name of a new activity and one or more regular expressions, separated by spaces. each expression defines a pattern for activities that should be aggregated into the new one. Example:
 
-`\[MAPPING\]`
+`[MAPPING]`
+
 `NEW_ACTIVITY_NAME_1 a1 a2 a3`
+
 `NEW_ACTIVITY_NAME_2 a4`
 
 For that configuration the PSM will change activities  `a1 a2 a3` to `NEW_ACTIVITY_NAME_1` (aggregation) and `a4` to `NEW_ACTIVITY_NAME_2` (renaming). Such aggregation is performed in memory and not stored to the pre-processed files.
