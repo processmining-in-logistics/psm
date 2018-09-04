@@ -58,16 +58,40 @@ Examples:
 | Quartile-based  | A class value is assigned to a segment according a quartile number where its duration sits: 0 for the first quartile, 1 for the second and so on.
 | Median-proportional  | A class value is assigned to a segment according to intervals, defined in terms of the median duration for the segment. The intervals are presented in the table below
 
-| Class value        | Interval
+| Class value        | Quartile (Quartile-based classifier) | Interval (Median-proportional classifier)
 | ------------- |:-------------
-| 0 | \[0; 0.5m\)
-| 1 | \[0.5m; 1.5m\)
-| 2 | \[1.5m; 2m\)
-| 3 | \[2m; 3m\)
-| 4 | \[3m; inf.)
+| 0 | Q1 | \[0; 0.5m\) 
+| 1 | Q2 | \[0.5m; 1.5m\)
+| 2 | Q3 | \[1.5m; 2m\)
+| 3 | Q4 | \[2m; 3m\)
+| 4 | - | \[3m; inf.)
+
+  * field **Activity classifier** allows to override a default activity classifier in an XES event log file. In order to do that, a list of mandatory attributes, separated by spaces, should be provided. Example: `org:resource (case)_department`.
+  
+  * field **intermediate storage directory** specifies a path to an empty or non-existing folder where pre-processed data of a log performance spectrum will be stored. It's recommended to use meaningful names. Such pre-processed datasets can be re-used for opening performance spectra without the pre-processing step.
+  
+  * button **Process and open** starts pre-processing.
+
+## Importing Pre-Processing Datasets
+
+During the pre-processing step all required files are stored into an intermediate storage directory. Dialog 'Open pre-processing dataset' serves to configure the following parameters:
+  * combobox **Activity aggregation (before/after)** allows to aggregate segments of a pre-processed performance spectrum as follows:
+
+| Aggregation type        | Meaning
+| ------------- |:-------------
+| None  | No aggregation (default value)
+| A->A  | All segments with identical starting activity are merged into one
+| Any->A  | All segments with identical ending activity are merged into one
+
+* combobox **Caching** llows to choose desired caching strategy:
+
+| Caching strategy        | Meaning
+| ------------- |:-------------
+| Load on open  | All required data are loaded into memory while opening the dataset
+| Load on demand  | Required segments are loaded on demand, while scrolling and zooming (recommended for large dataset that do not fit into memory)
 
 
-* briefly describe structure of storage and .psm file
+## Files structure in intermediate storage directories
 
 ## Visualizing Performance Spectrum
 
