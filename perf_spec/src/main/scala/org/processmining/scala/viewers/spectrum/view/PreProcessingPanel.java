@@ -40,7 +40,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     private final XLog xLog;
     private final Consumer<String> consumer;
     private static final String DefaultPromFilename = "(imported in ProM)";
-    private static final String DefaultTwSize = "2w";
+    private static final String DefaultTwSize = "30d";
     private static final String DefaultActivityClassifier = "(default)";
 
     public String getDir() {
