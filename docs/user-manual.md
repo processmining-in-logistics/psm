@@ -13,8 +13,8 @@ outline how the tool works in general (log as input, pre-process with various pa
 
 ### ProM Mode
 
-1. Load the event log into ProM via the *Import...* button. ([screenshot](/figures/getting_started_prom_01_load_log.png))
-1. Select the imported event log and click *Use Resource* or go to the *Action* Tab and select the *Performance Spectrum Miner* plugin from the action list  > Click *Start* ([screenshot](/figures/getting_started_prom_02_choose_psm.png))
+1. Load the event log into ProM via the *Import...* button. ([screenshot](/docs/figures/getting_started_prom_01_load_log.png))
+1. Select the imported event log and click *Use Resource* or go to the *Action* Tab and select the *Performance Spectrum Miner* plugin from the action list  > Click *Start* ([screenshot](/docs/figures/getting_started_prom_02_choose_psm.png))
 1. Choose parameters for generating the performance spectrum data. A configuration dialog will show providing default values for the transformation (described below).
    * The transformed data will be stored on disk in the *Intermediate storage directory* together with a meta-data file (`session.psm`). You can load this transformed data also later into ProM by loading the `session.psm` meta-data file.
    * The transformation may require some time and main memory depending on the *Bin size* chosen. Transformation for larger bin sizes are faster and require less memory.
