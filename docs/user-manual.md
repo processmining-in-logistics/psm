@@ -2,12 +2,35 @@
 
 ## Purpose
 
-copy of intro paragraphs from README.md for completeness
+The Performance Spectrum Miner (PSM) is a visual analytics tool for event data. It takes as input an event log (of events, timestamps, and case identifier) of past process or system executions in CSV or XES format. The PSM visualizes the flow of all cases over all process over time, and gives detailed insights performance characteristics.
+
+![The performance spectrum miner is a visual analytics tool to visualize process performance from event log data on a detailed level in a comprehensive way.](/docs/figures/performance_spectrum_promo.jpg)
+
+The PSM visualization 
+* **shows how the performance of a process varies** over time regarding throughput, volume, steadiness levels, peaks, and drops,
+* allows to **analyze detailed performance characteristics** of each step such as variability in waiting, prioritization of cases, delays and synchronization behavior effecting multiple cases together,
+* reveals various **performance patterns** such as queueing disciplines, batching, prioritization and overtaking, slow movers, temporary bottlenecks, changes in process, and many more, and thereby
+* gives insights into different **performance variants** of the process within each step and across steps, and how these change over time.
+
+The PSM project provides two implementations of the Performance Spectrum Miner as a plugin to the [Process Mining Framework ProM](http://www.promtools.org/) and as a stand-alone application.
+
+![Screenshots of the standalone application and of the ProM plugin of the Performance Spectrum Miner](/docs/figures/performance_spectrum_miner_standalone_prom_plugin.jpg)
+
+The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://github.com/vadimmidavvv), [Elena Belkina](https://github.com/ebelkina), and [Dirk Fahland](https://github.com/dfahland).
 
 ## Overview
 
-outline how the tool works in general (log as input, pre-process with various parameters explained later, stores to disk, then visualize with PSM, many interaction controls to explore)
-
+Analyzing the Performance Spectrum of a process with the PSM has the following steps that are explained in the following.
+1. Transform an event log (in XES format) into data suitable for the PSM (different performance classifiers and aggregation functions can be used).
+   * The transformation allows for choosing various parameters to classify the performance in the process explained later.
+   * The results of the transformation are stored on disk (together with meta-data information).
+1. Opening the transformed data for analysis with the PSM
+1. Exploring the Performance Spectrum through
+   * zooming and panning across the visualization
+   * choosing different features to visualize
+   * interactively selecting particular cases of the process to analyze
+   * filtering of process steps to analyze
+   * advanced features to aggregate and order data in a particular way
 
 ## Importing Event Logs into Performance Spectrum
 
