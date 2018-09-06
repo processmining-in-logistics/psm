@@ -13,12 +13,15 @@ outline how the tool works in general (log as input, pre-process with various pa
 
 ### ProM Mode
 
-  * import an event log into ProM as usual (import of XES and CSV files)
-  * select the imported event log and click button **Use Resource**
-  * select **Performance Spectrum Miner** in the list of plugins and click **Start**
+1. Load the event log into ProM via the //Import...// button. ([screenshot](/figures/getting_started_prom_01_load_log.png))
+1. Select the imported event log and click //Use Resource// or go to the //Action// Tab and select the //Performance Spectrum Miner// plugin from the action list  > Click //Start// ([screenshot](/figures/getting_started_prom_02_choose_psm.png))
+1. Choose parameters for generating the performance spectrum data. A configuration dialog will show providing default values for the transformation (described below).
+   * The transformed data will be stored on disk in the //Intermediate storage directory// together with a meta-data file (`session.psm`). You can load this transformed data also later into ProM by loading the `session.psm` meta-data file.
+   * The transformation may require some time and main memory depending on the //Bin size// chosen. Transformation for larger bin sizes are faster and require less memory.
+  
 ### Stand-Alone Mode
-  * click button **Open...**
-    * follow the steps described in the next paragraph
+1. Load the event log (XES format) via the //Open...// button
+1. Choose parameters for generating the performance spectrum data as described next.
 
 ## Parameters for Pre-Processing
 
@@ -106,18 +109,53 @@ On the top level an intermediate storage directory contains the following files 
 | file `config.ini`  | User-defined visualization parameters (optional)
 | file `session.psm`  | An XML file that contains short information about the dataset and is used to import datasets into the PSM
 
+ ## Opening already transformed data for analysis with the PSM
+
+ The transformation step stores the data on disk together with some meta-data. This transformed data can be loaded in ProM and in the stand-alone version
+
+1. By choosing //Process & open// during data transformation, the transformed data will be opened automatically. Alternatively, you can also load a previously transformed data set by opening the .psm meta-data file (via //Import// in ProM, and choosing //Performance Spectrum Miner View//, or via //Open// in the stand-alone version).
+1. Choose parameters for opening. For now use the default values provided, the purpose of the other parameters is explained below. 
 
 ## Visualizing Performance Spectrum
 
-* how to load .psm
-* how to read (TODO: Dirk), lines vs bars
-* basic controls (scroll, zoom)
-* aggregation (any in import)
+![Main Windows of the Performance Spectrum Miner](/docs/figures/getting_started_exploring_01_main_view.png)
+
+The main window of the Performance Spectrum Miner is divided into
+1. a panel visualizing the performance spectrum of the event long
+1. a control and filtering panel at the bottom that particular contains one sliders to scroll horizontally and two sliders to zoom vertically and horizontally
+
+In the visualization panel, each horizontal segment shows how cases move over time (x-axis) from one activity to the next activity (y-axis). 
+
+By default the visualization shows //Lines//. In the figure below, each colored line describes //one// case moving from //Send Fine// to //Insert Fine Notification//. The x-coordinates of the start and end point of each line visualize the moments in time when //Send Fine// and //Insert Fine Notification// occurred, respectively. The color of the line depends on the classification that was chosen in the transformation step, which can be retrieved via the //Legend// button in the control and filtering panel.
+
+![A segment of the Performance Spectrum Miner](/docs/figures/getting_started_exploring_02_one_segment.png)
+
+The performance spectrum shows among other things:
+* There are cases that are processed very fast (near vertical dark-blue lines) and there are cases processed much slower (sloped lines in light-blue, yellow, and orange). 
+* The slower cases all have in common that //Send Fine// occurred for them together with many other cases (at the same moment in time) in a batch, whereas //Insert Fine Notification// happened individually for each case. 
+* Batching for //Send Fine// occurs at irregular intervals and the amount of cases per batch varies greatly over time.
+
+While the //Lines// show the speed of cases, the amount of cases over time can be visualized by checking //Bars// in the control and filtering panel.
+
+![A segment of the Performance Spectrum Miner](/docs/figures/getting_started_exploring_03_one_segment_bars.png)
+
+The stacked bars provide aggreate information about how many cases started, ended, or were pending in particular time-window between the two activities of the segment. The parameters of this aggregation are chosen in the transformation step, see the [User Manual](docs/user-manual.md) for details. In the example above, the stacked bars show that the process experienced a very high amount of cases going from //Send Fine// to //Insert Fine Notification// in particular period (the exact time will be shown on the bottom left when hovering the mouse over the respective part of the visualization). The coloring indicates that in this period, the cases were processed much slower than in other period. The number //2988// in the label of the segment tells that there were at a maximum 2988 cases transitioning together through this part of the process.
 
 ## Exploring Performance Spectrum
 
-* selection with mouse controls
-* options panel for filtering
+The Performance Spectrum can be explored in various ways through selections (with mouse controls) and through filtering (via the options panel).
+
+### Selection with Mouse Controls
+
+to be added
+
+### Filtering via the Options Panel
+
+to be added
+
+## Aggregation during Loading
+
+to be added
 
 ## Advanced Features
 
@@ -159,5 +197,5 @@ You can always check a zone ID, which the PSM uses, in the log, enabling `INFO` 
 
 `30-08-18 17:52:45,559 AppSettings.scala:21 [INFO ] zoneId = Europe/Berlin`
 
-*It does not make sence to use time zone offsets instead of 'geographical' IDs, because an offset does not have information about daylight saving time of the location where events were recorded.*
+*It does not make sense to use time zone offsets instead of 'geographical' IDs, because an offset does not have information about daylight saving time of the location where events were recorded.*
 
