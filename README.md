@@ -39,7 +39,7 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 `Java HotSpot(TM) 64-Bit Server VM (build 25.171-b11, mixed mode)`
 
 
-*If you do not want to change your current Java installation to Java 8, you can download Java 8 and explicitly call it while starting the PSM or ProM (in 'ProM.bat'), for example:*
+*If you do not want to change your current Java installation to Java 8, you can download Java 8 and explicitly call it while starting the PSM or ProM (in 'ProM.bat'), for example://
 
 `"C:\Program Files\Java\jre1.8.0_171\bin\java.exe" -jar perf_spec-assembly-1.0.2.jar`
   
@@ -74,28 +74,28 @@ Analyzing the Performance Spectrum of a process with the PSM has three steps
 ## Transforming an event log for Performance Spectrum Analysis
 
 ### ... in ProM
-1. Load the XES event log into ProM via the //Import...// button.
-1. Go to the //Action// Tab and select the //Performance Spectrum Miner// plugin from the action list.
+1. Load the event log into ProM via the *Import...* button.
+1. Go to the *Action* Tab and select the *Performance Spectrum Miner* plugin from the action list.
 1. Choose parameters for generating the performance spectrum data.
    * A configuration dialog will show providing default values for the transformation.
    * See the [User Manual](docs/user-manual.md) for details.
-   * The transformed data will be stored on disk in the //Intermediate storage directory// together with a meta-data file (`session.psm`). You can load this transformed data also later into ProM by loading the `session.psm` meta-data file.
-   * Choose //Process & open//
-   * The transformation may require some time and main memory depending on the //Bin size// chosen. Transformation for larger bin sizes are faster and require less memory.
+   * The transformed data will be stored on disk in the *Intermediate storage directory* together with a meta-data file (`session.psm`). You can load this transformed data also later into ProM by loading the `session.psm` meta-data file.
+   * Choose *Process & open*
+   * The transformation may require some time and main memory depending on the *Bin size* chosen. Transformation for larger bin sizes are faster and require less memory.
 1. In ProM the transformed data will then also be opened automatically
 
 ### ... in PSM standalone
-1. Load an XES event log via the //Open...// button.
+1. Load the event log (XES format) via the *Open...* button.
 1. Choose parameters for generating the performance spectrum data.
    * A configuration dialog will show providing default values for the transformation.
    * See the [User Manual](docs/user-manual.md) for details.
-   * The transformed data will be stored on disk in the //Intermediate storage directory// together with a meta-data file (`session.psm`). You can load this transformed data also later via the //Open...// button.
-   * Choose //Process & open//
-   * The transformation may require some time and main memory depending on the //Bin size// chosen. Transformation for larger bin sizes are faster and require less memory.
+   * The transformed data will be stored on disk in the *Intermediate storage directory* together with a meta-data file (`session.psm`). You can load this transformed data also later via the *Open...* button.
+   * Choose *Process & open*
+   * The transformation may require some time and main memory depending on the *Bin size* chosen. Transformation for larger bin sizes are faster and require less memory.
 
  ## Opening the transformed data for analysis with the PSM
 
-1. By choosing //Process & open// during data transformation, the transformed data will be opened automatically. Alternatively, you can also load a previously transformed data set by opening the .psm meta-data file (via //Import// in ProM, and choosing //Performance Spectrum Miner View//, or via //Open// in the stand-alone version).
+1. By choosing *Process & open* during data transformation, the transformed data will be opened automatically. Alternatively, you can also load a previously transformed data set by opening the .psm meta-data file (via *Import* in ProM, and choosing *Performance Spectrum Miner View*, or via *Open* in the stand-alone version).
 1. Choose parameters for opening. For now use the default values provided, see the [User Manual](docs/user-manual.md) for details. 
 
 ## Exploring the Performance Spectrum
@@ -108,30 +108,30 @@ The main window of the Performance Spectrum Miner is divided into
 
 In the visualization panel, each horizontal segment shows how cases move over time (x-axis) from one activity to the next activity (y-axis). 
 
-By default the visualization shows //Lines//. In the figure below, each colored line describes //one// case moving from //Send Fine// to //Insert Fine Notification//. The x-coordinates of the start and end point of each line visualize the moments in time when //Send Fine// and //Insert Fine Notification// occurred, respectively. The color of the line depends on the classification that was chosen in the transformation step, which can be retrieved via the //Legend// button in the control and filtering panel.
+By default the visualization shows *Lines*. In the figure below, each colored line describes *one* case moving from *Send Fine* to *Insert Fine Notification*. The x-coordinates of the start and end point of each line visualize the moments in time when *Send Fine* and *Insert Fine Notification* occurred, respectively. The color of the line depends on the classification that was chosen in the transformation step, which can be retrieved via the *Legend* button in the control and filtering panel.
 
 ![A segment of the Performance Spectrum Miner](/docs/figures/getting_started_exploring_02_one_segment.png)
 
 The performance spectrum shows among other things:
 * There are cases that are processed very fast (near vertical dark-blue lines) and there are cases processed much slower (sloped lines in light-blue, yellow, and orange). 
-* The slower cases all have in common that //Send Fine// occurred for them together with many other cases (at the same moment in time) in a batch, whereas //Insert Fine Notification// happened individually for each case. 
-* Batching for //Send Fine// occurs at irregular intervals and the amount of cases per batch varies greatly over time.
+* The slower cases all have in common that *Send Fine* occurred for them together with many other cases (at the same moment in time) in a batch, whereas *Insert Fine Notification* happened individually for each case. 
+* Batching for *Send Fine* occurs at irregular intervals and the amount of cases per batch varies greatly over time.
 
-While the //Lines// show the speed of cases, the amount of cases over time can be visualized by checking //Bars// in the control and filtering panel.
+While the *Lines* show the speed of cases, the amount of cases over time can be visualized by checking *Bars* in the control and filtering panel.
 
 ![A segment of the Performance Spectrum Miner](/docs/figures/getting_started_exploring_03_one_segment_bars.png)
 
-The stacked bars provide aggreate information about how many cases started, ended, or were pending in particular time-window between the two activities of the segment. The parameters of this aggregation are chosen in the transformation step, see the [User Manual](docs/user-manual.md) for details. In the example above, the stacked bars show that the process experienced a very high amount of cases going from //Send Fine// to //Insert Fine Notification// in particular period (the exact time will be shown on the bottom left when hovering the mouse over the respective part of the visualization). The coloring indicates that in this period, the cases were processed much slower than in other period. The number //2988// in the label of the segment tells that there were at a maximum 2988 cases transitioning together through this part of the process.
+The stacked bars provide aggreate information about how many cases started, ended, or were pending in particular time-window between the two activities of the segment. The parameters of this aggregation are chosen in the transformation step, see the [User Manual](docs/user-manual.md) for details. In the example above, the stacked bars show that the process experienced a very high amount of cases going from *Send Fine* to *Insert Fine Notification* in particular period (the exact time will be shown on the bottom left when hovering the mouse over the respective part of the visualization). The coloring indicates that in this period, the cases were processed much slower than in other period. The number *2988* in the label of the segment tells that there were at a maximum 2988 cases transitioning together through this part of the process.
 
 The Performance Spectrum can be explored in various ways.
-* The //Options...// dialog allows to
+* The *Options...* dialog allows to
   * Filter out segments whose throughput of cases (starting/pending/ending cases) in one time window is below/above a certain threshold, e.g, to focus on the most frequently used segments in a process.
   * Filtering in and out segments by activity names, using regular expressions, for example
-    * `.*Send Fine.*` will include all segments involving //Send Fine//
-    * `Send Fine:.*` will include all segments starting with //Send Fine// and leading to some other activity
+    * `.*Send Fine.*` will include all segments involving *Send Fine*
+    * `Send Fine:.*` will include all segments starting with *Send Fine* and leading to some other activity
   * see the [User Manual](docs/user-manual.md) for details
-* Clicking the //left mouse button// on the visualization panel shows a context menu with the classes of the classification chosen in the transformation step. Selecting one of them shows only the cases of this class, e.g., only cases whose performance is in the 1st quartile of each segment.
-* Right-clicking and dragging a selection box around cases in one segment allows to highlight the selected cases in all other segments (the non-selected cases will be shown in grey). The //Clear// button in the control panel removes this selection.
+* Clicking the *left mouse button* on the visualization panel shows a context menu with the classes of the classification chosen in the transformation step. Selecting one of them shows only the cases of this class, e.g., only cases whose performance is in the 1st quartile of each segment.
+* Right-clicking and dragging a selection box around cases in one segment allows to highlight the selected cases in all other segments (the non-selected cases will be shown in grey). The *Clear* button in the control panel removes this selection.
 
 
 More detailed information can be found in

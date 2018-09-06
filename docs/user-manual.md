@@ -13,14 +13,14 @@ outline how the tool works in general (log as input, pre-process with various pa
 
 ### ProM Mode
 
-1. Load the event log into ProM via the //Import...// button. ([screenshot](/figures/getting_started_prom_01_load_log.png))
-1. Select the imported event log and click //Use Resource// or go to the //Action// Tab and select the //Performance Spectrum Miner// plugin from the action list  > Click //Start// ([screenshot](/figures/getting_started_prom_02_choose_psm.png))
+1. Load the event log into ProM via the *Import...* button. ([screenshot](/figures/getting_started_prom_01_load_log.png))
+1. Select the imported event log and click *Use Resource* or go to the *Action* Tab and select the *Performance Spectrum Miner* plugin from the action list  > Click *Start* ([screenshot](/figures/getting_started_prom_02_choose_psm.png))
 1. Choose parameters for generating the performance spectrum data. A configuration dialog will show providing default values for the transformation (described below).
-   * The transformed data will be stored on disk in the //Intermediate storage directory// together with a meta-data file (`session.psm`). You can load this transformed data also later into ProM by loading the `session.psm` meta-data file.
-   * The transformation may require some time and main memory depending on the //Bin size// chosen. Transformation for larger bin sizes are faster and require less memory.
+   * The transformed data will be stored on disk in the *Intermediate storage directory* together with a meta-data file (`session.psm`). You can load this transformed data also later into ProM by loading the `session.psm` meta-data file.
+   * The transformation may require some time and main memory depending on the *Bin size* chosen. Transformation for larger bin sizes are faster and require less memory.
   
 ### Stand-Alone Mode
-1. Load the event log (XES format) via the //Open...// button
+1. Load the event log (XES format) via the *Open...* button
 1. Choose parameters for generating the performance spectrum data as described next.
 
 ## Parameters for Pre-Processing
@@ -113,7 +113,7 @@ On the top level an intermediate storage directory contains the following files 
 
  The transformation step stores the data on disk together with some meta-data. This transformed data can be loaded in ProM and in the stand-alone version
 
-1. By choosing //Process & open// during data transformation, the transformed data will be opened automatically. Alternatively, you can also load a previously transformed data set by opening the .psm meta-data file (via //Import// in ProM, and choosing //Performance Spectrum Miner View//, or via //Open// in the stand-alone version).
+1. By choosing *Process & open* during data transformation, the transformed data will be opened automatically. Alternatively, you can also load a previously transformed data set by opening the .psm meta-data file (via *Import* in ProM, and choosing *Performance Spectrum Miner View*, or via *Open* in the stand-alone version).
 1. Choose parameters for opening. For now use the default values provided, the purpose of the other parameters is explained below. 
 
 ## Visualizing Performance Spectrum
@@ -126,20 +126,20 @@ The main window of the Performance Spectrum Miner is divided into
 
 In the visualization panel, each horizontal segment shows how cases move over time (x-axis) from one activity to the next activity (y-axis). 
 
-By default the visualization shows //Lines//. In the figure below, each colored line describes //one// case moving from //Send Fine// to //Insert Fine Notification//. The x-coordinates of the start and end point of each line visualize the moments in time when //Send Fine// and //Insert Fine Notification// occurred, respectively. The color of the line depends on the classification that was chosen in the transformation step, which can be retrieved via the //Legend// button in the control and filtering panel.
+By default the visualization shows *Lines*. In the figure below, each colored line describes *one* case moving from *Send Fine* to *Insert Fine Notification*. The x-coordinates of the start and end point of each line visualize the moments in time when *Send Fine* and *Insert Fine Notification* occurred, respectively. The color of the line depends on the classification that was chosen in the transformation step, which can be retrieved via the *Legend* button in the control and filtering panel.
 
 ![A segment of the Performance Spectrum Miner](/docs/figures/getting_started_exploring_02_one_segment.png)
 
 The performance spectrum shows among other things:
 * There are cases that are processed very fast (near vertical dark-blue lines) and there are cases processed much slower (sloped lines in light-blue, yellow, and orange). 
-* The slower cases all have in common that //Send Fine// occurred for them together with many other cases (at the same moment in time) in a batch, whereas //Insert Fine Notification// happened individually for each case. 
-* Batching for //Send Fine// occurs at irregular intervals and the amount of cases per batch varies greatly over time.
+* The slower cases all have in common that *Send Fine* occurred for them together with many other cases (at the same moment in time) in a batch, whereas *Insert Fine Notification* happened individually for each case. 
+* Batching for *Send Fine* occurs at irregular intervals and the amount of cases per batch varies greatly over time.
 
-While the //Lines// show the speed of cases, the amount of cases over time can be visualized by checking //Bars// in the control and filtering panel.
+While the *Lines* show the speed of cases, the amount of cases over time can be visualized by checking *Bars* in the control and filtering panel.
 
 ![A segment of the Performance Spectrum Miner](/docs/figures/getting_started_exploring_03_one_segment_bars.png)
 
-The stacked bars provide aggreate information about how many cases started, ended, or were pending in particular time-window between the two activities of the segment. The parameters of this aggregation are chosen in the transformation step, see the [User Manual](docs/user-manual.md) for details. In the example above, the stacked bars show that the process experienced a very high amount of cases going from //Send Fine// to //Insert Fine Notification// in particular period (the exact time will be shown on the bottom left when hovering the mouse over the respective part of the visualization). The coloring indicates that in this period, the cases were processed much slower than in other period. The number //2988// in the label of the segment tells that there were at a maximum 2988 cases transitioning together through this part of the process.
+The stacked bars provide aggreate information about how many cases started, ended, or were pending in particular time-window between the two activities of the segment. The parameters of this aggregation are chosen in the transformation step, see the [User Manual](docs/user-manual.md) for details. In the example above, the stacked bars show that the process experienced a very high amount of cases going from *Send Fine* to *Insert Fine Notification* in particular period (the exact time will be shown on the bottom left when hovering the mouse over the respective part of the visualization). The coloring indicates that in this period, the cases were processed much slower than in other period. The number *2988* in the label of the segment tells that there were at a maximum 2988 cases transitioning together through this part of the process.
 
 ## Exploring Performance Spectrum
 
