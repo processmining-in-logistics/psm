@@ -40,7 +40,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     private final XLog xLog;
     private final Consumer<String> consumer;
     private static final String DefaultPromFilename = "(imported in ProM)";
-    private static final String DefaultTwSize = "1d";
+    private static final String DefaultTwSize = "30d";
     private static final String DefaultActivityClassifier = "(default)";
 
     public String getDir() {
@@ -577,7 +577,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     }
 
     static void showHelp() {
-        final String ref = "https://github.com/processmining-in-logistics/psm";
+        final String ref = "https://github.com/processmining-in-logistics/psm/blob/master/docs/user-manual.md";
         try {
             openWebpage(new URL(ref));
         } catch (Exception ex) {
