@@ -61,8 +61,8 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 
 ## Installation of a stand-alone version of the PSM
 
-1. Download and unzip **TODO add a link to the uberjar**
-1. Execute `java -jar perf_spec-assembly-1.0.2.jar` to run the PSM
+1. Download and unzip [perf_spec-assembly-1.0.4.jar](https://github.com/processmining-in-logistics/psm/releases/download/v1.0.4/perf_spec-assembly-1.0.4.jar) 
+1. Execute `java -jar perf_spec-assembly-1.0.4.jar` to run the PSM
 
 # Getting Started
 
@@ -133,16 +133,30 @@ The Performance Spectrum can be explored in various ways.
 * Clicking the *left mouse button* on the visualization panel shows a context menu with the classes of the classification chosen in the transformation step. Selecting one of them shows only the cases of this class, e.g., only cases whose performance is in the 1st quartile of each segment.
 * Right-clicking and dragging a selection box around cases in one segment allows to highlight the selected cases in all other segments (the non-selected cases will be shown in grey). The *Clear* button in the control panel removes this selection.
 
-
 More detailed information can be found in
 * the [User Manual](docs/user-manual.md)
-* Links to additional materials (papers)
+* Vadim Denisov, Dirk Fahland, Wil M. P. van der Aalst: *Unbiased, Fine-Grained Description of Processes Performance from Event Data.* BPM 2018: 139-157 (https://doi.org/10.1007/978-3-319-98648-7_9)
 
 # Project
 
-**TODO Dirk**
-* team, affiliation in detail
-* links to other pages
+The Performance Spectrum Miner project is the result of the joint research project on Process Mining in Logistics between Eindhoven University of Technology and Vanderlande Industries, and developed by 
+* Vadim Denisov, Eindhoven University of Technology
+* Elena Belkina, 
+* Dirk Fahland, Eindhoven University of Technology
+
+The project makes the Performance Spectrum Miner available under the [GNU LGPL v3.0](https://www.gnu.org/licenses/lgpl-3.0-standalone.html) (see file LICENSE)
+
+The objective of the PSM project is to 
+* demonstrate novel insights into non-steady state, time-variable performance of process event data,
+* spur and trigger further research on more detailed process performance analysis, and
+* invite collaboration on further developing analysis techniques on the performance spectrum.
+  
+**Do you have...** 
+* Interesting insights into processes using the Performance Spectrum? [Let us know!](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics)
+* A success story using the Performance Spectrum? [Let us know!](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics)
+* Developed an extension or new feature for the PSM? See the [contribution guidelines for this project](docs/contributing.md)
+
+More information about the Process Mining in Logistics project focusing on process performance analysis can be found at the [project website](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics).
 
 # Programmer's Guide
 
@@ -158,7 +172,6 @@ More detailed information can be found in
 
 ## Roadmap
 
-**TODO Vadim, Dirk**
   * https://github.com/processmining-in-logistics/psm/issues/3
   * https://github.com/processmining-in-logistics/psm/issues/4
   * https://github.com/processmining-in-logistics/psm/issues/7
