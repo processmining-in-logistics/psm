@@ -161,14 +161,15 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
     }
 
     private void selectTraces(final Shape r, final int clazz) {
-        final int left = getTwIndexAndTailByX(r.getBounds().x).getLeft() + 1;
-        final int right = getTwIndexAndTailByX(r.getBounds().x + r.getBounds().width).getLeft() - 1;
-        final int bottom = getNameIndexByY(r.getBounds().y) + 1;
-        final int top = getNameIndexByY(r.getBounds().y + r.getBounds().height) - 1;
+        final int left = getTwIndexAndTailByX(r.getBounds().x).getLeft();
+        final int right = getTwIndexAndTailByX(r.getBounds().x + r.getBounds().width).getLeft();
+        final int bottom = getNameIndexByY(r.getBounds().y);
+        final int top = getNameIndexByY(r.getBounds().y + r.getBounds().height);
         final int width = right - left;
         final int height = top - bottom;
         if (width < 0 || height < 0) {
             Toolkit.getDefaultToolkit().beep();
+            logger.error("width < 0 || height < 0");
 
         } else {
             final Rectangle selectedSegmentsArea = new Rectangle(left, bottom, width + 1, height + 1);
@@ -177,10 +178,10 @@ final class TimeDiffGraphics extends JPanel implements MouseWheelListener {
         }
     }
 
-    public void clearSelectionMode() {
-        tdf.clearSelectionMode();
-        forceRepaint();
-    }
+//    public void clearSelectionMode() {
+//        tdf.clearSelectionMode();
+//        forceRepaint();
+//    }
 
     public void showTracesByClass(final int clazz, final MouseEvent me) {
         tdf.showTracesByClazz(clazz);

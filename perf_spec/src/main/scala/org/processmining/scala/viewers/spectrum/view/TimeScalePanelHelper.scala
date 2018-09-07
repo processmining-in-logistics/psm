@@ -5,7 +5,7 @@ import java.time._
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-private[viewers] object TimeScalePanelHelper {
+private[viewers] class TimeScalePanelHelper(val zoneId: ZoneId) {
 
   private val YearsMs = Duration.ofDays(365).toMillis
   private val MonthsMs = Duration.ofDays(30).toMillis
@@ -21,7 +21,6 @@ private[viewers] object TimeScalePanelHelper {
   private[view] val timestampFormatterHours = DateTimeFormatter.ofPattern("dd-MM HH:00", Locale.US)
   private[view] val timestampFormatter15Mins = DateTimeFormatter.ofPattern("HH:mm", Locale.US)
   private[view] val timestampFormatterMinute = DateTimeFormatter.ofPattern("HH:mm", Locale.US)
-  private[view] val zoneId = ZoneId.of("UTC")
 
   def drawByMonths(g2: Graphics2D,
                    view: TimeDiffGraphics): Unit =

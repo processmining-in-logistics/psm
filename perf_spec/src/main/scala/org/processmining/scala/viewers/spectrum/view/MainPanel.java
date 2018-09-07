@@ -33,12 +33,13 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
             this.isOpenEnabled = isOpenEnabled;
             this.controller = new TimeDiffController(ds, appSettings);
             zoneId = controller.appSettings().zoneId();
-            initComponents();
+            initComponents(appSettings.zoneId());
             jButtonOpen.addActionListener(e -> openImpl.onOpen());
             if (controller.ds().twCount() > 0) {
                 subscribe();
             }
             enableControls(controller.ds().twCount() > 0);
+            jButtonIds.setVisible(false);
         } catch (Exception ex) {
             EH.apply().error("MainPanel", ex);
             throw new RuntimeException(ex);
@@ -184,14 +185,14 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(final ZoneId zoneId) {
 
         jPanelPlayer = new javax.swing.JPanel();
         jPanelPlayerNorth = new javax.swing.JPanel();
         jSliderPos = new javax.swing.JSlider();
         jPanelEventsPreview = new javax.swing.JPanel();
         jPanelEventPreviewChart = new javax.swing.JPanel();
-        jTimeScalePanel2 = new org.processmining.scala.viewers.spectrum.view.TimeScalePanel();
+        jTimeScalePanel2 = new org.processmining.scala.viewers.spectrum.view.TimeScalePanel(zoneId);
         jPanelPlayerCenter = new javax.swing.JPanel();
         jPanelDateZoom = new javax.swing.JPanel();
         jPanelDate = new javax.swing.JPanel();
