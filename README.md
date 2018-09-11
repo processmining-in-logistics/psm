@@ -16,6 +16,14 @@ The PSM project provides two implementations of the Performance Spectrum Miner a
 
 The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://github.com/vadimmidavvv), [Elena Belkina](https://github.com/ebelkina), and [Dirk Fahland](https://github.com/dfahland).
 
+# Publications
+
+[Unbiased, Fine-Grained Description of Processes Performance from Event Data](https://www.researchgate.net/publication/326945011_Unbiased_Fine-Grained_Description_of_Processes_Performance_from_Event_Data_16th_International_Conference_BPM_2018_Sydney_NSW_Australia_September_9-14_2018_Proceedings)
+
+[The Performance Spectrum Miner: Visual Analytics for Fine-Grained Performance Analysis of Processes](https://www.researchgate.net/publication/327449848_The_Performance_Spectrum_Miner_Visual_Analytics_for_Fine-Grained_Performance_Analysis_of_Processes)
+
+[BPIC'2018: Mining Concept Drift in Performance Spectra of Processes](https://www.researchgate.net/publication/327450029_BPIC'2018_Mining_Concept_Drift_in_Performance_Spectra_of_Processes)
+
 # How to Install
 
 ## System requirements
