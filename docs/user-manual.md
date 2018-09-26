@@ -249,3 +249,16 @@ The Performance Spectrum can be explored in various ways through selections (wit
 * **Clicking the left mouse button** on the visualization panel shows a context menu with the classes of the classification chosen in the transformation step. Selecting one of them shows only the cases of this class, e.g., only cases whose performance is in the 1st quartile of each segment.
 * **Right-clicking and dragging a selection box** around cases in one segment allows to highlight the selected cases in all other segments (the non-selected cases will be shown in grey). 
 * The **Clear** button in the control panel removes this selection.
+
+## Look and Feel
+
+### Font of Segment Names
+
+To modify segments names font, create/edit file `config.ini` and specify font name and/or size in section `GENERAL`, for example:
+
+`[GENERAL]`
+
+`fontSize = 45`
+
+`fontName = Courier New`
+
