@@ -153,7 +153,7 @@ On the top level an intermediate storage directory contains the following files 
 
 #### Custom Sorting Order
 
-By default the PSM sort segments alphabetically. Quite often it is required to define another order, e.g. according a process model. A user can create text file `sorting_order.ini` in an intermediate storage directory and provide segment names in the required order, one name per line. Example:
+By default the PSM sort segments alphabetically. Quite often it is required to define another order, e.g. according a process model. A user can create text file `sorting_order.txt` in an intermediate storage directory and provide segment names in the required order, one name per line. Example:
 
 `Create Fine:Payment`
 
