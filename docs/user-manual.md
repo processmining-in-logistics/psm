@@ -146,7 +146,7 @@ On the top level an intermediate storage directory contains the following files 
 | dir. `data`  | A set of CSV files for every bin, each of which contains non-zero values of the chosen aggregation function for each segment and class
 | dir. `segments`  | A set of CSV files for every bin, each of which contains case ID, timestamp, duration and class of segemnts that start in this bin
 | file `max.csv`  | The file contains maximal values of the chosen aggregation function
-| file `sorting_order.ini`  | User-defined soring order of segments (optional)
+| file `sorting_order.txt`  | User-defined soring order of segments (optional)
 | file `aggregator.ini`  | User-defined activity aggregation (optional)
 | file `config.ini`  | User-defined visualization parameters (optional)
 | file `session.psm`  | An XML file that contains short information about the dataset and is used to import datasets into the PSM
