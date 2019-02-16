@@ -1,6 +1,6 @@
 # Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum
 
-## Event logs of the simulation model of a BHS
+## Event logs of the simulation model of a Baggage Handling System (BHS)
 
 This branch contains materials for the paper (in submission). 
 
