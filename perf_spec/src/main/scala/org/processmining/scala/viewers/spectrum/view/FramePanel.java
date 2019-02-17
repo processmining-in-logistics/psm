@@ -3,7 +3,8 @@ package org.processmining.scala.viewers.spectrum.view;
 import org.deckfour.xes.model.XLog;
 import org.processmining.scala.log.common.enhancment.segments.common.PreprocessingSession;
 import org.processmining.scala.log.common.enhancment.segments.parallel.SegmentProcessor;
-import org.processmining.scala.log.common.utils.common.EH;
+import org.processmining.scala.log.utils.common.errorhandling.EH;
+import org.processmining.scala.log.utils.common.errorhandling.JvmParams;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
 import org.processmining.scala.viewers.spectrum.model.EmptyDatasource;
 import org.slf4j.Logger;
@@ -20,9 +21,11 @@ public class FramePanel extends JPanel implements OpenImpl {
     private MainPanel mainPanel;
     private final Consumer<String> title;
     private final Timer singleShotTimer;
+    private final boolean useDuration;
 
-    public FramePanel(final String dir, final Consumer<String> title, final boolean isOpenEnabled) {
+    public FramePanel(final String dir, final Consumer<String> title, final boolean isOpenEnabled, final boolean useDuration) {
         this.title = title;
+        this.useDuration = useDuration;
         setLayout(new java.awt.BorderLayout());
         performanceSpectrumFactory(new EmptyDatasource(), dir, true);
         singleShotTimer = new Timer(0, e -> openDatasetDialog(dir, isOpenEnabled));
@@ -34,6 +37,7 @@ public class FramePanel extends JPanel implements OpenImpl {
 
     public FramePanel(final XLog xlog) {
         this.title = null;
+        this.useDuration = true;
         setLayout(new java.awt.BorderLayout());
         performanceSpectrumFactory(new EmptyDatasource(), "", false);
         singleShotTimer = new Timer(0, e -> openPreProcessingDialog("", xlog));
@@ -81,15 +85,19 @@ public class FramePanel extends JPanel implements OpenImpl {
             dirDlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
             final FileNameExtensionFilter filterPsm = new FileNameExtensionFilter("PSM Session Files", "psm");
             final FileNameExtensionFilter filterXes = new FileNameExtensionFilter("XES Event Log Files", "xes", "gz", "zip", "xml");
+            final FileNameExtensionFilter filterCsv = new FileNameExtensionFilter("CSV Event Log Files", "csv");
             dirDlg.setFileFilter(filterPsm);
             dirDlg.setFileFilter(filterXes);
+            dirDlg.setFileFilter(filterCsv);
             if (dirDlg.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 final String path = dirDlg.getSelectedFile().getPath();
                 if (!path.isEmpty()) {
-                    if (!dirDlg.getSelectedFile().getPath().endsWith(SegmentProcessor.SessionFileName())) {
-                        openPreProcessingDialog(path, null);
-                    } else {
+                    if (dirDlg.getSelectedFile().getPath().endsWith(SegmentProcessor.SessionFileName())) {
                         openDatasetDialog(path.substring(0, path.length() - SegmentProcessor.SessionFileName().length()), true);
+                    } else if (dirDlg.getSelectedFile().getPath().toLowerCase().endsWith(".csv")){
+                        openPreProcessingDialog(path, null);
+                    }else{
+                        openPreProcessingDialog(path, null);
                     }
                 }
             }
@@ -113,7 +121,9 @@ public class FramePanel extends JPanel implements OpenImpl {
 
     private void openPreProcessingDialog(final String initialPath, final XLog xlog) {
         try {
-            final PreProcessingDialog dialog = xlog == null ? new PreProcessingDialog((JFrame) SwingUtilities.getWindowAncestor(this), initialPath) : new PreProcessingDialog((JFrame) SwingUtilities.getWindowAncestor(this), xlog);
+            final PreProcessingDialog dialog = xlog == null ?
+                    new PreProcessingDialog((JFrame) SwingUtilities.getWindowAncestor(this), initialPath, useDuration)
+                    : new PreProcessingDialog((JFrame) SwingUtilities.getWindowAncestor(this), xlog);
             dialog.setVisible(true);
             final String dir = dialog.getDir();
             if (!dir.isEmpty()) {
@@ -127,12 +137,12 @@ public class FramePanel extends JPanel implements OpenImpl {
 
     public static boolean checkJvm() {
 
-        if (!PreprocessingSession.isJavaVersionCorrect()) {
-            final String msg = "You are using an incompartible version of Java: '" + PreprocessingSession.javaVersion() +
+        if (!JvmParams.isJavaVersionCorrect()) {
+            final String msg = "You are using an incompartible version of Java: '" + JvmParams.javaVersion() +
                     "'. Java 1.8.xxx 64bit is required.";
             logger.error(msg);
-            logger.info(PreprocessingSession.javaVersion());
-            logger.info(PreprocessingSession.javaPlatform());
+            logger.info(JvmParams.javaVersion());
+            logger.info(JvmParams.javaPlatform());
             JOptionPane.showMessageDialog(null, msg, "Wrong JRE/JDK version", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -146,6 +156,6 @@ public class FramePanel extends JPanel implements OpenImpl {
 
     //for ProM
     public static void reportToLog(final String msg) {
-        PreprocessingSession.reportToLog(logger, msg);
+        JvmParams.reportToLog(logger, msg);
     }
 }

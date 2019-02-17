@@ -45,6 +45,9 @@ trait UnifiedEventLog extends Serializable {
 
   def project(ex: EventExpression*): UnifiedEventLog
 
+  /** remove events that match provided patterns */
+  def remove(ex: EventExpression*): UnifiedEventLog
+
   def projectAttributes(attrNames: Set[String]): UnifiedEventLog
 
   def find(id: String): Option[UnifiedTrace]

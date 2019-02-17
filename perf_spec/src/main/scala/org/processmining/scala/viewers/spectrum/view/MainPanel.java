@@ -1,6 +1,6 @@
 package org.processmining.scala.viewers.spectrum.view;
 
-import org.processmining.scala.log.common.utils.common.EH;
+import org.processmining.scala.log.utils.common.errorhandling.EH;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +78,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jSliderYZoom.addChangeListener(e -> adjustVisualizationParams());
         jSliderPos.addChangeListener(e -> adjustVisualizationParams());
         checkBoxShowTraces.addChangeListener(e -> adjustVisualizationParams());
-        checkBoxShowBins.addChangeListener(e -> adjustVisualizationParams());
+        checkBoxShowBins.addActionListener(e -> adjustVisualizationParams());
         checkBoxHideSelection.addChangeListener(e -> adjustVisualizationParams());
         checkBoxegmentNames.addChangeListener(e -> adjustVisualizationParams());
         checkBoxShowGrid.addChangeListener(e -> adjustVisualizationParams());
@@ -112,7 +112,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
                     checkBoxShowGrid.isSelected(),
                     false,
                     options.reverseColors(),
-                    checkBoxShowBins.isSelected(),
+                    checkBoxShowBins.getSelectedIndex(),
                     checkBoxHideSelection.isSelected(),
                     checkBoxegmentNames.isSelected()
             );
@@ -121,11 +121,12 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
                 controller.addId(options.ids());
             }
 
-            logger.debug(state.toString());
+            //logger.debug(state.toString());
             final int startTwIndex = (int) (state.pos() / HundredPercent * SliderPosUnitPercent * controller.ds().twCount());
             final int twsFitIntoScreen = (int) (controller.ds().twCount() / (state.xZoom() / HundredPercent * SliderXZoomUnitZoomingPercent));
             final int lastTwIndexExclusive = startTwIndex + Math.min(twsFitIntoScreen, controller.ds().twCount() - startTwIndex);
-            final String[] filteredNames = localSort(controller.ds().segmentNames(state.whiteList(), state.blackList(), state.minCount(), state.maxCount()));
+            final String[] filteredNames = localSort(
+                    controller.ds().segmentNames(state.whiteList(), state.blackList(), state.minCount(), state.maxCount(), state.showBins()));
             final PaintInputParameters pip = new PaintInputParameters(startTwIndex, lastTwIndexExclusive, twsFitIntoScreen, filteredNames);
 
 
@@ -210,7 +211,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jPanelR02 = new javax.swing.JPanel();
         checkBoxShowTraces = new javax.swing.JCheckBox();
         jPanelR03 = new javax.swing.JPanel();
-        checkBoxShowBins = new javax.swing.JCheckBox();
+        checkBoxShowBins = new javax.swing.JComboBox<>();
         jPanelR04 = new javax.swing.JPanel();
         checkBoxShowGrid = new javax.swing.JCheckBox();
         jPanelR05 = new javax.swing.JPanel();
@@ -289,7 +290,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jSliderYZoom.setToolTipText("Vertical zoom");
         jPanelZoom.add(jSliderYZoom, java.awt.BorderLayout.NORTH);
 
-        jSliderXZoom.setMaximum(10000);
+        jSliderXZoom.setMaximum(100000);
         jSliderXZoom.setMinimum(1);
         jSliderXZoom.setToolTipText("Horizontal zoom");
         jSliderXZoom.setValue(100);
@@ -333,9 +334,11 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
 
         jPanelR03.setLayout(new java.awt.BorderLayout());
 
-        checkBoxShowBins.setText("Bars");
-        checkBoxShowBins.setToolTipText("Show aggregated spectrum");
-        checkBoxShowBins.setMargin(new java.awt.Insets(2, 5, 2, 25));
+//        checkBoxShowBins.setText("Bars");
+//        checkBoxShowBins.setToolTipText("Show aggregated spectrum");
+//        checkBoxShowBins.setMargin(new java.awt.Insets(2, 5, 2, 25));
+
+        checkBoxShowBins.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No bars", "Starts", "Intersections", "Ends", "Sum" }));
         jPanelR03.add(checkBoxShowBins, java.awt.BorderLayout.WEST);
 
         jPanelR04.setLayout(new java.awt.BorderLayout());
@@ -466,7 +469,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkBoxHideSelection;
-    private javax.swing.JCheckBox checkBoxShowBins;
+    private javax.swing.JComboBox<String> checkBoxShowBins;
     private javax.swing.JCheckBox checkBoxShowGrid;
     private javax.swing.JCheckBox checkBoxShowTraces;
     private javax.swing.JCheckBox checkBoxegmentNames;

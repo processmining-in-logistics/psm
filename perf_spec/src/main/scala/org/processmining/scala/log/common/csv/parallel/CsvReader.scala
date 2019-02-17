@@ -2,7 +2,7 @@ package org.processmining.scala.log.common.csv.parallel
 
 import java.util.regex.Pattern
 
-import org.processmining.scala.log.common.csv.common.CsvReaderHelper
+import org.processmining.scala.log.utils.csv.common.CsvReaderHelper
 
 import scala.collection.parallel.ParSeq
 import scala.io.Source

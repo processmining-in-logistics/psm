@@ -1,18 +1,21 @@
 package org.processmining.scala.viewers.spectrum.model
 
-import java.io.IOException
 import java.util.Date
+
 import org.processmining.scala.log.common.csv.parallel.CsvReader
 import org.processmining.scala.log.common.enhancment.segments.common.PreprocessingSession
 import org.processmining.scala.log.common.enhancment.segments.parallel.SegmentProcessor
 import org.processmining.scala.log.common.types.SegmentWithClazz
-import org.processmining.scala.log.common.unified.event.CommonAttributeSchemas
 import org.processmining.scala.log.common.utils.common.EventAggregator
 import org.slf4j.LoggerFactory
 
-private[viewers] class FilesystemDataSource(dir: String, aggregator: EventAggregator, lt: (String, String) => Boolean) extends AbstractDataSource {
+class FilesystemDataSource(dir: String,
+                           aggregator: EventAggregator,
+                           lt: (String, String) => Boolean,
+                           segmentsFilter: String => Boolean = _ => true
+                          ) extends AbstractDataSource {
 
-  val logger = LoggerFactory.getLogger(classOf[FilesystemDataSource])
+  private val logger = LoggerFactory.getLogger(classOf[FilesystemDataSource])
 
   val session = PreprocessingSession(s"$dir/${SegmentProcessor.SessionFileName}")
 
@@ -22,97 +25,100 @@ private[viewers] class FilesystemDataSource(dir: String, aggregator: EventAggreg
 
   override val twCount: Int = ((session.endMs - startTimeMs) / twSizeMs).toInt
 
-  override val legend = session.legend
+  override val legend: String = session.legend
 
   override def classesCount: Int = session.classCount
 
   private val csvReader = new CsvReader()
 
-  private val maxSegmentsCounts: Map[String, Long] = {
-    def factory(keyIndex: Int, maxIndex: Int)(row: Array[String]): (String, Long) =
-      (row(keyIndex), row(maxIndex).toLong)
+  private val maxSegmentsCounts: Map[String, (Long, Long, Long, Long)] = {
+    def factory(keyIndex: Int, maxIndex: Int, maxIntersect: Int, maxStop: Int, maxSum: Int)(row: Array[String]): (String, Long, Long, Long, Long) =
+      (row(keyIndex), row(maxIndex).toLong, row(maxIntersect).toLong, row(maxStop).toLong, row(maxSum).toLong)
 
     val (header, lines) = csvReader.read(s"$dir/${SegmentProcessor.StatDataFileName}")
-    csvReader.parse(lines, factory(header.indexOf("key"), header.indexOf("max")))
-      .map(x => ( aggregator.aggregateSegmentKey(x._1), x._2))
+    csvReader.parse(lines, factory(header.indexOf("key"), header.indexOf("max"), header.indexOf("maxIntersect"), header.indexOf("maxStop"), header.indexOf("maxSum")))
+      .map(x => (aggregator.aggregateSegmentKey(x._1), x._2, x._3, x._4, x._5))
       .groupBy(_._1)
-      .mapValues(_.map(_._2).reduce(_+_))
+      .mapValues(x => (x.map(_._2).sum, x.map(_._3).sum, x.map(_._4).sum, x.map(_._5).sum))
       .toMap
+      .filter(x => segmentsFilter(x._1))
       .seq
+
   }
 
-  override def maxSegmentsCount(name: String): Long = maxSegmentsCounts(name)
+  override def maxSegmentsCount(name: String): (Long, Long, Long, Long) = maxSegmentsCounts(name)
 
   override val segmentNames: Array[String] = maxSegmentsCounts.keys.toArray.sortWith(lt)
 
+  private var fileStorage: Option[FileStorage] = None
+
+  override def initialize(): Unit = fileStorage = Some(new FileStorage(dir, segmentNames))
+
   override def goingToRequest(startTwIndex: Int, endTwIndex: Int, includingIds: Boolean, includingSegments: Boolean): Unit = ()
 
-  private var segmentCountStorage: Map[Int, Map[String, List[(Int, Long)]]] = Map()
+  private var segmentCountStorage: Map[Int, Map[String, List[(Int, Long, Long, Long)]]] = Map()
 
   private var segmentCountStorageUseTimestamps: Map[Int, Long] = Map()
 
-  private def timeDiffFactory(keyIndex: Int, clazzIndex: Int, countIndex: Int)(row: Array[String]): (String, Int, Long) =
-    (aggregator.aggregateSegmentKey(row(keyIndex)), row(clazzIndex).toInt, row(countIndex).toLong)
+  //  private def timeDiffFactory(keyIndex: Int, clazzIndex: Int, countIndex: Int, countStartIndex: Int, countStopIndex: Int)(row: Array[String]): (String, Int, Long, Long, Long) =
+  //    if (row.length >= 6) (aggregator.aggregateSegmentKey(row(keyIndex)), row(clazzIndex).toInt, row(countIndex).toLong, row(countStartIndex).toLong, row(countStopIndex).toLong)
+  //    else (aggregator.aggregateSegmentKey(row(keyIndex)), row(clazzIndex).toInt, row(countIndex).toLong, 0, 0)
+  //
 
   //TODO: move to unparallel!!!
-  private def loadSegmentCounts(twIndex: Int): Map[String, List[(Int, Long)]] = {
-    try {
-      val (header, lines) = csvReader.read(s"$dir/data/$twIndex/${SegmentProcessor.ProcessedDataFileName}")
-      csvReader
-        .parse(lines, timeDiffFactory(header.indexOf("key"), header.indexOf(CommonAttributeSchemas.AttrNameClazz), header.indexOf("count")))
-        .seq
-        .groupBy(_._1)
-        .mapValues(_.groupBy(_._2).mapValues(_.map(_._3).reduce(_ + _)).toList.sortBy(_._1))
-    }catch{
-      case ex: IOException => {
-        logger.debug(s"cannot load segment counts for tw $twIndex")
-        Map()
-      }
-    }
-  }
+  private def loadSegmentCounts(twIndex: Int): Map[String, List[(Int, Long, Long, Long)]] =
+    segmentNames
+      .map(s => (s, fileStorage.get.readData(twIndex, s)))
+      .filter(_._2.isDefined)
+      .map(x => x._1 ->
+        x._2.get
+          .sortBy(_.clazz)
+          .map(y => (y.clazz, y.countStart.toLong, y.countIntersect.toLong, y.countStop.toLong)))
+      .toMap
 
-  override def segmentsCount(twIndex: Int): Map[String, List[(Int, Long)]] = {
-    if (segmentCountStorage.contains(twIndex)) segmentCountStorage(twIndex) else {
+  override def segmentsCount(twIndex: Int): Map[String, List[(Int, Long, Long, Long)]] = {
+    val opt = segmentCountStorage.get(twIndex)
+    if (opt.isDefined) opt.get else {
       val data = loadSegmentCounts(twIndex)
       segmentCountStorage = segmentCountStorage + (twIndex -> data)
-      segmentCountStorageUseTimestamps - twIndex + (twIndex -> new Date().getTime)
+      segmentCountStorageUseTimestamps = segmentCountStorageUseTimestamps - twIndex + (twIndex -> new Date().getTime)
       data
     }
   }
 
-
+  override def forgetSegmentsCount(twIndex: Int): Unit = {
+    if (segmentCountStorage.contains(twIndex)) {
+      segmentCountStorage = segmentCountStorage - twIndex
+      segmentCountStorageUseTimestamps = segmentCountStorageUseTimestamps - twIndex
+    }
+  }
 
   private var segmentIdsStorage: Map[Int, Map[String, Map[String, Int]]] = Map()
 
   private var segmentIdsStorageUseTimestamps: Map[Int, Long] = Map()
 
-  private def segmentFactory(idIndex: Int, keyIndex: Int, timestampIndex: Int, durationIndex: Int, clazzIndex: Int)(row: Array[String]): SegmentWithClazz =
-    SegmentWithClazz(row(idIndex), aggregator.aggregateSegmentKey(row(keyIndex)), row(timestampIndex).toLong, row(durationIndex).toLong, row(clazzIndex).toInt)
+//  private def segmentFactory(idIndex: Int, keyIndex: Int, timestampIndex: Int, durationIndex: Int, clazzIndex: Int)(row: Array[String]): SegmentWithClazz =
+//    SegmentWithClazz(row(idIndex), aggregator.aggregateSegmentKey(row(keyIndex)), row(timestampIndex).toLong, row(durationIndex).toLong, row(clazzIndex).toInt)
 
 
   //TODO: move to unparallel!!!
   private def loadSegmentIds(twIndex: Int): Map[String, Seq[SegmentWithClazz]] = {
-    try {
-      val (header, lines) = csvReader.read(s"$dir/segments/$twIndex/${SegmentProcessor.SegmentsFileName}")
-      csvReader
-        .parse(lines, segmentFactory(header.indexOf("id"), header.indexOf("key"), header.indexOf("timestamp"), header.indexOf(CommonAttributeSchemas.AttrNameDuration), header.indexOf(CommonAttributeSchemas.AttrNameClazz)))
-        .seq
-        .groupBy(_.key)
-    }catch{
-      case ex: IOException => {
-        logger.debug(s"cannot load segment IDs for tw $twIndex")
-        Map()
-      }
-    }
-
+    segmentNames
+      .map(s => (s, fileStorage.get.readStarted(twIndex, s)))
+      .filter(_._2.isDefined)
+      .map(x => x._1 ->
+        x._2.get
+          .map(y => SegmentWithClazz(y.caseId, x._1, y.timeMs, y.duration, y.clazz)))
+      .toMap
   }
 
   override def segmentIds(twIndex: Int): Map[String, Map[String, Int]] = {
-    if (segmentIdsStorage.contains(twIndex)) segmentIdsStorage(twIndex) else {
+    val opt = segmentIdsStorage.get(twIndex)
+    if (opt.isDefined) opt.get else {
       val data = loadSegmentIds(twIndex)
         .mapValues(x => x.map(s => (s.id -> s.clazz)).toMap)
       segmentIdsStorage = segmentIdsStorage + (twIndex -> data)
-      segmentIdsStorageUseTimestamps - twIndex + (twIndex -> new Date().getTime)
+      segmentIdsStorageUseTimestamps = segmentIdsStorageUseTimestamps - twIndex + (twIndex -> new Date().getTime)
       data
     }
   }
@@ -136,5 +142,8 @@ private[viewers] class FilesystemDataSource(dir: String, aggregator: EventAggreg
     }
   }
 
+  override def logFilteredSegments(s: Array[String]): Unit = {
+    logger.info(s""""${s.mkString("""", """")}"""")
+  }
 
 }

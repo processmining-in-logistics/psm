@@ -5,7 +5,7 @@
  */
 package org.processmining.scala.viewers.spectrum.view;
 
-import org.processmining.scala.log.common.utils.common.EH;
+import org.processmining.scala.log.utils.common.errorhandling.EH;
 import org.processmining.scala.log.common.utils.common.EventAggregator;
 import org.processmining.scala.log.common.utils.common.EventAggregatorImpl;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
@@ -284,6 +284,8 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
         }
     }
 
+    private static boolean dummy(String x) {return true;}
+
     private static AbstractDataSource createNew(final String dir,
                                                 final boolean applyLeftRightAggregation,
                                                 final boolean isLeftAggregation,
@@ -300,7 +302,8 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
         } else {
             ea = (aggregatorFile.exists() && aggregatorFile.isFile()) ? new EventAggregatorImpl(aggregatorFilename) : new EventAggregatorImpl();
         }
-        final AbstractDataSource fds = dir.isEmpty() ? new EmptyDatasource() : new FilesystemDataSource(dir, ea, TimeDiffController.segmentNameLt(sortingOrder));
+        final AbstractDataSource fds = dir.isEmpty() ? new EmptyDatasource() : new FilesystemDataSource(dir, ea, TimeDiffController.segmentNameLt(sortingOrder), TimeDiffController.dummy());
+        fds.initialize(); // add progress
         if (fetchAll) {
             final int twCount = fds.twCount();
             fds.fetchAll(o -> action.accept(String.format("%s / %d", o, twCount)));

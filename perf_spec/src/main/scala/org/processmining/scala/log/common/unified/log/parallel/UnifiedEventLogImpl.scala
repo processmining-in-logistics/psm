@@ -12,7 +12,7 @@ import org.processmining.scala.log.common.unified.trace.UnifiedTraceId
 import scala.collection.parallel.ParSeq
 
 //TODO: move to ParMap
-private[parallel] class UnifiedEventLogImpl (override val traces: ParSeq[UnifiedTrace],
+private[parallel] class UnifiedEventLogImpl(override val traces: ParSeq[UnifiedTrace],
                                             val debug: String => Unit = { _ => }
                                            ) extends UnifiedEventLog {
 
@@ -56,25 +56,25 @@ private[parallel] class UnifiedEventLogImpl (override val traces: ParSeq[Unified
     )
 
   //  override def filter(schema: StructType): UnifiedEventLog = {
-//    schema.simpleString
-//
-//    UnifiedEventLog
-//      .fromTraces(traces
-//        .map(t => (t._1, t._2.filter(_.attrs.schema == schema)))
-//        .filter(_._2.nonEmpty)
-//      )
-//
-//  }
+  //    schema.simpleString
+  //
+  //    UnifiedEventLog
+  //      .fromTraces(traces
+  //        .map(t => (t._1, t._2.filter(_.attrs.schema == schema)))
+  //        .filter(_._2.nonEmpty)
+  //      )
+  //
+  //  }
 
 
-//  override def filterByAttributeNames(attrNames: Set[String]): UnifiedEventLog =
-//    UnifiedEventLog
-//      .fromTraces(
-//        traces
-//          .mapValues(_.filter(_.hasAttributes(attrNames)))
-//          .filter(_._2.nonEmpty)
-//
-//      )
+  //  override def filterByAttributeNames(attrNames: Set[String]): UnifiedEventLog =
+  //    UnifiedEventLog
+  //      .fromTraces(
+  //        traces
+  //          .mapValues(_.filter(_.hasAttributes(attrNames)))
+  //          .filter(_._2.nonEmpty)
+  //
+  //      )
 
 
   override def minMaxTimestamp(): (Long, Long) = {
@@ -98,7 +98,7 @@ private[parallel] class UnifiedEventLogImpl (override val traces: ParSeq[Unified
   override def events(): ParSeq[(UnifiedTraceId, UnifiedEvent)] =
     traces.flatMap(t => t._2.map((t._1, _)))
 
-  override def project(ex: EventExpression*): UnifiedEventLog = {
+  private def projectImpl(delete: Boolean, ex: EventExpression*): UnifiedEventLog = {
     val patterns = ex
       .map(_.translate)
       .map(x => {
@@ -106,8 +106,15 @@ private[parallel] class UnifiedEventLogImpl (override val traces: ParSeq[Unified
         Pattern.compile(x)
       }
       )
-    UnifiedEventLog.fromEvents(events.filter(x => patterns.exists(_.matcher(x._2.regexpableForm()).matches())))
+    UnifiedEventLog.fromEvents(events.filter(x => {
+      val ex = patterns.exists(_.matcher(x._2.regexpableForm()).matches())
+      if (delete) !ex else ex
+    }))
   }
+
+  override def project(ex: EventExpression*): UnifiedEventLog = projectImpl(false, ex :_*)
+
+  override def remove(ex: EventExpression*): UnifiedEventLog = projectImpl(true, ex :_*)
 
   override def filterByTraceIds(ids: String*): UnifiedEventLog =
     UnifiedEventLog.fromTraces(traces.filter(x => ids.contains(x._1.id)))

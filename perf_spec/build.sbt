@@ -27,7 +27,7 @@ libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.25"
 libraryDependencies += "log4j" % "log4j" % "1.2.17"
 libraryDependencies += "javax.xml.bind" % "jaxb-api" % "2.3.0"
 libraryDependencies += "com.google.guava" % "guava" % "26.0-jre"
-
+libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.2"
 
 
 //retrieveManaged := true

@@ -7,6 +7,8 @@ trait AbstractDurationClassifier extends Serializable {
 
   def legend: String
 
+  def classCount: Int
+
 }
 
 class FasterNormal23VerySlowDurationClassifier extends AbstractDurationClassifier {
@@ -31,7 +33,27 @@ class FasterNormal23VerySlowDurationClassifier extends AbstractDurationClassifie
        | JOIN stat ON stat.key == segments.key""".stripMargin
 
   override val legend = "DURATION%Faster%Normal%2 times slower%3 times slower%Very slow"
+
+  override def classCount: Int = 5
 }
+
+
+class Normal12VerySlowDurationClassifier extends AbstractDurationClassifier {
+  def classify(duration: Long, q2: Double, median: Double, q4: Double): Int =
+    duration match {
+      case n if n < median * 1.5 => 0
+      case n if n < median * 2 => 1
+      case n if n < median * 3 => 2
+      case _ => 3
+    }
+
+  override def sparkSqlExpression(attrNameDuration: String, attrNameClazz: String) = ???
+
+  override val legend = "DURATION%Normal%2 times slower%3 times slower%Very slow"
+
+  override def classCount: Int = 4
+}
+
 
 class NormalSlowVerySlowDurationClassifier extends AbstractDurationClassifier {
   def classify(duration: Long, q2: Double, median: Double, q4: Double): Int =
@@ -51,6 +73,8 @@ class NormalSlowVerySlowDurationClassifier extends AbstractDurationClassifier {
        | JOIN stat ON stat.key == segments.key""".stripMargin
 
   override val legend = "DURATION%Normal%3 times slower%Very slow"
+
+  override def classCount: Int = 3
 }
 
 
@@ -74,6 +98,8 @@ class Q4DurationClassifier extends AbstractDurationClassifier {
        | JOIN stat ON stat.key == segments.key""".stripMargin
 
   override val legend = "DURATION%Q1%Q2%Q3%Q4"
+
+  override def classCount: Int = 4
 }
 
 class Q3DurationClassifier extends AbstractDurationClassifier {
@@ -94,5 +120,31 @@ class Q3DurationClassifier extends AbstractDurationClassifier {
        | JOIN stat ON stat.key == segments.key""".stripMargin
 
   override val legend = "DURATION%Q1%Q2-3%Q4"
+
+  override def classCount: Int = 3
 }
 
+class NormalSlowDurationClassifier extends AbstractDurationClassifier {
+  def classify(duration: Long, q2: Double, median: Double, q4: Double): Int =
+    duration match {
+      case n if n < median * 3 => 0
+      case _ => 1
+    }
+
+  override def sparkSqlExpression(attrNameDuration: String, attrNameClazz: String) = ???
+
+  override val legend = "DURATION%Normal%Slow"
+
+  override def classCount: Int = 2
+}
+
+class DummyDurationClassifier extends AbstractDurationClassifier {
+  def classify(duration: Long, q2: Double, median: Double, q4: Double): Int = 0
+
+
+  override def sparkSqlExpression(attrNameDuration: String, attrNameClazz: String) = ???
+
+  override val legend = "DURATION%Normal"
+
+  override def classCount: Int = 1
+}

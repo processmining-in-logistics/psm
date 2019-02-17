@@ -6,7 +6,7 @@
 package org.processmining.scala.viewers.spectrum.view;
 
 import org.deckfour.xes.model.XLog;
-import org.processmining.scala.log.common.utils.common.EH;
+import org.processmining.scala.log.utils.common.errorhandling.EH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,20 +40,27 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     private final XLog xLog;
     private final Consumer<String> consumer;
     private static final String DefaultPromFilename = "(imported in ProM)";
-    private static final String DefaultTwSize = "30d";
+    private static final String DefaultTwSize = "1m";
     private static final String DefaultActivityClassifier = "(default)";
+    private final Frame parent;
+    private final boolean useDurations;
 
     public String getDir() {
         return directory;
     }
 
-    public PreProcessingPanel(final XLog xLog, final Consumer<String> consumer) {
+    public PreProcessingPanel(final Frame parent, final XLog xLog, final Consumer<String> consumer, final boolean useDurations) {
+        this.parent = parent;
         this.consumer = consumer;
         this.xLog = xLog;
+        this.useDurations = useDurations;
         initComponents();
         jTextFieldTimeWindow.setText(DefaultTwSize);
         jTextFieldActivityClassifier.setText(DefaultActivityClassifier);
         jTextFieldOutDir.setText(getDefaultOutDir());
+        if(!useDurations){
+            jComboBoxDurationClassifier.setEnabled(false);
+        }
         timer.setRepeats(false);
         if (xLog != null) {
             disableControlsForProm();
@@ -123,31 +130,72 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
 
     }//GEN-LAST:event_jButtonRunActionPerformed
 
+
+
     void process(final boolean callConsumer) {
         try {
-
             callConsumerFlag = callConsumer;
             executorService = Executors.newSingleThreadExecutor();
             clearProgress();
-            final String activityClassifier = jTextFieldActivityClassifier.getText().trim();
-            final String jTextFieldFileNamePath = jTextFieldFileName.getText();
-            final PreProcessor pp = new PreProcessor( jTextFieldFileNamePath.equals(DefaultPromFilename) ? "" : jTextFieldFileNamePath,
-                    xLog,
-                    "-",
-                    activityClassifier.equals(DefaultActivityClassifier) ? new String[]{} :  activityClassifier.split("\\s+"),
-                    jTextFieldOutDir.getText(),
-                    timeWindowTextToMs(jTextFieldTimeWindow.getText()),
-                    jComboBoxAggregationFunction.getSelectedIndex(),
-                    jComboBoxDurationClassifier.getSelectedIndex(),
-                    action
-            );
-            task = executorService.submit(pp);
+            if (useDurations) {
+                final String activityClassifier = jTextFieldActivityClassifier.getText().trim();
+                final String jTextFieldFileNamePath = jTextFieldFileName.getText();
+                final PreProcessor pp = new PreProcessor(jTextFieldFileNamePath.equals(DefaultPromFilename) ? "" : jTextFieldFileNamePath,
+                        xLog,
+                        "-",
+                        activityClassifier.equals(DefaultActivityClassifier) ? new String[]{} : activityClassifier.split("\\s+"),
+                        jTextFieldOutDir.getText(),
+                        timeWindowTextToMs(jTextFieldTimeWindow.getText()),
+                        jComboBoxAggregationFunction.getSelectedIndex(),
+                        jComboBoxDurationClassifier.getSelectedIndex(),
+                        action
+                );
+                task = executorService.submit(pp);
+
+            } else {
+                processClassNodeBased();
+            }
             enableControls(false);
             executorService.shutdown();
             timer.start();
         } catch (Exception ex) {
             EH.apply().errorAndMessageBox("Cannot parse parameters", ex);
         }
+    }
+
+    private void processClassNodeBased() {
+        final String activityClassifier = jTextFieldActivityClassifier.getText().trim();
+        final String jTextFieldFileNamePath1 = jTextFieldFileName.getText();
+
+        final ClassNodeBasedParameters dlg =
+                new ClassNodeBasedParameters(
+                        parent,
+                        true);
+        dlg.jTextFieldFileName.setText("");
+        dlg.jTextFieldClassName.setText("org.processmining.scala.viewers.spectrum.view.DemoClassifier");
+        dlg.setVisible(true);
+        if(!dlg.isOk){
+            throw new IllegalArgumentException("User cancelled configuration process.");
+        }
+
+        final String jTextFieldFileNamePath2 = dlg.jTextFieldFileName.getText();
+        final String classifierString = dlg.jTextFieldClassName.getText();
+        final int classCode = dlg.jComboBoxProcessor.getSelectedIndex();
+
+        final ClassNodeBasedPreProcessor pp = new ClassNodeBasedPreProcessor(jTextFieldFileNamePath1.equals(DefaultPromFilename) ? "" : jTextFieldFileNamePath1,
+                xLog,
+                jTextFieldFileNamePath2,
+                null,
+                "-",
+                activityClassifier.equals(DefaultActivityClassifier) ? new String[]{} : activityClassifier.split("\\s+"),
+                jTextFieldOutDir.getText(),
+                timeWindowTextToMs(jTextFieldTimeWindow.getText()),
+                jComboBoxAggregationFunction.getSelectedIndex(),
+                classifierString,
+                classCode,
+                action
+        );
+        task = executorService.submit(pp);
     }
 
     private static long timeWindowTextToMs(final String text) {
@@ -600,18 +648,18 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         openWebpage(url.toURI());
     }
 
-    static String getPsmHomeDir(){
+    static String getPsmHomeDir() {
         final String tmpHome = System.getProperty("user.home");
-        final String home =  tmpHome == null ? "" : tmpHome;
+        final String home = tmpHome == null ? "" : tmpHome;
         return String.format("%s/PSM", home);
     }
 
-    private static String getDefaultOutDir(){
+    private static String getDefaultOutDir() {
         final String pattern = "yyyy-MM-dd_HH-mm-ss";
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.US);
         final LocalDateTime localDateTime = LocalDateTime.now();
         final String dateText = localDateTime.format(formatter);
-        return  String.format("%s/perf_spec_%s", getPsmHomeDir(), dateText);
+        return String.format("%s/perf_spec_%s", getPsmHomeDir(), dateText);
 
     }
 

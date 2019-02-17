@@ -17,17 +17,17 @@ private [viewers] class FakeDataSource(override val twCount: Int,
       }
     }.toArray
 
-  override def maxSegmentsCount(name: String): Long = 50
+  override def maxSegmentsCount(name: String): (Long, Long, Long, Long) = (50, 50, 50, 50)
 
   override def goingToRequest(startTwIndex: Int, endTwIndex: Int, includingIds: Boolean, includingSegments: Boolean): Unit = ()
 
-  private def generateCounts(twIndex: Int, name: String): List[(Int, Long)] =
+  private def generateCounts(twIndex: Int, name: String): List[(Int, Long, Long, Long)] =
     (0 until classesCount)
-      .map(clazz => (clazz, (new Random(twIndex * 219 + clazz * 16 + name.hashCode * 3).nextDouble() * (maxSegmentsCount(name) / classesCount)).toLong))
+      .map(clazz => (clazz, (new Random(twIndex * 219 + clazz * 16 + name.hashCode * 3).nextDouble() * (maxSegmentsCount(name)._1 / classesCount)).toLong, 0L, 0L))
       .toList
 
 
-  override def segmentsCount(twIndex: Int): Map[String, List[(Int, Long)]] =
+  override def segmentsCount(twIndex: Int): Map[String, List[(Int, Long, Long, Long)]] =
     segmentNames
       .map(name => name -> generateCounts(twIndex, name))
       .toMap
@@ -66,4 +66,6 @@ private [viewers] class FakeDataSource(override val twCount: Int,
   }
 
   override def legend = ""
+
+  override def forgetSegmentsCount(twIndex: Int): Unit = {}
 }

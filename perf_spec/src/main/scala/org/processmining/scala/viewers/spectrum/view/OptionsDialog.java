@@ -1,6 +1,6 @@
 package org.processmining.scala.viewers.spectrum.view;
 
-import org.processmining.scala.log.common.utils.common.EH;
+import org.processmining.scala.log.utils.common.errorhandling.EH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

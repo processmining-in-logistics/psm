@@ -102,7 +102,7 @@ class Bw5Palette extends Palette {
 
 class BwQ4Palette extends Palette {
 
-  override def getDefaultGridColor() = Color.black
+  override def getDefaultGridColor() = Color.lightGray
 
   override def getClazzColor(clazz: Int, a: Int) =
     clazz match {
