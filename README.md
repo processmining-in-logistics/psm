@@ -95,7 +95,7 @@ Model training can be configured in the main file `fnn_app.py`:
 
 There are more parameters for fine-grained tuning, their meaning is clear from naming.
 
-
+As output, the scripts summarize values of MSE, MAE and R squared and can generated the sets with predicted values for the test set.
 
 
 
