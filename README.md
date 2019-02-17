@@ -18,7 +18,7 @@ The source code is available in this branch of the PSM project.
 
 The new version of the PSM supports the multi-channel Performance Spectrum (PS), introduced in the paper, while the previous version v1.0.x supports only a single channel of the PS. The multi-channel PS contains more information, so the PS data format was changed to 1) store multiple PS channels and 2) support large datasets of MHS (e.g., we have been working with event logs, which contain up to 250.000.000 events and lead to a multi-channel PS with 800.000 bins on the bin axis. Currently this version is available as a stand-alone tool, we plan to release the corresponding ProM plugin soon.
 
-## Runningthe simulation model
+## Running the simulation model
 
 |Class for running | Command line arguments|
 | ------------- |:-------------:|
@@ -26,7 +26,7 @@ The new version of the PSM supports the multi-channel Performance Spectrum (PS),
 
 For example, command line `g:\logs 7 10 12` triggers simulation for 7 days, operating hours start at 10:00am, duration of operating hours is 12 hours.
 
-## Build the PS
+## Building the PS
 
 |Class for running | Command line arguments|
 | ------------- |:-------------:|
@@ -40,3 +40,31 @@ For example, provide `g:\logs` for `PreSorterLogsToSegmentsApp`, then the follow
 That will build the PS for 7 days, using data of the log starting from "01-09-2018 00:00:00.000", with time window size 20.000ms. The resulting PS will be stored in `g:\logs\ps`.
 
 command line `g:\logs 7 10 12` triggers simulation for 7 days, operating hours start at 10:00am, duration of operating hours is 12 hours.
+
+
+## Extracting the Training and Test sets
+
+|Class for running | Command line arguments|
+| ------------- |:-------------:|
+|`SimSpectrumToDataset`| `ini_filename` |
+
+This step has many parameters configured via an `ini` file.
+Example of the ini-file:
+
+`[GENERAL]`
+`spectrumRoot = g:/debug/ps`  ; the PS directory
+`datasetDir = g:/debug/data`  ; the output root training and test sets directory`
+`experimentName = experiment_1` ; textual name of the dataset
+`dayStartOffsetHours = 10` ; for each day of the dataset: offset, hours
+`dayDurationHours = 12` ; for each day of the dataset: duration of operating hours, hours
+`howFarInFutureBins = 6`  ; prediction horizon, bins
+`historicalDataDurationBins = 4`       ; duration of the historic spectrum, bins
+`historicSegments = A3_0:Link1_0 A2_0:A4_0 A1_0:A4_0`  ; historic segments
+`targetSegments = E1.TO_SCAN_1_0:E2.SCAN_1`	; target segments
+`binsPerLabel = 2`   ; duration of the target spectrum
+`firstDayDateTime = 01-09-2018 00:00:00.000` ; start datetime for feature extraction
+`totalDaysFromFirstDayInPerformanceSpectrum = 7` ; how many days should be extracted for the training and test sets
+`daysNumberInTrainingValidationDataset = 5` ; how many days of  totalDaysFromFirstDayInPerformanceSpectrum should be used for the test set
+
+
+
