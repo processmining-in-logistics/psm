@@ -79,5 +79,24 @@ Example of the ini-file:
 
 `daysNumberInTrainingValidationDataset = 5` ; how many days of  totalDaysFromFirstDayInPerformanceSpectrum should be used for the test set
 
+## Model training
+
+Before training the [PyTorch](https://pytorch.org/) framework should be installed and configure for your Python environment. The Python scripts for training are located [here](https://github.com/processmining-in-logistics/psm/tree/ppm/ppm/ML).
+
+Model training can be configured in the main file `fnn_app.py`:
+
+|Parameter | Description|
+| ------------- |:-------------:|
+|`is_linear`| Use a Logistic regression model if True and Feedforward (FF) NN if False|
+|`hidden_layers`| Number of the hidden layers of the FF NN. Change also number of layers in the code of class `PreSorterFnn`|
+|`hidden_dim`| Size of the hidden layers|
+|`experiment_id`| Root folder of the training/test sets in the common folder for the datasets `..data`|
+|`n_splits`| k for k-fold cross-validation|
+
+There are more parameters for fine-grained tuning, their meaning is clear from naming.
+
+
+
+
 
 
