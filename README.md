@@ -41,6 +41,9 @@ That will build the PS for 7 days, using data of the log starting from "01-09-20
 
 command line `g:\logs 7 10 12` triggers simulation for 7 days, operating hours start at 10:00am, duration of operating hours is 12 hours.
 
+By default this step generates 3-channel PS: for grouping `start`, `pending`, `stop` and the configured in `SimSegmentsToSpectrumApp` classifier.
+
+
 
 ## Extracting the Training and Test sets
 
@@ -95,7 +98,7 @@ Model training can be configured in the main file `fnn_app.py`:
 
 There are more parameters for fine-grained tuning, their meaning is clear from naming.
 
-As output, the scripts summarize values of MSE, MAE and R squared and can generated the sets with predicted values for the test set.
+As the output, the scripts summarize values of MSE, MAE and R squared and can also generate the set with predicted values for the test set (in the subfolder `test`). 
 
 
 
