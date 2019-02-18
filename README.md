@@ -13,6 +13,7 @@ The source code is available in this branch of the PSM project.
 | PPM_BHS_Sim_log.zip     | The event log in the XES and CSV formats. |
 | PPM_BHS_Sim_PerfSpec_ProM.zip     | The computed Performance Spectrum in the format of the Performance Spectrum Miner  v.1.0.x, [available as a ProM plugin](https://github.com/processmining-in-logistics/psm) |
 | PPM_BHS_Sim_PerfSpec.zip     | The computed Performance Spectrum in the format of the new version of the Performance Spectrum Miner  v.1.1.x |
+| ppm.zip     | Binaries (unzip to run). Java 8 64bit is required. |
 
 ## Why the new version of the Performance Spectrum Miner (PSM)?
 
@@ -24,7 +25,12 @@ The new version of the PSM supports the multi-channel Performance Spectrum (PS),
 | ------------- |:-------------:|
 |`PreSorterStarterCli`| `output_directory days_to_simulate start_offset_hours duration_hours` |
 
-For example, command line `g:\logs 7 10 12` triggers simulation for 7 days, operating hours start at 10:00am, duration of operating hours is 12 hours.
+
+For example, command line 
+
+`java -cp ppm.jar org.processmining.scala.sim.conveyors.experiments.PreSorterStarterCli g:\logs 7 10 12` 
+
+triggers simulation for 7 days, operating hours start at 10:00am, duration of operating hours is 12 hours.
 
 ## Building the PS
 
