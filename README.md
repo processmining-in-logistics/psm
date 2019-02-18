@@ -42,14 +42,20 @@ triggers simulation for 7 days, operating hours start at 10:00am, duration of op
 This step is implemented in 2 sub-steps. First, segments are extracted from event log(s). Then a PS is built from the segment files.
 
 For example, provide `g:\logs` for `PreSorterLogsToSegmentsApp`, then the following arguments:
-`g:\logs 7 "01-09-2018 00:00:00.000" 20000 g:\logs\ps`
-That will build the PS for 7 days, using data of the log starting from "01-09-2018 00:00:00.000", with time window size 20.000ms. The resulting PS will be stored in `g:\logs\ps`.
 
-command line `g:\logs 7 10 12` triggers simulation for 7 days, operating hours start at 10:00am, duration of operating hours is 12 hours.
+`java -cp ppm.jar org.processmining.scala.sim.conveyors.experiments.PreSorterLogsToSegmentsApp g:\logs`
+
+`java -cp ppm.jar org.processmining.scala.sim.conveyors.experiments.SimSegmentsToSpectrumCli g:\logs 7 "01-09-2018 00:00:00.000" 20000 g:\logs\ps`
+
+That will build the PS for 7 days, using data of the log starting from "01-09-2018 00:00:00.000", with time window size 20.000ms. The resulting PS will be stored in `g:\logs\ps`.
 
 By default this step generates 3-channel PS: for grouping `start`, `pending`, `stop` and the configured in `SimSegmentsToSpectrumApp` classifier.
 
+## Using the PSM
 
+To view the resulting PS, run the PSM:
+
+`psm.cmd`
 
 ## Extracting the Training and Test sets
 
