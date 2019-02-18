@@ -63,6 +63,10 @@ To view the resulting PS, run the PSM:
 | ------------- |:-------------:|
 |`SimSpectrumToDataset`| `ini_filename` |
 
+Command line:
+
+`java -cp ppm.jar org.processmining.scala.sim.conveyors.experiments.SimSpectrumToDataset sim.ini`
+
 This step has many parameters configured via an `ini` file.
 Example of the ini-file:
 
