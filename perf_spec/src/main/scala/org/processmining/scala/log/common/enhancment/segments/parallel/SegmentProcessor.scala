@@ -45,7 +45,7 @@ abstract class SegmentProcessor(val config: SegmentProcessorConfig, clazzCount: 
 
     (segments
       .flatMap(x =>
-        InventoryAggregation.getTws(x.timestamp, x.duration, config.timestamp1Ms, config.timestamp2Ms, config.twSize)
+        config.aaf.getTws(x.timestamp, x.duration, config.timestamp1Ms, config.timestamp2Ms, config.twSize)
           .map((_, x))
       )
       .groupBy(x => (x._1, x._2.key, x._2.clazz))
