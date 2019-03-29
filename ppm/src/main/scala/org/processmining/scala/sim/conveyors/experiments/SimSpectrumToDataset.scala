@@ -28,29 +28,14 @@ class SimSpectrumToDataset(override val spectrumRoot: String,
 
   override def daysForTest: Seq[Int] = (daysNumberInTrainingValidationDataset until totalDaysFromFirstDayInPerformanceSpectrum)
 
+  val aggregation = SpectrumToDataset.AggregationStart
+
   def dateToDayNumber(s: String): Int =
     ((importCsvHelper.extractTimestamp(s) - importCsvHelper.extractTimestamp(firstDayDateTime)) / Duration.ofDays(1).toMillis).toInt
-
-
-  //  val spectrumRoot = "G:/SIM_PS/Scan1"
-  //  val datasetDir = "G:/psm_ml2/data"
-  //  val experimentName = "Scan2"
-  //
-  //  val dayStartOffsetHours = 10
-  //  val dayDurationHours = 12
-  //  val howFarInFutureBins = 6
-  //  val historicalDataDurationBins = 4
-  //  val binsPerLabel = 2
-  //
-  //  val labelSegment = "E1.TO_SCAN_1_0:E2.SCAN_1"
 
   val incomingFlowOffsetBins = -historicalDataDurationBins
 
   val incomingFlowDurationBins = historicalDataDurationBins + howFarInFutureBins
-
-  //  val stateSegments = //Seq() //labelSegment +:
-  //    (Set(
-  //      "A3_0:Link1_0", "A2_0:A4_0", "A1_0:A4_0") - labelSegment).toSeq
 
   val incomingFlowSegments = Seq()
 

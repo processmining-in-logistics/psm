@@ -45,7 +45,7 @@ object PreSorterLogsToSegmentsApp {
         logger.info(s"Event log path='$eventLogPath'")
         val dir = new File(eventLogPath)
         val files = dir.listFiles().filter(_.getName.toLowerCase.endsWith(".csv")).map(_.getPath)
-        Logs2Segments.start(files.toList, factoryOfFactory, false, x => x)
+        Logs2Segments.start(files.toList, factoryOfFactory, false, x => x, eventLogPath)
       } catch {
         case e: Throwable => logger.error(e.toString)
       }

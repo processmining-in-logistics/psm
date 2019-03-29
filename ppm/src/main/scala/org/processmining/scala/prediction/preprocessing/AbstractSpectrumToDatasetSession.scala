@@ -32,7 +32,7 @@ abstract class AbstractSpectrumToDatasetSession extends Runnable {
 
   protected def spectrumRoot: String
 
-  protected lazy val experimentId = s"${experimentName}_off${dayStartOffsetHours}_d${dayDurationHours}_start${firstDayDateTime.replace(':', '_')}_days${daysForTraining.size}_timeToPredict${howFarInFutureBins}_historicalData${historicalDataDurationBins}_binsPerLabel${binsPerLabel}"
+  protected lazy val experimentId = s"${experimentName}_off${dayStartOffsetHours}_d${dayDurationHours}_start${firstDayDateTime.replace(':', '_')}_days${daysForTraining.size}_timeToPredict${howFarInFutureBins}_historicalData${historicalDataDurationBins}_binsPerLabel${binsPerLabel}_aggregation_${SpectrumToDataset.aggregationCodeToString(aggregation)}"
 
   protected def datasetDir: String
 
@@ -57,6 +57,8 @@ abstract class AbstractSpectrumToDatasetSession extends Runnable {
   protected def daysForTraining: Seq[Int]
 
   protected def daysForTest: Seq[Int]
+
+  protected def aggregation: Int
 
 
   protected def processIncomingFlow(incomingFlowFeatures: Seq[Seq[Double]], isEvaluationDataset: Boolean): Unit = {}
@@ -83,6 +85,7 @@ abstract class AbstractSpectrumToDatasetSession extends Runnable {
     logger.info(s"incomingFlowSegments number='${incomingFlowSegments.size}")
     logger.info(s"labelSegment='$labelSegment'")
     logger.info(s"binsPerLabel=$binsPerLabel")
+    logger.info(s"aggregation=${SpectrumToDataset.aggregationCodeToString(aggregation)}")
 
     new File(trainingDatasetDir).mkdirs()
     new File(testDatasetDir).mkdirs()
@@ -99,7 +102,8 @@ abstract class AbstractSpectrumToDatasetSession extends Runnable {
       stateSegments,
       incomingFlowOffsetBins,
       incomingFlowDurationBins,
-      binsPerLabel
+      binsPerLabel,
+      aggregation
     ).call()
 
     logger.info(s"Exporting...")
@@ -125,7 +129,8 @@ abstract class AbstractSpectrumToDatasetSession extends Runnable {
       stateSegments,
       incomingFlowOffsetBins,
       incomingFlowDurationBins,
-      binsPerLabel
+      binsPerLabel,
+      aggregation
     ).call()
 
     logger.info(s"Exporting baseline...")

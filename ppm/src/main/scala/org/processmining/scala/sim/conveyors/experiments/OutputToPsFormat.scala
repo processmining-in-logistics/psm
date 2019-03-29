@@ -21,8 +21,8 @@ object OutputToPsFormat {
   val SegmentYBaseline = "3.Baseline:"
   val SegmentYBaseline2 = "4.Baseline:"
 
-  private val dir = "G:\\e1\\Scan1NonLinear"
-  private val SpectrumRoot = "G:\\T3_v8\\Scan1NonLinear"
+  private val dir = "G:\\PI1_17v2\\inter_nn"
+  private val SpectrumRoot = "G:\\T3_v17\\PI1v3_NN_inter"
 
   private val importCsvHelper = new CsvImportHelper(CsvExportHelper.FullTimestampPattern, CsvExportHelper.AmsterdamTimeZone)
   private val yTestFilename = s"$dir/y_test.csv"
@@ -34,8 +34,8 @@ object OutputToPsFormat {
   private val csvReader = new CsvReader((",", ""))
 
   private val classCount = 1
-  private val twSizeMs: Long = 2*20*1000
-  private val startTimeMs = importCsvHelper.extractTimestamp("01-09-2018 00:00:00.000")
+  private val twSizeMs: Long = 60 * 1000
+  private val startTimeMs = importCsvHelper.extractTimestamp("23-03-2018 00:00:00.000")
   private val fileNames = SpectrumFileNames(SpectrumRoot)
   private val kryo = KryoFactory()
 
@@ -54,9 +54,6 @@ object OutputToPsFormat {
 
   private def readLabels(filename: String, nColumns: Int): Seq[Seq[BinsImpl]] =
     readLabels(filename, nColumns, norm)
-
-
-
 
 
   private def writeSegment(segmentName: String, data: Seq[Seq[BinsImpl]]) = {
@@ -127,38 +124,20 @@ object OutputToPsFormat {
       val yTest = readLabels(yTestFilename, classCount)
       val yOutput = readLabels(outputFilename, classCount)
       val yBaseline = readLabels(baselineFilename, classCount)
-
-
       if (yTest.length != yOutput.length) throw new IllegalArgumentException(s"yTest.length != yOutput.length: ${yTest.length}!=${yOutput.length}")
       if (yTest.length != yBaseline.length) throw new IllegalArgumentException(s"yTest.length != yBaseline.length: ${yTest.length}!=${yBaseline.length}")
-
-
-
-
-
       writeSegment(SegmentYTest, yTest)
       exportStarted(SegmentYTest)
-
-
       writeSegment(SegmentYOutput, yOutput)
       exportStarted(SegmentYOutput)
-
       writeSegment(SegmentYBaseline, yBaseline)
       exportStarted(SegmentYBaseline)
-
       val header = """"key";"max";"maxIntersect";"maxStop";"maxSum""""
       val pw = new PrintWriter(s"$SpectrumRoot/max.csv")
       pw.println(header)
       pw.println(s""""$SegmentYTest";"$norm";"$norm";"$norm";"$norm"""")
       pw.println(s""""$SegmentYOutput";"$norm";"$norm";"$norm";"$norm"""")
       pw.println(s""""$SegmentYBaseline";"$norm";"$norm";"$norm";"$norm"""")
-
-//      val yBaseline2 = readLabels(baseline2Filename, classCount, 1)
-//      writeSegment(SegmentYBaseline2, yBaseline2)
-//      exportStarted(SegmentYBaseline2)
-//      pw.println(s""""$SegmentYBaseline2";"$norm";"$norm";"$norm";"$norm"""")
-
-
       pw.close()
       val session = PreprocessingSession(startTimeMs, startTimeMs + yTest.length * twSizeMs, twSizeMs, classCount, "", "")
         .copy(legend = (new NormalSlowVerySlowDurationClassifier).legend)

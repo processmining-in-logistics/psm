@@ -50,7 +50,7 @@ class SegmentsToSpectrum(
     def factory(a: Array[String]) = SegmentImpl(a(0),
       importCsvHelper.extractTimestamp(a(1)),
       a(3).toLong,
-      a(4),
+      "",//a(4),
       -1)
 
     lines
@@ -86,7 +86,7 @@ class SegmentsToSpectrum(
       .flatMap(readSegmentFile)
       .sortBy(_.timeMs) // files can be sorted to avoid this sorting
     val dse = getDs(segments)
-    val classifiedSegments = segments.map(x => x.copy(clazz = durationClassifier.classify(x.duration, dse.q25, dse.median, dse.q75)))
+    val classifiedSegments = segments.map(x => x.copy(clazz = durationClassifier.classify(x.duration, dse.q25, dse.median, dse.q75, x.caseId, x.timeMs, segmentName)))
     // triple: aggregation for start, intersect, stop
     val initialPs: Map[Int, (List[SegmentImpl], List[SegmentImpl], List[SegmentImpl])] = Map()
     val sparsePs = classifiedSegments.foldLeft(initialPs)((ps1, s) => {

@@ -1,21 +1,21 @@
 package org.processmining.scala.sim.conveyors.experiments
 
 import org.apache.log4j.PropertyConfigurator
-import org.processmining.scala.log.common.enhancment.segments.common.{AbstractDurationClassifier, DummyDurationClassifier}
+import org.processmining.scala.log.common.enhancment.segments.common.{AbstractDurationClassifier, DummyDurationClassifier, NormalSlowVerySlowDurationClassifier}
 import org.processmining.scala.log.utils.common.errorhandling.{EH, JvmParams}
-import org.processmining.scala.prediction.preprocessing.AbstractSimSegmentsToSpectrumSession
+import org.processmining.scala.prediction.preprocessing.AbstractSegmentsToSpectrumSession
 import org.slf4j.LoggerFactory
 
 
-object SimSegmentsToSpectrumApp extends AbstractSimSegmentsToSpectrumSession {
+object SimSegmentsToSpectrumApp extends AbstractSegmentsToSpectrumSession {
 
   val SegmentsPath = "g:/sim_logs/Scan1"
-  val SpectrumRoot = "G:/SIM_PS/Scan1"
+  val SpectrumRoot = "G:/SIM_PS/Scan1_NormalSlowVerySlowDurationClassifier"
   val DatasetSizeDays = 7
   val startTime = "01-09-2018 00:00:00.000"
   val twSizeMs = 20 * 1000
 
-  override def classifier: AbstractDurationClassifier = new DummyDurationClassifier {}
+  override def classifier: AbstractDurationClassifier = new NormalSlowVerySlowDurationClassifier {}
 
   def main(args: Array[String]): Unit = {
     PropertyConfigurator.configure("./log4j.properties")
@@ -30,7 +30,7 @@ object SimSegmentsToSpectrumApp extends AbstractSimSegmentsToSpectrumSession {
 
 }
 
-class SimSegmentsToSpectrumCli(override val SegmentsPath: String, override val SpectrumRoot: String, override val DatasetSizeDays: Int, override val startTime: String, override val twSizeMs: Int) extends AbstractSimSegmentsToSpectrumSession {
+class SimSegmentsToSpectrumCli(override val SegmentsPath: String, override val SpectrumRoot: String, override val DatasetSizeDays: Int, override val startTime: String, override val twSizeMs: Int) extends AbstractSegmentsToSpectrumSession {
   override def classifier: AbstractDurationClassifier = new DummyDurationClassifier {}
 
 }

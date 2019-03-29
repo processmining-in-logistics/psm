@@ -28,7 +28,7 @@ object StartAggregation extends AbstractAggregationFunction {
 object EndAggregation extends AbstractAggregationFunction {
   override def getTws(timestamp: Long, duration: Long, timestamp1Ms: Long, timestamp2Ms: Long, twSize: Long): List[Long] = {
     val end = (timestamp + duration).min(timestamp2Ms)
-    if (end >= timestamp1Ms && end < timestamp2Ms) {
+    if (end >= timestamp1Ms && end <= timestamp2Ms) {
       val endIndex = ((end - timestamp1Ms).toDouble / twSize).floor.toLong // TODO: check index!
       List(endIndex)
     } else List()

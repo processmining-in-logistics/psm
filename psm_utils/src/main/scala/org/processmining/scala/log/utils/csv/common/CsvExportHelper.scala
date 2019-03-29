@@ -31,6 +31,7 @@ object CsvExportHelper{
   val FullTimestampPattern = "dd-MM-yyyy HH:mm:ss.SSS"
   val ShortTimestampPattern = "dd-MM-yyyy HH:mm:ss"
   val AmsterdamTimeZone = "Europe/Amsterdam"
+  val LondonTimeZone = "Europe/London"
   val UtcTimeZone = "UTC"
   val DefaultSeparator = ";"
 

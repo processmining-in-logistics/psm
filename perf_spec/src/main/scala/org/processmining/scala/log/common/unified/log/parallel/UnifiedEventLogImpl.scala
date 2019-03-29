@@ -48,6 +48,14 @@ private[parallel] class UnifiedEventLogImpl(override val traces: ParSeq[UnifiedT
         traces
           .filter(ex.evaluate))
 
+
+  override def take(n: Int): UnifiedEventLog =
+    UnifiedEventLog
+      .fromTraces(
+        traces
+          .take(n))
+
+
   override def filterByAttributeNames(attrNames: Set[String]): UnifiedEventLog =
     UnifiedEventLog.fromTraces(
       traces

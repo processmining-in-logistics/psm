@@ -23,7 +23,8 @@ final class SpectrumToDataset(spectrumRootDir: String,
                               stateSegments: Seq[String],
                               incomingFlowOffsetBins: Int,
                               incomingFlowDurationBins: Int,
-                              binsPerLabel: Int
+                              binsPerLabel: Int,
+                              aggregation: Int = SpectrumToDataset.AggregationPending
                              ) extends Runnable with Callable[(Seq[(Seq[Double], Seq[Double])], Int, Long)] {
   private val logger = LoggerFactory.getLogger(classOf[SpectrumToDataset])
   private val csvExportHelper = new CsvExportHelper(CsvExportHelper.FullTimestampPattern, CsvExportHelper.AmsterdamTimeZone, ",")
@@ -81,7 +82,10 @@ final class SpectrumToDataset(spectrumRootDir: String,
         .map(x => (x._1, x._2 + AbstractDataSource.AggregationCodeFirstValue))
 
       val norm = nonNormalizedZipped
-        .map(x => x._1 / ds.maxSegmentCountForAggregation(segmentName, x._2))
+        .map(x => {
+          val d = ds.maxSegmentCountForAggregation(segmentName, x._2)
+          if (d != 0) x._1 / d else 0
+        })
       //      logger.debug(s"NonNorm: '$segmentName' ${nonNormalizedZipped.map(x => f"${x._1}%1.3f/${ds.maxSegmentCountForAggregation(segmentName, x._2)}").mkString(", ")}")
       //      logger.debug(s"Norm:    '$segmentName' ${norm.mkString("; ")}")
       norm
@@ -176,12 +180,10 @@ final class SpectrumToDataset(spectrumRootDir: String,
 
   private def extractValueForAggregationFunction(s: Seq[Double], offset: Int, i: Int) =
     s.zipWithIndex
-      .map(x => (x._1, x._2 + offset))
+      .map(x => (x._1, x._2 - offset))
       .filter(x => (x._2 % i) == 0)
       .map(_._1)
 
-  val StartOffset = 0
-  val SumOffset = 4
 
   private def processOneDay(day: Int): Seq[(Seq[Double], Seq[Double])] = {
     val twCountPerDay = (Duration.ofHours(durationHours).toMillis / ds.twSizeMs).toInt
@@ -194,21 +196,21 @@ final class SpectrumToDataset(spectrumRootDir: String,
       val startOfIncomingFlowBins = twNow + incomingFlowOffsetBins
       val labelFeatures = extractLabel(twLabel, binsPerLabel)
       val stateFeatures = extractStateFeatures(twPast, twNow)
-      val labelAndStateSingleAggregationFunction = extractValueForAggregationFunction(labelFeatures ++ stateFeatures, StartOffset, 4) //sum
-      val labelSingleAggregationFunction = extractValueForAggregationFunction(extractFeatures(twPast, twNow, Seq(labelSegmentName)), StartOffset, 4) //sum
+      val labelAndStateSingleAggregationFunction = extractValueForAggregationFunction(labelFeatures ++ stateFeatures, aggregation, SpectrumToDataset.AggregationFunctionCount)
+      val labelSingleAggregationFunction = extractValueForAggregationFunction(extractFeatures(twPast, twNow, Seq(labelSegmentName)), aggregation, SpectrumToDataset.AggregationFunctionCount)
       //        extractValueForAggregationFunction(x2, 0, 4) ++
       //        extractValueForAggregationFunction(x2, 2, 4) ++
       //        extractValueForAggregationFunction(x2, 3, 4)
-      val incomingFlowFeaturesSingleAggregationFunction = extractValueForAggregationFunction(extractIncomingFlow(startOfIncomingFlowBins, startOfIncomingFlowBins + incomingFlowDurationBins), StartOffset, 4).toArray // start
+      val incomingFlowFeaturesSingleAggregationFunction = extractValueForAggregationFunction(extractIncomingFlow(startOfIncomingFlowBins, startOfIncomingFlowBins + incomingFlowDurationBins), aggregation, SpectrumToDataset.AggregationFunctionCount).toArray // start
 
-      val incomingFlowFeaturesSingleAggregationFunctionWithoutNormalization = extractValueForAggregationFunction(extractIncomingFlowWithoutNormalization(startOfIncomingFlowBins, startOfIncomingFlowBins + incomingFlowDurationBins), StartOffset, 4).toArray // start
+      val incomingFlowFeaturesSingleAggregationFunctionWithoutNormalization = extractValueForAggregationFunction(extractIncomingFlowWithoutNormalization(startOfIncomingFlowBins, startOfIncomingFlowBins + incomingFlowDurationBins), aggregation, SpectrumToDataset.AggregationFunctionCount).toArray // start
 
       val tuples = incomingFlowFeaturesSingleAggregationFunction.length / ds.classesCount
       if (tuples * ds.classesCount != incomingFlowFeaturesSingleAggregationFunction.length) throw new IllegalStateException(s"Wrong size of incomingFlow=${incomingFlowFeaturesSingleAggregationFunction.length}")
       val sumOfClassesForIncFlow = (0 until tuples).map(i => (0 until ds.classesCount).map(j => incomingFlowFeaturesSingleAggregationFunction(i * ds.classesCount + j)).sum)
 
       val row = labelAndStateSingleAggregationFunction ++ sumOfClassesForIncFlow
-//!!!      if (row.length != sizeOfRow) throw new IllegalStateException(s"Error: row.length != sizeOfRow: ${row.length} != $sizeOfRow")
+      //!!!      if (row.length != sizeOfRow) throw new IllegalStateException(s"Error: row.length != sizeOfRow: ${row.length} != $sizeOfRow")
       pw.println(SpectrumToDataset.rowToString(row))
       ds.forgetSegmentsCount(twPast)
       (labelSingleAggregationFunction, incomingFlowFeaturesSingleAggregationFunctionWithoutNormalization.toSeq)
@@ -230,20 +232,47 @@ final class SpectrumToDataset(spectrumRootDir: String,
     pw.close()
   }
 
+  def maxSelector()={
+    val x = ds.maxSegmentsCount(labelSegmentName)
+    aggregation match {
+      case SpectrumToDataset.AggregationStart => ds.maxSegmentsCount(labelSegmentName)._1
+      case SpectrumToDataset.AggregationPending => ds.maxSegmentsCount(labelSegmentName)._2
+      case SpectrumToDataset.AggregationEnd => ds.maxSegmentsCount(labelSegmentName)._3
+      case SpectrumToDataset.AggregationSum => ds.maxSegmentsCount(labelSegmentName)._4
+      case _ => throw new IllegalArgumentException("Wrong aggregation")
+    }
+    }
+
   override def call(): (Seq[(Seq[Double], Seq[Double])], Int, Long) = {
     beforeRun()
     val ret = days.flatMap(processOneDay)
     pw.close()
-    (ret, ds.classesCount, ds.maxSegmentsCount(labelSegmentName)._4)
+    (ret, ds.classesCount, maxSelector)
   }
 }
 
 object SpectrumToDataset {
+  // do not change the values!
+  val AggregationStart = 0
+  val AggregationPending = 1
+  val AggregationEnd = 2
+  val AggregationSum = 3
+  private val AggregationFunctionCount = 4
   private val DefaultSeparator = ","
 
   def rowToString(row: Seq[Double]) = row.map(v => f"$v%01.5f").mkString(DefaultSeparator)
 
   def removeColon(s: String): String = s.replace(':', '_')
+
+  def aggregationCodeToString(a: Int) =
+    a match {
+      case 0 => "start"
+      case 1 => "pending"
+      case 2 => "end"
+      case 3 => "sum"
+      case _ => throw new IllegalArgumentException(s"Aggregation $a is not defined.")
+
+    }
 
 
 }

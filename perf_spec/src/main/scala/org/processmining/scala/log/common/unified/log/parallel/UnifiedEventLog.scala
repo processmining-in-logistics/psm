@@ -54,6 +54,8 @@ trait UnifiedEventLog extends Serializable {
 
   /** returns min and max timestamps or (0, 0) for empty log */
   def minMaxTimestamp(): (Long, Long)
+
+  def take(n: Int): UnifiedEventLog
 }
 
 object UnifiedEventLog {

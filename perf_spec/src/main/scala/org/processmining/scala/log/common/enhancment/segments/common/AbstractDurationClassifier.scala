@@ -1,7 +1,7 @@
 package org.processmining.scala.log.common.enhancment.segments.common
 
 trait AbstractDurationClassifier extends Serializable {
-  def classify(duration: Long, q2: Double, median: Double, q4: Double): Int
+  def classify(duration: Long, q2: Double, median: Double, q4: Double, caseId: String, timestamp: Long, segmentName: String): Int
 
   def sparkSqlExpression(attrNameDuration: String, attrNameClazz: String): String
 
@@ -12,7 +12,7 @@ trait AbstractDurationClassifier extends Serializable {
 }
 
 class FasterNormal23VerySlowDurationClassifier extends AbstractDurationClassifier {
-  def classify(duration: Long, q2: Double, median: Double, q4: Double): Int =
+  def classify(duration: Long, q2: Double, median: Double, q4: Double, caseId: String, timestamp: Long, segmentName: String): Int =
     duration match {
       case n if n < median * 0.5 => 0
       case n if n < median * 1.5 => 1
@@ -39,7 +39,7 @@ class FasterNormal23VerySlowDurationClassifier extends AbstractDurationClassifie
 
 
 class Normal12VerySlowDurationClassifier extends AbstractDurationClassifier {
-  def classify(duration: Long, q2: Double, median: Double, q4: Double): Int =
+  def classify(duration: Long, q2: Double, median: Double, q4: Double, caseId: String, timestamp: Long, segmentName: String): Int =
     duration match {
       case n if n < median * 1.5 => 0
       case n if n < median * 2 => 1
@@ -56,7 +56,7 @@ class Normal12VerySlowDurationClassifier extends AbstractDurationClassifier {
 
 
 class NormalSlowVerySlowDurationClassifier extends AbstractDurationClassifier {
-  def classify(duration: Long, q2: Double, median: Double, q4: Double): Int =
+  def classify(duration: Long, q2: Double, median: Double, q4: Double, caseId: String, timestamp: Long, segmentName: String): Int =
     duration match {
       case n if n < median * 1.25 => 0
       case n if n < median * 3 => 1
@@ -79,7 +79,7 @@ class NormalSlowVerySlowDurationClassifier extends AbstractDurationClassifier {
 
 
 class Q4DurationClassifier extends AbstractDurationClassifier {
-  override def classify(duration: Long, q2: Double, median: Double, q4: Double): Int =
+  override def classify(duration: Long, q2: Double, median: Double, q4: Double, caseId: String, timestamp: Long, segmentName: String): Int =
     duration match {
       case n if n < q2 => 0
       case n if n < median => 1
@@ -103,7 +103,7 @@ class Q4DurationClassifier extends AbstractDurationClassifier {
 }
 
 class Q3DurationClassifier extends AbstractDurationClassifier {
-  override def classify(duration: Long, q2: Double, median: Double, q4: Double): Int =
+  override def classify(duration: Long, q2: Double, median: Double, q4: Double, caseId: String, timestamp: Long, segmentName: String): Int =
     duration match {
       case n if n < q2 => 0
       case n if n < q4 => 1
@@ -125,7 +125,7 @@ class Q3DurationClassifier extends AbstractDurationClassifier {
 }
 
 class NormalSlowDurationClassifier extends AbstractDurationClassifier {
-  def classify(duration: Long, q2: Double, median: Double, q4: Double): Int =
+  def classify(duration: Long, q2: Double, median: Double, q4: Double, caseId: String, timestamp: Long, segmentName: String): Int =
     duration match {
       case n if n < median * 3 => 0
       case _ => 1
@@ -139,7 +139,7 @@ class NormalSlowDurationClassifier extends AbstractDurationClassifier {
 }
 
 class DummyDurationClassifier extends AbstractDurationClassifier {
-  def classify(duration: Long, q2: Double, median: Double, q4: Double): Int = 0
+  def classify(duration: Long, q2: Double, median: Double, q4: Double, caseId: String, timestamp: Long, segmentName: String): Int = 0
 
 
   override def sparkSqlExpression(attrNameDuration: String, attrNameClazz: String) = ???
