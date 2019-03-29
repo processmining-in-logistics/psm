@@ -5,7 +5,7 @@ This branch contains materials for the paper (in submission).
 
 **_For the reviewers:_**
 
-The Data-Driven Inter-Case Feature Encoding [link to paper](https://www.sciencedirect.com/science/article/pii/S0306437918300292?via%3Dihub) is implemented in [`class DdeInterCaseFeatureEncoder`](https://github.com/processmining-in-logistics/psm/blob/ppm/ppm/src/main/scala/org/processmining/scala/intercase/DdeInterCaseFeatureEncoder.scala), package [`org.processmining.scala.intercase`](https://github.com/processmining-in-logistics/psm/tree/ppm/ppm/src/main/scala/org/processmining/scala/intercase)
+The [Data-Driven Inter-Case Feature Encoding](https://www.sciencedirect.com/science/article/pii/S0306437918300292?via%3Dihub) is implemented in class [`DdeInterCaseFeatureEncoder`](https://github.com/processmining-in-logistics/psm/blob/ppm/ppm/src/main/scala/org/processmining/scala/intercase/DdeInterCaseFeatureEncoder.scala), package [`org.processmining.scala.intercase`](https://github.com/processmining-in-logistics/psm/tree/ppm/ppm/src/main/scala/org/processmining/scala/intercase).
 
 ## Event logs of the simulation model of a Baggage Handling System (BHS)
 
