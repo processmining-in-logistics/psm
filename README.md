@@ -1,12 +1,13 @@
 # Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum
 
-## Event logs of the simulation model of a Baggage Handling System (BHS)
 
 This branch contains materials for the paper (in submission). 
 
-**_For the reviewers_**
+**_For the reviewers:_**
 
 The Data-Driven Inter-Case Feature Encoding [link to paper](https://www.sciencedirect.com/science/article/pii/S0306437918300292?via%3Dihub) is implemented in [`class DdeInterCaseFeatureEncoder`](https://github.com/processmining-in-logistics/psm/blob/ppm/ppm/src/main/scala/org/processmining/scala/intercase/DdeInterCaseFeatureEncoder.scala), package [`org.processmining.scala.intercase`](https://github.com/processmining-in-logistics/psm/tree/ppm/ppm/src/main/scala/org/processmining/scala/intercase)
+
+## Event logs of the simulation model of a Baggage Handling System (BHS)
 
 The BHS simulation event log and the computed Performance Spectrum (see the table below) are available [here](https://www.dropbox.com/sh/ueu5r2o5yg34ezk/AADmDbnVxgxsShVxhlHBWNQja?dl=0).
 The source code is available in this branch of the PSM project.
