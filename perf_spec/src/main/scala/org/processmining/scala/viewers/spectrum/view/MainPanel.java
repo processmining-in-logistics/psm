@@ -1,6 +1,8 @@
 package org.processmining.scala.viewers.spectrum.view;
 
 import org.processmining.scala.log.common.utils.common.EH;
+import org.processmining.scala.viewers.spectrum.api.PsmApi;
+import org.processmining.scala.viewers.spectrum.api.PsmEvents;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +16,14 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author nlvden
  */
-public final class MainPanel extends javax.swing.JPanel implements Zooming {
+public final class MainPanel extends javax.swing.JPanel implements Zooming, PsmApi {
 
     private static final Logger logger = LoggerFactory.getLogger(MainPanel.class.getName());
     final TimeDiffController controller;
@@ -27,6 +31,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
     private final static DateTimeFormatter weekOfDayFormatter = DateTimeFormatter.ofPattern("E", Locale.US);
     private final ZoneId zoneId;
     private final boolean isOpenEnabled;
+    private final Set<PsmEvents> eventHandlers = new HashSet<>();
 
     MainPanel(final AbstractDataSource ds, final OpenImpl openImpl, final boolean isOpenEnabled, final AppSettings appSettings) {
         try {
@@ -96,6 +101,10 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         adjustVisualizationParams(options);
     }
 
+
+    public void raiseSortingOrFiltering(final String[] sortedSegments){
+        eventHandlers.forEach(x -> x.onSortingOrFiltering(sortedSegments));
+    }
 
     public void adjustVisualizationParams(final Options options) {
         try {
@@ -389,6 +398,18 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jButtonLegend.setText("Legend...");
         jButtonLegend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                //Code for debugging starts
+                final PsmEvents handler = sortedSegments -> {
+                    for(String s: sortedSegments){
+                        logger.info(s);
+                    }
+                };
+                addEventHandler(handler);
+                sortAndFilter(new String[]{"Create Fine:Payment", "Create Fine:Send Fine", "Send Fine:Payment", "Payment:Add penalty"});
+                //removeEventHandler(handler);
+                //Code for debugging ends
+
                 final LegendDialog2 legendDialog =
                         new LegendDialog2((JComponent) evt.getSource(), controller.view().ds.legend(), controller);
                 legendDialog.setVisible(true);
@@ -531,5 +552,21 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jLabelPos.setEnabled(e);
         jLabelDayOfWeek.setEnabled(e);
 
+    }
+
+    @Override
+    public void sortAndFilter(final String[] sortedSegments) {
+        final String[] blackList = {};
+        adjustVisualizationParams(options.setListOfSegments(sortedSegments, blackList));
+    }
+
+    @Override
+    public void addEventHandler(PsmEvents handler) {
+        eventHandlers.add(handler);
+    }
+
+    @Override
+    public void removeEventHandler(PsmEvents handler) {
+        eventHandlers.remove(handler);
     }
 }

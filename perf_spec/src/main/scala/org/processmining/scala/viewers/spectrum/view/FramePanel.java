@@ -4,6 +4,8 @@ import org.deckfour.xes.model.XLog;
 import org.processmining.scala.log.common.enhancment.segments.common.PreprocessingSession;
 import org.processmining.scala.log.common.enhancment.segments.parallel.SegmentProcessor;
 import org.processmining.scala.log.common.utils.common.EH;
+import org.processmining.scala.viewers.spectrum.api.PsmApi;
+import org.processmining.scala.viewers.spectrum.api.PsmEvents;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
 import org.processmining.scala.viewers.spectrum.model.EmptyDatasource;
 import org.slf4j.Logger;
@@ -14,7 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.util.function.Consumer;
 
-public class FramePanel extends JPanel implements OpenImpl {
+public class FramePanel extends JPanel implements OpenImpl, PsmApi {
 
     private static final Logger logger = LoggerFactory.getLogger(FramePanel.class.getName());
     private MainPanel mainPanel;
@@ -147,5 +149,20 @@ public class FramePanel extends JPanel implements OpenImpl {
     //for ProM
     public static void reportToLog(final String msg) {
         PreprocessingSession.reportToLog(logger, msg);
+    }
+
+    @Override
+    public void sortAndFilter(String[] sortedSegments) {
+        mainPanel.sortAndFilter(sortedSegments);
+    }
+
+    @Override
+    public void addEventHandler(PsmEvents handler) {
+        mainPanel.addEventHandler(handler);
+    }
+
+    @Override
+    public void removeEventHandler(PsmEvents handler) {
+        mainPanel.removeEventHandler(handler);
     }
 }

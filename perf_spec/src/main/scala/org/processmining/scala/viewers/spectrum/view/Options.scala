@@ -10,6 +10,10 @@ case class Options(whiteList: Array[Pattern],
                    reverseColors: Boolean,
                    fontSize: Int) {
   def filters(w: Array[Pattern], b: Array[Pattern]) = copy(whiteList = w, blackList = b)
+
+  def setListOfSegments(newWhiteList: Array[String], newBlackList: Array[String]): Options =
+    copy(whiteList = newWhiteList.map(Pattern.compile))
+      .copy(blackList = newBlackList.map(Pattern.compile))
 }
 
 object Options {

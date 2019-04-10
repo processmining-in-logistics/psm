@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 
 public class OptionsDialog extends javax.swing.JDialog {
     private static final Logger logger = LoggerFactory.getLogger(OptionsDialog.class.getName());
@@ -356,6 +359,12 @@ public class OptionsDialog extends javax.swing.JDialog {
                     20
             );
             parent.adjustVisualizationParams(options);
+
+            // temp. implementation
+            parent.raiseSortingOrFiltering(Arrays.stream(options.whiteList())
+                    .map(Pattern::toString)
+                    .collect(Collectors.toList())
+                    .toArray(new String[options.whiteList().length]));
 
         } catch (PatternSyntaxException ex) {
             JOptionPane.showMessageDialog(this, "Wrong regex pattern: " + ex.toString(), "Regex filter error", JOptionPane.ERROR_MESSAGE);
