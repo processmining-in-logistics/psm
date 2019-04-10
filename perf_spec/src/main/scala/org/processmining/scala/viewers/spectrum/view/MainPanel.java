@@ -400,14 +400,14 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming, PsmA
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
                 //Code for debugging starts
-                final PsmEvents handler = sortedSegments -> {
-                    for(String s: sortedSegments){
-                        logger.info(s);
-                    }
-                };
-                addEventHandler(handler);
-                sortAndFilter(new String[]{"Create Fine:Payment", "Create Fine:Send Fine", "Send Fine:Payment", "Payment:Add penalty"});
-                //removeEventHandler(handler);
+//                final PsmEvents handler = sortedSegments -> {
+//                    for(String s: sortedSegments){
+//                        logger.info(s);
+//                    }
+//                };
+//                addEventHandler(handler);
+//                sortAndFilter(new String[]{"Create Fine:Payment", "Create Fine:Send Fine", "Send Fine:Payment", "Payment:Add penalty"});
+//                //removeEventHandler(handler);
                 //Code for debugging ends
 
                 final LegendDialog2 legendDialog =
