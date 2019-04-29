@@ -2,9 +2,8 @@ import sbt._
 import Keys._
 
 name := "psm"
-version := "1.0.2"
+version := "1.1.0"
 scalaVersion := "2.11.8"
-val sparkVersion = "2.2.1"
 resolvers += Resolver.mavenLocal
 sources in(Compile, doc) ~= (_ filter (x => !x.getName.contains("Test")))
 
