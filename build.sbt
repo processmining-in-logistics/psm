@@ -49,51 +49,6 @@ lazy val ppm = project
   )
 
 
-
-lazy val framework = project
-  .dependsOn(perf_spec)
-  .settings(
-    commonSettings,
-    libraryDependencies ++= Seq(
-      "org.apache.spark" %% "spark-core" % sparkVersion,
-      "org.apache.spark" %% "spark-sql" % sparkVersion,
-      "org.apache.commons" % "commons-collections4" % "4.0",
-      "org.apache.commons" % "commons-math3" % "3.6.1",
-      "org.ini4j" % "ini4j" % "0.5.4",
-      "com.thoughtworks.xstream" % "xstream" % "1.4.10",
-      "org.xes-standard" % "openxes" % "2.23",
-      "org.xes-standard" % "openxes-xstream" % "2.23",
-      "org.deckfour" % "Spex" % "1.0",
-      "org.scalatest" %% "scalatest" % "3.0.4" % Test,
-      "com.opencsv" % "opencsv" % "4.1",
-      "org.jfree" % "jfreechart" % "1.0.17"
-    )
-  )
-
-lazy val sim_ein = project
-  .dependsOn(framework, ppm)
-  .settings(
-    commonSettings,
-    libraryDependencies ++= Seq(
-      "org.apache.spark" %% "spark-core" % sparkVersion,
-      "org.apache.spark" %% "spark-sql" % sparkVersion,
-      "org.apache.commons" % "commons-collections4" % "4.0",
-      "org.apache.commons" % "commons-math3" % "3.6.1",
-      "org.ini4j" % "ini4j" % "0.5.4",
-      "com.thoughtworks.xstream" % "xstream" % "1.4.10",
-      "org.xes-standard" % "openxes" % "2.23",
-      "org.xes-standard" % "openxes-xstream" % "2.23",
-      "org.deckfour" % "Spex" % "1.0",
-      "org.scalatest" %% "scalatest" % "3.0.4" % Test,
-      "com.opencsv" % "opencsv" % "4.1",
-      "org.jfree" % "jfreechart" % "1.0.17"
-    )
-  )
-
-
-
-
-
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs@_*) => MergeStrategy.discard
   case x => MergeStrategy.last
