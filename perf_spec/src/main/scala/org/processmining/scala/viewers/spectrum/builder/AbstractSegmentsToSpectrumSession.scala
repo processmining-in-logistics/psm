@@ -4,7 +4,7 @@ import java.io.File
 import java.time.Duration
 
 import org.processmining.scala.log.common.enhancment.segments.common.{AbstractDurationClassifier, NormalSlowVerySlowDurationClassifier, SpectrumFileNames}
-import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
+import org.processmining.scala.log.utils.common.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.slf4j.LoggerFactory
 
 

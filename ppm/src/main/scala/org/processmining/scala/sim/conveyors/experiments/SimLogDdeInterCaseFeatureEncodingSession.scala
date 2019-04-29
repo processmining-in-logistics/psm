@@ -5,8 +5,8 @@ import org.processmining.scala.intercase._
 import org.processmining.scala.log.common.csv.parallel.CsvReader
 import org.processmining.scala.log.common.unified.event.UnifiedEvent
 import org.processmining.scala.log.common.unified.log.parallel.UnifiedEventLog
+import org.processmining.scala.log.utils.common.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.processmining.scala.log.utils.common.errorhandling.{EH, JvmParams}
-import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
 
 object SimLogDdeInterCaseFeatureEncodingSession extends BaseDdeInterCaseFeatureEncodingSession with SegmentBasesFilters {
   val thresholds = List(5 * 1000L, 10 * 1000L, 20 * 1000L, 30 * 1000L, 60 * 1000L)

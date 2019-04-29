@@ -8,8 +8,8 @@ import org.apache.log4j.PropertyConfigurator
 import org.processmining.scala.log.common.csv.common.CsvReader
 import org.processmining.scala.log.common.enhancment.segments.common._
 import org.processmining.scala.log.common.enhancment.segments.parallel.SegmentProcessor
+import org.processmining.scala.log.utils.common.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.processmining.scala.log.utils.common.errorhandling.JvmParams
-import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.slf4j.LoggerFactory
 
 import scala.io.Source

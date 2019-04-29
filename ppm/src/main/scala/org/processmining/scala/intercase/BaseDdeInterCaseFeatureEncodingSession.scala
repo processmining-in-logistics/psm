@@ -3,7 +3,7 @@ package org.processmining.scala.intercase
 import java.io.{File, PrintWriter}
 
 import org.processmining.scala.log.common.unified.event.UnifiedEvent
-import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
+import org.processmining.scala.log.utils.common.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.slf4j.LoggerFactory
 
 /*** Helper to create sessions for experiments (i.e. classes with main() function)

@@ -8,7 +8,7 @@ import org.apache.commons.math3.stat.descriptive.{DescriptiveStatistics, Summary
 import org.processmining.scala.log.common.csv.parallel.CsvReader
 import org.processmining.scala.log.common.enhancment.segments.common._
 import org.processmining.scala.log.common.enhancment.segments.parallel.SegmentProcessor
-import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
+import org.processmining.scala.log.utils.common.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.slf4j.LoggerFactory
 
 case class SegmentDescriptiveStatisticsEntry(

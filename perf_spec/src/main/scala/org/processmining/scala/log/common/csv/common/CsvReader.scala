@@ -1,7 +1,9 @@
 package org.processmining.scala.log.common.csv.common
 
 import java.util.regex.Pattern
-import org.processmining.scala.log.utils.csv.common.CsvReaderHelper
+
+import org.processmining.scala.log.utils.common.csv.common.CsvReaderHelper
+
 import scala.io.Source
 import scala.reflect.ClassTag
 

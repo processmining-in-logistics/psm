@@ -13,12 +13,8 @@ lazy val commonSettings = Seq(
   scalaVersion := "2.11.8"
 )
 
-lazy val psm_utils = project
-  .settings(commonSettings)
-
 
 lazy val perf_spec = project
-  .dependsOn(psm_utils)
   .settings(
     commonSettings
   )

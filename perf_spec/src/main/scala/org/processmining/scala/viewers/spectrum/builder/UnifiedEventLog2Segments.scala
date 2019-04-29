@@ -1,11 +1,12 @@
 package org.processmining.scala.viewers.spectrum.builder
 
 import java.io.PrintWriter
+
 import org.processmining.scala.log.common.enhancment.segments.common.SegmentUtils
 import org.processmining.scala.log.common.unified.event.{CommonAttributeSchemas, UnifiedEvent}
 import org.processmining.scala.log.common.unified.log.parallel.UnifiedEventLog
 import org.processmining.scala.log.common.unified.trace.UnifiedTraceId
-import org.processmining.scala.log.utils.csv.common.CsvExportHelper
+import org.processmining.scala.log.utils.common.csv.common.CsvExportHelper
 import org.slf4j.LoggerFactory
 
 

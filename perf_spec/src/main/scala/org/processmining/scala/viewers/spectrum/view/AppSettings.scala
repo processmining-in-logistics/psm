@@ -4,8 +4,8 @@ import java.io.File
 import java.time.ZoneId
 
 import org.ini4j.{Ini, IniPreferences}
+import org.processmining.scala.log.utils.common.csv.common.CsvImportHelper
 import org.processmining.scala.log.utils.common.errorhandling.EH
-import org.processmining.scala.log.utils.csv.common.CsvImportHelper
 import org.processmining.scala.viewers.spectrum.view.AppSettings.logger
 import org.slf4j.LoggerFactory
 

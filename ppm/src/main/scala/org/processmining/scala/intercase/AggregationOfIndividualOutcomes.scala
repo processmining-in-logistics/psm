@@ -6,8 +6,8 @@ import java.util.concurrent.Callable
 
 import org.apache.log4j.PropertyConfigurator
 import org.processmining.scala.log.common.csv.parallel.CsvReader
+import org.processmining.scala.log.utils.common.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.processmining.scala.log.utils.common.errorhandling.{EH, JvmParams}
-import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.slf4j.LoggerFactory
 
 import scala.io.Source

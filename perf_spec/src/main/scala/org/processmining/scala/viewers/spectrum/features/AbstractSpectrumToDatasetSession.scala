@@ -4,7 +4,7 @@ import java.io.{File, PrintWriter}
 import java.nio.file._
 import java.util.Locale
 
-import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
+import org.processmining.scala.log.utils.common.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.slf4j.LoggerFactory
 
 abstract class AbstractSpectrumToDatasetSession extends Runnable {

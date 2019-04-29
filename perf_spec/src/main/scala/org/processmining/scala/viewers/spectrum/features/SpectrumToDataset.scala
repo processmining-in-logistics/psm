@@ -6,7 +6,7 @@ import java.util.concurrent.Callable
 import java.util.function.Consumer
 
 import org.processmining.scala.log.common.utils.common.EventAggregatorImpl
-import org.processmining.scala.log.utils.csv.common.CsvExportHelper
+import org.processmining.scala.log.utils.common.csv.common.CsvExportHelper
 import org.processmining.scala.viewers.spectrum.model.{AbstractDataSource, FilesystemDataSource}
 import org.slf4j.LoggerFactory
 

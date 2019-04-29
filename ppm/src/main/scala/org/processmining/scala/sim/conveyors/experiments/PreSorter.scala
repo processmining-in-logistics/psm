@@ -1,12 +1,11 @@
 package org.processmining.scala.sim.conveyors.experiments
 
-import java.io.{File, PrintWriter}
 import java.time.{Duration, Instant, ZoneId, ZonedDateTime}
-import java.util.concurrent.{ExecutorService, Executors, TimeUnit}
+import java.util.concurrent.{Executors, TimeUnit}
 
 import org.apache.log4j.PropertyConfigurator
+import org.processmining.scala.log.utils.common.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.processmining.scala.log.utils.common.errorhandling.JvmParams
-import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.processmining.scala.sim.conveyors.api.{AbstractEquipment, _}
 import org.processmining.scala.sim.conveyors.impl._
 import org.slf4j.LoggerFactory

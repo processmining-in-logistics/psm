@@ -9,9 +9,7 @@ import org.processmining.scala.log.common.csv.parallel.CsvReader
 import org.processmining.scala.log.common.enhancment.segments.common.SpectrumFileNames
 import org.processmining.scala.log.common.unified.event.UnifiedEvent
 import org.processmining.scala.log.common.unified.log.parallel.UnifiedEventLog
-import org.processmining.scala.log.common.unified.trace.UnifiedEventAggregator
-import org.processmining.scala.log.common.utils.common.EventAggregatorImpl
-import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
+import org.processmining.scala.log.utils.common.csv.common.{CsvExportHelper, CsvImportHelper}
 import org.slf4j.LoggerFactory
 
 class Logs2Segments(logFilename: String,

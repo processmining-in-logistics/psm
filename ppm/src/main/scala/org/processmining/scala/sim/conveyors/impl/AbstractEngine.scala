@@ -4,7 +4,7 @@ import java.io.{File, PrintWriter}
 import java.time.Instant
 import java.util.concurrent.Callable
 
-import org.processmining.scala.log.utils.csv.common.CsvExportHelper
+import org.processmining.scala.log.utils.common.csv.common.CsvExportHelper
 import org.processmining.scala.sim.conveyors.api.{AbstractEquipment, Tsu}
 import org.slf4j.LoggerFactory
 
