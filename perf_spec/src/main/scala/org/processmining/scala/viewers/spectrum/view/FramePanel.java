@@ -24,6 +24,7 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
     private final Consumer<String> title;
     private final Timer singleShotTimer;
     private final boolean useDuration;
+    public static final String CSV_DIR = "csvdir";
 
     public FramePanel(final String dir, final Consumer<String> title, final boolean isOpenEnabled, final boolean useDuration) {
         this.title = title;
@@ -42,10 +43,21 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
         this.useDuration = true;
         setLayout(new java.awt.BorderLayout());
         performanceSpectrumFactory(new EmptyDatasource(), "", false);
-        singleShotTimer = new Timer(0, e -> openPreProcessingDialog("", xlog));
+        singleShotTimer = new Timer(0, e -> openPreProcessingDialog("", xlog, xlog == null));
         singleShotTimer.setRepeats(false);
         singleShotTimer.start();
     }
+
+    public FramePanel(final String csvDir) {
+        this.title = null;
+        this.useDuration = true;
+        setLayout(new java.awt.BorderLayout());
+        performanceSpectrumFactory(new EmptyDatasource(), csvDir, false);
+        singleShotTimer = new Timer(0, e -> openPreProcessingDialog(csvDir, null, false));
+        singleShotTimer.setRepeats(false);
+        singleShotTimer.start();
+    }
+
 
     @Override
     public void paintComponent(Graphics g) {
@@ -59,7 +71,7 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
     private void performanceSpectrumFactory(final AbstractDataSource ds, final String dir, final boolean isOpenEnabled) {
         try {
             final MainPanel newMainPanel = new MainPanel(ds, this, isOpenEnabled,
-                    dir.isEmpty() ? AppSettings.apply() : AppSettings.apply(String.format("%s/config.ini", dir)));
+                    dir.isEmpty() || dir.endsWith(CSV_DIR) ? AppSettings.apply() : AppSettings.apply(String.format("%s/config.ini", dir)));
             if (mainPanel != null) {
                 remove(mainPanel);
             }
@@ -86,7 +98,7 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
             final JFileChooser dirDlg = new JFileChooser(PreProcessingPanel.getPsmHomeDir());
             dirDlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
             final FileNameExtensionFilter filterXes = new FileNameExtensionFilter("XES Event Log Files", "xes", "gz", "zip", "xml");
-            final FileNameExtensionFilter filterCsv = new FileNameExtensionFilter("Folder with CSV Event Log Files", "csvdir");
+            final FileNameExtensionFilter filterCsv = new FileNameExtensionFilter("Folder with CSV Event Log Files", CSV_DIR);
             final FileNameExtensionFilter filterPsm = new FileNameExtensionFilter("PSM Session Files", "psm");
             dirDlg.setFileFilter(filterXes);
             dirDlg.setFileFilter(filterCsv);
@@ -98,9 +110,9 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
                     if (dirDlg.getSelectedFile().getPath().endsWith(SegmentProcessor.SessionFileName())) {
                         openDatasetDialog(path.substring(0, path.length() - SegmentProcessor.SessionFileName().length()), true);
                     } else if (dirDlg.getSelectedFile().getPath().toLowerCase().endsWith(".csv")){
-                        openPreProcessingDialog(path, null);
+                        openPreProcessingDialog(path, null, true);
                     }else{
-                        openPreProcessingDialog(path, null);
+                        openPreProcessingDialog(path, null, true);
                     }
                 }
             }
@@ -122,7 +134,7 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
 
     }
 
-    private void openPreProcessingDialog(final String initialPath, final XLog xlog) {
+    private void openPreProcessingDialog(final String initialPath, final XLog xlog, final boolean isOpenEnabled) {
         try {
             final PreProcessingDialog dialog = xlog == null ?
                     new PreProcessingDialog((JFrame) SwingUtilities.getWindowAncestor(this), initialPath, useDuration)
@@ -130,7 +142,7 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
             dialog.setVisible(true);
             final String dir = dialog.getDir();
             if (!dir.isEmpty()) {
-                openDatasetDialog(dir, xlog == null);
+                openDatasetDialog(dir, isOpenEnabled);
                 //performanceSpectrumFactory(dir, xlog == null);
             }
         } catch (Exception ex) {
