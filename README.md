@@ -1,4 +1,11 @@
-# Performance Spectrum Miner
+# Performance Spectrum Miner v.1.1.0
+
+**This page is under construction...**
+
+This branch `ppm` and the corresponding PSM version `1.1.0` is coupled with paper **V. Denisov, D. Fahland, and W. M. P. van der Aalst. ”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum,” in *International Conference on Process Mining*,
+2019 (article in press)**. Please find additional documentation [here](ppm.md).
+
+# Overview
 
 The Performance Spectrum Miner (PSM) is a visual analytics tool for event data. It takes as input an event log (of events, timestamps, and case identifier) of past process or system executions in CSV or XES format. The PSM visualizes the flow of all cases over all process over time, and gives detailed insights performance characteristics.
 
