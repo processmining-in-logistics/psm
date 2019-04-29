@@ -30,7 +30,7 @@ lazy val ppm = project
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
-      "org.apache.commons" % "commons-collections4" % "4.0",
+      "org.apache.commons" % "commons-collections4" % "4.1",
       "org.apache.commons" % "commons-math3" % "3.6.1",
       "org.ini4j" % "ini4j" % "0.5.4",
       "com.thoughtworks.xstream" % "xstream" % "1.4.10",
