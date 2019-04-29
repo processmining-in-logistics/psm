@@ -19,8 +19,6 @@ private [viewers] class FakeDataSource(override val twCount: Int,
 
   override def maxSegmentsCount(name: String): (Long, Long, Long, Long) = (50, 50, 50, 50)
 
-  override def goingToRequest(startTwIndex: Int, endTwIndex: Int, includingIds: Boolean, includingSegments: Boolean): Unit = ()
-
   private def generateCounts(twIndex: Int, name: String): List[(Int, Long, Long, Long)] =
     (0 until classesCount)
       .map(clazz => (clazz, (new Random(twIndex * 219 + clazz * 16 + name.hashCode * 3).nextDouble() * (maxSegmentsCount(name)._1 / classesCount)).toLong, 0L, 0L))
@@ -66,6 +64,8 @@ private [viewers] class FakeDataSource(override val twCount: Int,
   }
 
   override def legend = ""
+
+  override val classifierName: String = ""
 
   override def forgetSegmentsCount(twIndex: Int): Unit = {}
 }

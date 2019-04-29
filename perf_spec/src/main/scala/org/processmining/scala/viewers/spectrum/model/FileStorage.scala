@@ -1,9 +1,12 @@
 package org.processmining.scala.viewers.spectrum.model
 
 import java.io.{BufferedInputStream, FileInputStream, RandomAccessFile}
+import java.util.function.Consumer
+
 import com.esotericsoftware.kryo.io.Input
 import org.processmining.scala.log.common.enhancment.segments.common._
 import org.slf4j.LoggerFactory
+
 import scala.reflect.ClassTag
 import scala.reflect._
 
@@ -17,16 +20,21 @@ case class SourceFiles(dataIndex: Map[Int, Int], data: RandomAccessFile, started
 
 }
 
-private class FileStorage(spectrumRootDir: String, segmentNames: Array[String]) {
+private class FileStorage(spectrumRootDir: String, segmentNames: Array[String], callback: Consumer[Int]) {
   private val logger = LoggerFactory.getLogger(classOf[FileStorage])
   private val kryo = KryoFactory()
   private val fileNames = SpectrumFileNames(spectrumRootDir)
 
-  private val filesBySegmentNames: Map[String, SourceFiles] = segmentNames
-    //.par // is it safe for handles?
-    .map(x => (x -> createFiles(x)))
-    //.seq
-    .toMap
+  private val filesBySegmentNames: Map[String, SourceFiles] =
+    segmentNames
+      .zipWithIndex
+      //.par // is it safe for handles?
+      .map { x =>
+      callback.accept(x._2)
+      x._1 -> createFiles(x._1)
+    }
+      //.seq
+      .toMap
 
   private def readIndex(filename: String): Map[Int, Int] = {
     try {

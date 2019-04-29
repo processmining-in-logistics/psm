@@ -1,6 +1,8 @@
 package org.processmining.scala.viewers.spectrum.view;
 
 import org.processmining.scala.log.utils.common.errorhandling.EH;
+import org.processmining.scala.viewers.spectrum.api.PsmApi;
+import org.processmining.scala.viewers.spectrum.api.PsmEvents;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +16,14 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author nlvden
  */
-public final class MainPanel extends javax.swing.JPanel implements Zooming {
+public final class MainPanel extends javax.swing.JPanel implements Zooming, PsmApi {
 
     private static final Logger logger = LoggerFactory.getLogger(MainPanel.class.getName());
     final TimeDiffController controller;
@@ -27,6 +31,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
     private final static DateTimeFormatter weekOfDayFormatter = DateTimeFormatter.ofPattern("E", Locale.US);
     private final ZoneId zoneId;
     private final boolean isOpenEnabled;
+    private final Set<PsmEvents> eventHandlers = new HashSet<>();
 
     MainPanel(final AbstractDataSource ds, final OpenImpl openImpl, final boolean isOpenEnabled, final AppSettings appSettings) {
         try {
@@ -230,6 +235,8 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jPanelL12 = new javax.swing.JPanel();
         jButtonLegend = new javax.swing.JButton();
         jPanelL13 = new javax.swing.JPanel();
+        jButtonExport = new javax.swing.JButton();
+        jPanelL14 = new javax.swing.JPanel();
         checkBoxegmentNames = new javax.swing.JCheckBox();
         jPanelContent = new javax.swing.JPanel();
         jContentScrollPane = new javax.swing.JScrollPane();
@@ -393,14 +400,32 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jButtonLegend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 final LegendDialog2 legendDialog =
-                        new LegendDialog2((JComponent) evt.getSource(), controller.view().ds.legend(), controller);
+                        new LegendDialog2((JComponent) evt.getSource(), controller.view().ds.legend(), controller, controller.view().ds.classifierName());
                 legendDialog.setVisible(true);
+
+            }
+        });
+
+        jButtonExport.setText("Export...");
+        jButtonExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                final DatasetExportDialog dlg = new DatasetExportDialog(controller.ds());
+                dlg.open();
+//                final LegendDialog2 legendDialog =
+//                        new LegendDialog2((JComponent) evt.getSource(), controller.view().ds.legend(), controller);
+//                legendDialog.setVisible(true);
 
             }
         });
         jPanelL12.add(jButtonLegend, java.awt.BorderLayout.LINE_END);
 
+
+
         jPanelL13.setLayout(new java.awt.BorderLayout());
+        jPanelL13.add(jButtonExport, java.awt.BorderLayout.LINE_END);
+        jPanelL13.add(jPanelL14, java.awt.BorderLayout.CENTER);
+
         jPanelL12.add(jPanelL13, java.awt.BorderLayout.CENTER);
 
         jPanelL11.add(jPanelL12, java.awt.BorderLayout.CENTER);
@@ -478,6 +503,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
     private javax.swing.JButton jButtonLegend;
     private javax.swing.JButton jButtonOpen;
     private javax.swing.JButton jButtonSettings;
+    private javax.swing.JButton jButtonExport;
     private javax.swing.JScrollPane jContentScrollPane;
     private javax.swing.JLabel jLabelDayOfWeek;
     private javax.swing.JLabel jLabelPos;
@@ -494,6 +520,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
     private javax.swing.JPanel jPanelL11;
     private javax.swing.JPanel jPanelL12;
     private javax.swing.JPanel jPanelL13;
+    private javax.swing.JPanel jPanelL14;
     private javax.swing.JPanel jPanelOpenR;
     private javax.swing.JPanel jPanelPlayer;
     private javax.swing.JPanel jPanelPlayerCenter;
@@ -522,6 +549,7 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jButtonClearSelection.setEnabled(e);
         jButtonIds.setEnabled(e);
         jButtonLegend.setEnabled(e);
+        //jButtonExport.setEnabled(e);
         jButtonSettings.setEnabled(e);
         jSliderPos.setEnabled(e);
         jSliderXZoom.setEnabled(e);
@@ -534,5 +562,21 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming {
         jLabelPos.setEnabled(e);
         jLabelDayOfWeek.setEnabled(e);
 
+    }
+
+    @Override
+    public void sortAndFilter(final String[] sortedSegments) {
+        final String[] blackList = {};
+        adjustVisualizationParams(options.setListOfSegments(sortedSegments, blackList));
+    }
+
+    @Override
+    public void addEventHandler(PsmEvents handler) {
+        eventHandlers.add(handler);
+    }
+
+    @Override
+    public void removeEventHandler(PsmEvents handler) {
+        eventHandlers.remove(handler);
     }
 }

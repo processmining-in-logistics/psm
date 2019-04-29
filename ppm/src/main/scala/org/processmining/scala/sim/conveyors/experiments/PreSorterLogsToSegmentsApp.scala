@@ -6,8 +6,8 @@ import org.apache.log4j.PropertyConfigurator
 import org.processmining.scala.log.common.unified.event.UnifiedEvent
 import org.processmining.scala.log.utils.common.errorhandling.JvmParams
 import org.processmining.scala.log.utils.csv.common.{CsvExportHelper, CsvImportHelper}
-import org.processmining.scala.prediction.preprocessing.Logs2Segments
 import org.processmining.scala.sim.conveyors.impl.AbstractEngine
+import org.processmining.scala.viewers.spectrum.builder.Logs2Segments
 import org.slf4j.LoggerFactory
 
 import scala.collection.immutable.SortedMap

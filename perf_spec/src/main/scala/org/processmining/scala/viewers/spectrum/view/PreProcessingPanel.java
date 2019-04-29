@@ -7,6 +7,8 @@ package org.processmining.scala.viewers.spectrum.view;
 
 import org.deckfour.xes.model.XLog;
 import org.processmining.scala.log.utils.common.errorhandling.EH;
+import org.processmining.scala.viewers.spectrum.builder.ClassNodeBasedPreProcessor;
+import org.processmining.scala.viewers.spectrum.builder.PreProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,7 +148,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
                         activityClassifier.equals(DefaultActivityClassifier) ? new String[]{} : activityClassifier.split("\\s+"),
                         jTextFieldOutDir.getText(),
                         timeWindowTextToMs(jTextFieldTimeWindow.getText()),
-                        jComboBoxAggregationFunction.getSelectedIndex(),
+                        //jComboBoxAggregationFunction.getSelectedIndex(),
                         jComboBoxDurationClassifier.getSelectedIndex(),
                         action
                 );
@@ -209,7 +211,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         jTextFieldFileName.setEnabled(e);
         jButtonOpenLog1.setEnabled(e);
         jTextFieldTimeWindow.setEnabled(e);
-        jComboBoxAggregationFunction.setEnabled(e);
+        jComboBoxAggregationFunction.setEnabled(false);
         jComboBoxDurationClassifier.setEnabled(e);
         jTextFieldActivityClassifier.setEnabled(e);
         jTextFieldOutDir.setEnabled(e);
@@ -431,7 +433,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
 
         jPanel27.setLayout(new java.awt.BorderLayout());
 
-        jButtonHelp.setText("Help");
+        jButtonHelp.setText("?");
         jButtonHelp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onHelp();
@@ -499,7 +501,8 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         jLabel2.setPreferredSize(new java.awt.Dimension(220, 0));
         jPanel9.add(jLabel2, java.awt.BorderLayout.LINE_START);
 
-        jComboBoxAggregationFunction.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Cases pending", "Cases started", "Cases stopped"}));
+        jComboBoxAggregationFunction.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Start, pending and end"}));
+        jComboBoxAggregationFunction.setEnabled(false);
 
         jPanel9.add(jComboBoxAggregationFunction, java.awt.BorderLayout.CENTER);
 
@@ -572,7 +575,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         jPanel17.setPreferredSize(new java.awt.Dimension(640, 63));
         jPanel17.setLayout(new java.awt.BorderLayout());
 
-        jLabel8.setText("XES Log import:");
+        jLabel8.setText("Log(s) import:");
         jLabel8.setPreferredSize(new java.awt.Dimension(220, 0));
         jPanel17.add(jLabel8, java.awt.BorderLayout.LINE_START);
 
@@ -587,7 +590,7 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
         jPanel19.setPreferredSize(new java.awt.Dimension(640, 43));
         jPanel19.setLayout(new java.awt.BorderLayout());
 
-        jLabel10.setText("Log pre-processing:");
+        jLabel10.setText("Computing PS:");
         jLabel10.setPreferredSize(new java.awt.Dimension(220, 0));
         jPanel19.add(jLabel10, java.awt.BorderLayout.LINE_START);
 
@@ -625,7 +628,8 @@ public final class PreProcessingPanel extends javax.swing.JPanel implements Acti
     }
 
     static void showHelp() {
-        final String ref = "https://github.com/processmining-in-logistics/psm/blob/master/docs/user-manual.md";
+        //final String ref = "https://github.com/processmining-in-logistics/psm/blob/master/docs/user-manual.md";
+        final String ref = "https://github.com/processmining-in-logistics/psm/tree/ppm";
         try {
             openWebpage(new URL(ref));
         } catch (Exception ex) {

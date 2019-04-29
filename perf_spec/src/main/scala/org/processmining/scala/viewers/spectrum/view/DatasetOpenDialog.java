@@ -30,10 +30,9 @@ import java.util.prefs.BackingStoreException;
 import java.util.stream.Collectors;
 
 /**
- *
  * @author nlvden
  */
-public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionListener {
+public class DatasetOpenDialog extends javax.swing.JDialog implements ActionListener {
 
     private static final Logger logger = LoggerFactory.getLogger(DatasetOpenDialog.class.getName());
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -107,7 +106,7 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
         jLabel2.setPreferredSize(new java.awt.Dimension(220, 0));
         jPanel9.add(jLabel2, java.awt.BorderLayout.LINE_START);
 
-        jComboBoxAggregationAny.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Any -> A", "A -> Any" }));
+        jComboBoxAggregationAny.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"None", "Any -> A", "A -> Any"}));
         jComboBoxAggregationAny.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxAggregationAnyActionPerformed(evt);
@@ -127,7 +126,7 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
         jLabel3.setPreferredSize(new java.awt.Dimension(220, 0));
         jPanel10.add(jLabel3, java.awt.BorderLayout.LINE_START);
 
-        jComboBoxCaching.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Load on open", "Load on demand" }));
+        jComboBoxCaching.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Load on open", "Load on demand"}));
         jComboBoxCaching.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxCachingActionPerformed(evt);
@@ -194,12 +193,12 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 10, Short.MAX_VALUE)
+                jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 10, Short.MAX_VALUE)
         );
         jPanel26Layout.setVerticalGroup(
-            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 32, Short.MAX_VALUE)
+                jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 32, Short.MAX_VALUE)
         );
 
         jPanel25.add(jPanel26, java.awt.BorderLayout.LINE_START);
@@ -284,7 +283,9 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
         }
     }
 
-    private static boolean dummy(String x) {return true;}
+    private static boolean dummy(String x) {
+        return true;
+    }
 
     private static AbstractDataSource createNew(final String dir,
                                                 final boolean applyLeftRightAggregation,
@@ -303,15 +304,13 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
             ea = (aggregatorFile.exists() && aggregatorFile.isFile()) ? new EventAggregatorImpl(aggregatorFilename) : new EventAggregatorImpl();
         }
         final AbstractDataSource fds = dir.isEmpty() ? new EmptyDatasource() : new FilesystemDataSource(dir, ea, TimeDiffController.segmentNameLt(sortingOrder), TimeDiffController.dummy());
-        fds.initialize(); // add progress
+        fds.initialize(o -> action.accept(String.format(" (indices) %s / %d", o, fds.segmentNames().length))); // add progress
         if (fetchAll) {
             final int twCount = fds.twCount();
-            fds.fetchAll(o -> action.accept(String.format("%s / %d", o, twCount)));
+            fds.fetchAll(o -> action.accept(String.format(" (data) %s / %d", o, twCount)));
         }
         return fds;
     }
-
-
 
 
     private static String[] readSortingOrder(final String filename) throws IOException {
@@ -329,10 +328,10 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
     }
 
 
-    void process(){
+    void process() {
         executorService = Executors.newSingleThreadExecutor();
         clearProgress();
-        try{
+        try {
             final boolean applyLeftRightAggregation = jComboBoxAggregationAny.getSelectedIndex() != 0;
             final boolean isLeftAggregation = jComboBoxAggregationAny.getSelectedIndex() == 1; //???
             final boolean fetchAll = jComboBoxCaching.getSelectedIndex() == 0;
@@ -344,7 +343,7 @@ public class DatasetOpenDialog extends javax.swing.JDialog  implements ActionLis
             enableControls(false);
             executorService.shutdown();
             timer.start();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             EH.apply().errorAndMessageBox("Cannot parse parameters", ex);
         }
     }

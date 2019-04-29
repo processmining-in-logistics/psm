@@ -3,7 +3,7 @@ package org.processmining.scala.sim.conveyors.experiments
 import org.apache.log4j.PropertyConfigurator
 import org.processmining.scala.log.common.enhancment.segments.common.{AbstractDurationClassifier, DummyDurationClassifier, NormalSlowVerySlowDurationClassifier}
 import org.processmining.scala.log.utils.common.errorhandling.{EH, JvmParams}
-import org.processmining.scala.prediction.preprocessing.AbstractSegmentsToSpectrumSession
+import org.processmining.scala.viewers.spectrum.builder.AbstractSegmentsToSpectrumSession
 import org.slf4j.LoggerFactory
 
 

@@ -35,6 +35,8 @@ class FasterNormal23VerySlowDurationClassifier extends AbstractDurationClassifie
   override val legend = "DURATION%Faster%Normal%2 times slower%3 times slower%Very slow"
 
   override def classCount: Int = 5
+
+  override def toString: String = "Median-based duration classifier"
 }
 
 
@@ -100,6 +102,8 @@ class Q4DurationClassifier extends AbstractDurationClassifier {
   override val legend = "DURATION%Q1%Q2%Q3%Q4"
 
   override def classCount: Int = 4
+
+  override def toString: String = "Quartile-based duration classifier"
 }
 
 class Q3DurationClassifier extends AbstractDurationClassifier {
@@ -147,4 +151,6 @@ class DummyDurationClassifier extends AbstractDurationClassifier {
   override val legend = "DURATION%Normal"
 
   override def classCount: Int = 1
+
+  override def toString: String = "Single-class duration classifier"
 }

@@ -5,6 +5,8 @@ import org.processmining.scala.log.common.enhancment.segments.common.Preprocessi
 import org.processmining.scala.log.common.enhancment.segments.parallel.SegmentProcessor;
 import org.processmining.scala.log.utils.common.errorhandling.EH;
 import org.processmining.scala.log.utils.common.errorhandling.JvmParams;
+import org.processmining.scala.viewers.spectrum.api.PsmApi;
+import org.processmining.scala.viewers.spectrum.api.PsmEvents;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
 import org.processmining.scala.viewers.spectrum.model.EmptyDatasource;
 import org.slf4j.Logger;
@@ -15,7 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.util.function.Consumer;
 
-public class FramePanel extends JPanel implements OpenImpl {
+public class FramePanel extends JPanel implements OpenImpl, PsmApi {
 
     private static final Logger logger = LoggerFactory.getLogger(FramePanel.class.getName());
     private MainPanel mainPanel;
@@ -83,12 +85,13 @@ public class FramePanel extends JPanel implements OpenImpl {
         try {
             final JFileChooser dirDlg = new JFileChooser(PreProcessingPanel.getPsmHomeDir());
             dirDlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            final FileNameExtensionFilter filterPsm = new FileNameExtensionFilter("PSM Session Files", "psm");
             final FileNameExtensionFilter filterXes = new FileNameExtensionFilter("XES Event Log Files", "xes", "gz", "zip", "xml");
-            final FileNameExtensionFilter filterCsv = new FileNameExtensionFilter("CSV Event Log Files", "csv");
-            dirDlg.setFileFilter(filterPsm);
+            final FileNameExtensionFilter filterCsv = new FileNameExtensionFilter("Folder with CSV Event Log Files", "csvdir");
+            final FileNameExtensionFilter filterPsm = new FileNameExtensionFilter("PSM Session Files", "psm");
             dirDlg.setFileFilter(filterXes);
             dirDlg.setFileFilter(filterCsv);
+            dirDlg.setFileFilter(filterPsm);
+
             if (dirDlg.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 final String path = dirDlg.getSelectedFile().getPath();
                 if (!path.isEmpty()) {
@@ -157,5 +160,20 @@ public class FramePanel extends JPanel implements OpenImpl {
     //for ProM
     public static void reportToLog(final String msg) {
         JvmParams.reportToLog(logger, msg);
+    }
+
+    @Override
+    public void sortAndFilter(String[] sortedSegments) {
+        mainPanel.sortAndFilter(sortedSegments);
+    }
+
+    @Override
+    public void addEventHandler(PsmEvents handler) {
+        mainPanel.addEventHandler(handler);
+   }
+
+    @Override
+    public void removeEventHandler(PsmEvents handler) {
+        mainPanel.removeEventHandler(handler);
     }
 }

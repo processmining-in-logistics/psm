@@ -28,6 +28,8 @@ libraryDependencies += "log4j" % "log4j" % "1.2.17"
 libraryDependencies += "javax.xml.bind" % "jaxb-api" % "2.3.0"
 libraryDependencies += "com.google.guava" % "guava" % "26.0-jre"
 libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.2"
+libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "2.1.1"
+
 
 
 //retrieveManaged := true

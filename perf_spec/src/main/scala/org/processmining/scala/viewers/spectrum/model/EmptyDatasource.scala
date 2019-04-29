@@ -13,8 +13,6 @@ private [viewers] class EmptyDatasource extends AbstractDataSource{
 
   override def maxSegmentsCount(name: String): (Long, Long, Long, Long) = (0, 0, 0, 0)
 
-  override def goingToRequest(startTwIndex: Int, endTwIndex: Int, includingIds: Boolean, includingSegments: Boolean): Unit = ()
-
   override def segmentsCount(twIndex: Int): Map[String, List[(Int, Long, Long, Long)]] = ???
 
   override def segmentIds(twIndex: Int): Map[String, Map[String, Int]] = ???
@@ -22,6 +20,8 @@ private [viewers] class EmptyDatasource extends AbstractDataSource{
   override def segments(twIndex: Int): Map[String, Map[Int, List[(String, Long, Long)]]] = ???
 
   override def legend = ""
+
+  override val classifierName: String = ""
 
   override def forgetSegmentsCount(twIndex: Int): Unit = {}
 }

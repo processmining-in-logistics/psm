@@ -6,13 +6,13 @@ public class LegendDialog2 extends javax.swing.JDialog {
 
     private LegendPanel legendPanel1;
 
-    public LegendDialog2(JComponent parent, final String legend, final TimeDiffController tdf) {
+    public LegendDialog2(JComponent parent, final String legend, final TimeDiffController tdf, final String classifierName) {
         super((JFrame) SwingUtilities.getWindowAncestor(parent), true);
         legendPanel1 = new LegendPanel(tdf);
         initComponents();
         legendPanel1.setLegend(legend);
         jScrollPane1.setViewportView(legendPanel1);
-        setTitle(legendPanel1.getLegendTitle());
+        setTitle(String.format("%s (%s)", legendPanel1.getLegendTitle(), classifierName));
         PreProcessingDialog.centerWindow(this);
     }
 

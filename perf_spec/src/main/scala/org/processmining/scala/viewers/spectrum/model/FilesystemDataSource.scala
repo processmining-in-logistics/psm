@@ -1,6 +1,7 @@
 package org.processmining.scala.viewers.spectrum.model
 
 import java.util.Date
+import java.util.function.Consumer
 
 import org.processmining.scala.log.common.csv.parallel.CsvReader
 import org.processmining.scala.log.common.enhancment.segments.common.PreprocessingSession
@@ -27,6 +28,8 @@ class FilesystemDataSource(dir: String,
 
   override val legend: String = session.legend
 
+  override val classifierName: String = session.durationClassifier
+
   override def classesCount: Int = session.classCount
 
   private val csvReader = new CsvReader()
@@ -52,9 +55,7 @@ class FilesystemDataSource(dir: String,
 
   private var fileStorage: Option[FileStorage] = None
 
-  override def initialize(): Unit = fileStorage = Some(new FileStorage(dir, segmentNames))
-
-  override def goingToRequest(startTwIndex: Int, endTwIndex: Int, includingIds: Boolean, includingSegments: Boolean): Unit = ()
+  override def initialize(callback: Consumer[Int]): Unit = fileStorage = Some(new FileStorage(dir, segmentNames, callback))
 
   private var segmentCountStorage: Map[Int, Map[String, List[(Int, Long, Long, Long)]]] = Map()
 
