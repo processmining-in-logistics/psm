@@ -17,13 +17,15 @@ case class PreprocessingSession(
                                  userInfo: String,
                                  legend: String,
                                  aggregationFunction: String,
-                                 durationClassifier: String
+                                 durationClassifier: String,
+                                 version: String
                                )
 
 
 object PreprocessingSession {
 
   val Version: String = JvmParams.getSpecificationVersion()
+  val PerformanceSpectrumFormatVersion = "1.1.0"
 
   def apply(startMs: Long,
             endMs: Long,
@@ -32,7 +34,7 @@ object PreprocessingSession {
             aggregationFunction: String,
             durationClassifier: String
            ): PreprocessingSession =
-    PreprocessingSession(startMs, endMs, twSizeMs, classCount, new Date().getTime, -1L, JvmParams.getHostName(), "", aggregationFunction, durationClassifier)
+    PreprocessingSession(startMs, endMs, twSizeMs, classCount, new Date().getTime, -1L, JvmParams.getHostName(), "", aggregationFunction, durationClassifier, PerformanceSpectrumFormatVersion)
 
   def apply(filename: String): PreprocessingSession = {
     val jaxbContext = JAXBContext.newInstance(classOf[InternalPreProcessingSession])
@@ -41,7 +43,7 @@ object PreprocessingSession {
     val fileReader = new FileReader(filename)
     val xmlReader = factory.createXMLStreamReader(fileReader)
     val ips = unmarshaller.unmarshal(xmlReader, classOf[InternalPreProcessingSession]).getValue
-    PreprocessingSession(ips.startMs, ips.endMs, ips.twSizeMs, ips.classCount, ips.preprocessingStartMs, ips.preprocessingEndMs, ips.userInfo, ips.legend, ips.aggregationFunction, ips.durationClassifier)
+    PreprocessingSession(ips.startMs, ips.endMs, ips.twSizeMs, ips.classCount, ips.preprocessingStartMs, ips.preprocessingEndMs, ips.userInfo, ips.legend, ips.aggregationFunction, ips.durationClassifier, ips.version)
   }
 
   def commit(session: PreprocessingSession): PreprocessingSession
@@ -63,7 +65,8 @@ object PreprocessingSession {
       session.userInfo,
       session.legend,
       session.aggregationFunction,
-      session.durationClassifier
+      session.durationClassifier,
+      session.version
     )
 
     val file = new File(canonicalFilename)

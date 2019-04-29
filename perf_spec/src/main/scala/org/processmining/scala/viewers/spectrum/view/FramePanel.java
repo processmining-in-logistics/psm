@@ -127,7 +127,9 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
             final DatasetOpenDialog dialog = new DatasetOpenDialog((JFrame) SwingUtilities.getWindowAncestor(this), dir);
             dialog.setVisible(true);
             final AbstractDataSource ds = dialog.getDs();
-            performanceSpectrumFactory(ds, dir, isOpenEnabled);
+            if(ds != null) {
+                performanceSpectrumFactory(ds, dir, isOpenEnabled);
+            }
         } catch (Exception ex) {
             EH.apply().errorAndMessageBox("Error", ex);
         }

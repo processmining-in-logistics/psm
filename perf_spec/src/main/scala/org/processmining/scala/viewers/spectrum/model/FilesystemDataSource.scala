@@ -18,7 +18,14 @@ class FilesystemDataSource(dir: String,
 
   private val logger = LoggerFactory.getLogger(classOf[FilesystemDataSource])
 
-  val session = PreprocessingSession(s"$dir/${SegmentProcessor.SessionFileName}")
+  val session = {
+    val tmpSession = PreprocessingSession(s"$dir/${SegmentProcessor.SessionFileName}")
+    logger.info(s"Performance Spectrum format version: ${tmpSession.version}")
+    if(tmpSession.version.isEmpty){
+      throw new IllegalArgumentException(s"This format of a pre-processed Performance Spectrum is not supported.")
+    }
+    tmpSession
+  }
 
   override val twSizeMs: Long = session.twSizeMs
 

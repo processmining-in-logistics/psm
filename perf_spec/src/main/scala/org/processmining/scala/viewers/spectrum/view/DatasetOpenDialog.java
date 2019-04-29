@@ -251,7 +251,8 @@ public class DatasetOpenDialog extends javax.swing.JDialog implements ActionList
     }//GEN-LAST:event_jButtonOpenActionPerformed
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
-        // TODO add your handling code here:
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setVisible(false);
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void jButtonHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHelpActionPerformed
