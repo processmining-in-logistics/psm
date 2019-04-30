@@ -1,9 +1,9 @@
-# Performance Spectrum Miner v.1.1.0
+# Performance Spectrum Miner v.1.1.x
 
 **This page is under construction...**
 
-This branch `ppm` and the corresponding PSM version `1.1.0` is coupled with paper **V. Denisov, D. Fahland, and W. M. P. van der Aalst. ”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum,” in *International Conference on Process Mining*,
-2019 (article in press)**. Please find additional documentation [here](ppm.md).
+This branch `ppm` and the corresponding PSM version `1.1.x` is coupled with paper [V. Denisov, D. Fahland, and W. M. P. van der Aalst. **”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum"**, in *International Conference on Process Mining*,
+2019 (article in press)](https://www.researchgate.net/publication/332766260_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum). Please find additional documentation [here](ppm.md).
 
 # Overview
 
@@ -27,6 +27,8 @@ The PSM project is the result of the joint research project on [Process Mining i
 
 [Unbiased, Fine-Grained Description of Processes Performance from Event Data](https://www.researchgate.net/publication/326945011_Unbiased_Fine-Grained_Description_of_Processes_Performance_from_Event_Data_16th_International_Conference_BPM_2018_Sydney_NSW_Australia_September_9-14_2018_Proceedings)
 
+[Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum](https://www.researchgate.net/publication/332766260_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum)
+
 [The Performance Spectrum Miner: Visual Analytics for Fine-Grained Performance Analysis of Processes](https://www.researchgate.net/publication/327449848_The_Performance_Spectrum_Miner_Visual_Analytics_for_Fine-Grained_Performance_Analysis_of_Processes)
 
 [BPIC'2018: Mining Concept Drift in Performance Spectra of Processes](https://www.researchgate.net/publication/327450029_BPIC'2018_Mining_Concept_Drift_in_Performance_Spectra_of_Processes)
@@ -35,7 +37,7 @@ The PSM project is the result of the joint research project on [Process Mining i
 
 ## System requirements
 
-  * Microsoft Windows 10/8/7. The PSM is not *tested* yet on other OS.
+  * Microsoft Windows 7 or higher. The PSM is *not tested* yet on other OS.
   * 2 GB RAM minimum, 8 GB RAM recommended
   * 100MB hard disk space for ProM, 2 GB hard disk space for caches recommended
   * 1024x768 minimum screen resolution
@@ -58,8 +60,15 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 
 `"C:\Program Files\Java\jre1.8.0_171\bin\java.exe" -jar perf_spec-assembly-1.0.2.jar`
   
+ 
    
-## Installation of the PSM as a ProM plugin
+
+
+## Using ProM release for the ICPM 2019
+
+*Not available yet.*
+
+## Installation of the PSM as a ProM plugin (with a nightly ProM build)
 
 1. Download [ProM nightly build](http://www.promtools.org/doku.php?id=nightly). The PSM has been tested with versions 14th August 2018 and later.
 1. Run *ProM Package Manager* (execute `PackageManager.bat`)
@@ -76,17 +85,18 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 
 ## Installation of a stand-alone version of the PSM
 
-1. Download and unzip [perf_spec-assembly-1.0.4.jar](https://github.com/processmining-in-logistics/psm/releases/download/v1.0.4/perf_spec-assembly-1.0.4.jar) 
-1. Execute `java -jar perf_spec-assembly-1.0.4.jar` to run the PSM
+1. Download and unzip perf_spec-assembly-1.1.1.jar
+1. Execute `java -jar perf_spec-assembly-1.1.1.jar` to run the PSM
 
 # Getting Started
 
-Analyzing the Performance Spectrum of a process with the PSM has three steps
-1. Transform an event log (in XES format) into data suitable for the PSM (different performance classifiers and aggregation functions can be used).
+Analyzing the Performance Spectrum of a process with the PSM has three steps:
+1. Transformation of an event log, either in XES or CSV format, to a Performance Spectrum disk (file) representation. Different performance classifiers and aggregation functions can be used.
 1. Opening the transformed data for analysis with the PSM
 1. Exploring the Performance Spectrum
+1. Exporting the aggregate performance spectrum as a training and test sets (if required)
 
-## Transforming an event log for Performance Spectrum Analysis
+## Transforming an event log in the XES format for Performance Spectrum Analysis
 
 ### ... in ProM
 1. Load the event log into ProM via the *Import...* button.
@@ -108,6 +118,24 @@ Analyzing the Performance Spectrum of a process with the PSM has three steps
    * Choose *Process & open*
    * The transformation may require some time and main memory depending on the *Bin size* chosen. Transformation for larger bin sizes are faster and require less memory.
 
+## Transforming an event log in the CSV format for Performance Spectrum Analysis
+
+Often event data are available in the CSV format as a database or a distributed file storage dump, stored in one or many CSV files. Converting such dumps to XES format can be difficult for large event logs. The PSM supports a direct import of one or many CSV files. To prepare CSV file(s) for import, put the file(s) into a directory and provide a description as a text ini file with extension `.csvdir`. This file must include the following fields (sample values are provided):
+
+| Field |Sample value | Comment |
+|:------------- |:-------------|:-----|
+| `dateFormat` | `dd-MM-yyyy HH:mm:ss.SSS` | Datetime format in Java `DateTimeFormatter` format |
+| `zoneId` | `Europe/Amsterdam` | Time zone ID in Java `ZoneId` format |
+| `startTime` | `01-09-2018 00:00:00.000` | Since then the performance spectrum should be computed, in the format described above |
+| `endTime` | `08-09-2018 00:00:00.000` | Until then the performance spectrum should be computed, in the format described above |
+| `caseIdColumn` | `CaseID`| Column name for *case ID* |
+| `activityColumn` | `Activity` | Column name for *activity* |
+| `timestampColumn` | `Timestamp` | Column name for *timestamp* |
+
+
+### ... in ProM
+ 
+ 
  ## Opening the transformed data for analysis with the PSM
 
 1. By choosing *Process & open* during data transformation, the transformed data will be opened automatically. Alternatively, you can also load a previously transformed data set by opening the .psm meta-data file (via *Import* in ProM, and choosing *Performance Spectrum Miner View*, or via *Open* in the stand-alone version).
