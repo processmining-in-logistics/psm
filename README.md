@@ -120,7 +120,7 @@ Analyzing the Performance Spectrum of a process with the PSM has three steps:
 
 ## Transforming an event log in the CSV format for Performance Spectrum Analysis
 
-Often event data are available in the CSV format as a database or a distributed file storage dump, stored in one or many CSV files. Converting such dumps to XES format can be difficult for large event logs. The PSM supports a direct import of one or many CSV files. To prepare CSV file(s) for import, put the file(s) into a directory and provide a description as a text ini file with extension `.csvdir`. This file must include the following fields (sample values are provided):
+Often event data are available in the CSV format as a database or a distributed file storage dump, stored in one or many CSV files. Converting such dumps to XES format can be difficult for large event logs. The PSM supports a direct import of one or many CSV files. To prepare CSV file(s) for import, put the file(s) into a directory and provide a description as a text ini file with extension `.csvdir`. This file must include the following fields (see [example](./docs/csv_event_logs.ini)):
 
 | Field |Sample value | Comment |
 |:------------- |:-------------|:-----|
@@ -134,6 +134,12 @@ Often event data are available in the CSV format as a database or a distributed 
 
 
 ### ... in ProM
+
+Import your `.csvdir` file and use it in the PSM plugin, exactly as XES files.
+
+### ... in PSM standalone
+
+Import your `.csvdir` file and use it exactly as XES files.
  
  
  ## Opening the transformed data for analysis with the PSM
@@ -184,7 +190,7 @@ More detailed information can be found in
 
 The Performance Spectrum Miner project is the result of the joint research project on Process Mining in Logistics between Eindhoven University of Technology and Vanderlande Industries, and developed by 
 * Vadim Denisov, Eindhoven University of Technology
-* Elena Belkina, 
+* [Elena Belkina](https://www.linkedin.com/in/elena-belkina-55524aa1/), 
 * Dirk Fahland, Eindhoven University of Technology
 
 The project makes the Performance Spectrum Miner available under the [GNU LGPL v3.0](https://www.gnu.org/licenses/lgpl-3.0-standalone.html) (see file LICENSE)
