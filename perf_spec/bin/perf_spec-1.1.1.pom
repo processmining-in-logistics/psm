@@ -4,6 +4,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.processmining-in-logistics</groupId>
   <artifactId>perf_spec</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <description>POM was created from install:install-file</description>
 </project>
