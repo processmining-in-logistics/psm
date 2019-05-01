@@ -137,7 +137,7 @@ On the top level an intermediate storage directory contains the following files 
 
 | File name        | Data contained
 | ------------- |:-------------
-| dir. `data`, `started`  | A set of binary files for each segment
+| directories `data`, `started`  | A set of binary files for each segment
 | file `max.csv`  | The file contains maximal values of the chosen aggregation function
 | file `sorting_order.txt`  | User-defined soring order of segments (optional)
 | file `aggregator.ini`  | User-defined activity aggregation (optional)
