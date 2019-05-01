@@ -306,7 +306,7 @@ In an OS command line, run `org.processmining.scala.viewers.spectrum.features.Da
 
 If labels of more than one PS channel should be used, class `org.processmining.scala.viewers.spectrum.features.DatasetMerge` can be easily adapted for such needs.
 
-Please find more information on feature extraction and model training [here](ppm.md).
+Please find more information on feature extraction and model training [here](../ppm.md).
 
 
 ## Look and Feel
