@@ -21,7 +21,7 @@ The PSM project is the result of the joint research project on [Process Mining i
 ## Overview
 
 Analyzing the Performance Spectrum of a process with the PSM has the following steps that are explained in the following.
-1. **Importing** event log data into the PSM (different performance classifiers and aggregation functions can be used).
+1. **Importing** event log data into the PSM (different performance classifiers can be used).
    * The import allows for choosing various parameters to classify the performance in the process explained later.
    * The results of the import are stored on disk (together with meta-data information).
 1. **Opening** the imported data for analysis with the PSM
@@ -71,14 +71,6 @@ Examples:
 | `1w 3d`      | 10 days 
 | `10m`      | 10 minutes
 | `3d`      | 3 days
-
-* values of combobox **Aggregation function** are explained in the following table:
-
-| Function name        | Meaning           
-| ------------- |:-------------
-| Cases pending  | How many segments intersect a bin, or start/stop within a bin
-| Cases started  | How many segments start within a bin
-| Cases stopped  | How many segments stop within a bin
 
 * values of combobox **Duration classifier** are explained in the following table:
 
@@ -216,7 +208,17 @@ While the *Lines* show the speed of cases, the amount of cases over time can be 
 
 ![A segment of the Performance Spectrum Miner showing Bars](/docs/figures/getting_started_exploring_03_one_segment_bars.png)
 
-The stacked bars provide aggreate information about how many cases started, ended, or were pending in particular time-window between the two activities of the segment. The parameters of this aggregation are chosen in the transformation step, see the [User Manual](docs/user-manual.md) for details. In the example above, the stacked bars show that the process experienced a very high amount of cases going from *Send Fine* to *Insert Fine Notification* in particular period (the exact time will be shown on the bottom left when hovering the mouse over the respective part of the visualization). The coloring indicates that in this period, the cases were processed much slower than in other period. The number *2988* in the label of the segment tells that there were at a maximum 2988 cases transitioning together through this part of the process.
+The stacked bars provide aggreate information about how many cases started, ended, or were pending in particular time-window between the two activities of the segment. A grouping can be chosen by the combo box: 
+
+| Grouping name        | Meaning           
+| ------------- |:-------------
+| No bars  | Bars are hidden
+| Intersections (pending)  | How many segments intersect a bin
+| Starts  | How many segments start within a bin
+| Ends  | How many segments stop within a bin
+| Sum | The sum of all the groupings
+
+In the example above, the stacked bars show that the process experienced a very high amount of cases going from *Send Fine* to *Insert Fine Notification* in particular period (the exact time will be shown on the bottom left when hovering the mouse over the respective part of the visualization). The coloring indicates that in this period, the cases were processed much slower than in other period. The number *2988* in the label of the segment tells that there were at a maximum 2988 cases transitioning together through this part of the process.
 
 ## Exploring Performance Spectrum
 
