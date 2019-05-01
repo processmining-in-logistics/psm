@@ -254,7 +254,7 @@ The Performance Spectrum can be explored in various ways through selections (wit
 
 ### Font of Segment Names
 
-To modify segments names font, create/edit file `config.ini` in your dataset root directory and specify font name and/or size in section `GENERAL`, for example:
+To modify segments names font or colors of line, create/edit file `config.ini` in your dataset root directory and specify font name and/or size in section `GENERAL`, for example:
 
 `[GENERAL]`
 
@@ -262,3 +262,6 @@ To modify segments names font, create/edit file `config.ini` in your dataset roo
 
 `fontName = Courier New`
 
+`paletteId` = 1
+
+Here `paletteId` corresponds to several pre-defined palettes, use numbers from 0 to 3.
