@@ -14,7 +14,6 @@ The source code is available in this branch of the PSM project.
 | File        | Description     | 
 | ------------- |:-------------:|
 | PPM_BHS_Sim_log.zip     | The event log in the XES and CSV formats. |
-| PPM_BHS_Sim_PerfSpec_ProM.zip     | The computed Performance Spectrum in the format of the Performance Spectrum Miner  v.1.0.x, [available as a ProM plugin](https://github.com/processmining-in-logistics/psm) |
 | PPM_BHS_Sim_PerfSpec.zip     | The computed Performance Spectrum in the format of the new version of the Performance Spectrum Miner  v.1.1.x |
 | ppm.zip     | Binaries (unzip to run). Java 8 64bit is required. |
 
