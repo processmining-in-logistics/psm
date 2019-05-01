@@ -254,9 +254,64 @@ The Performance Spectrum can be explored in various ways through selections (wit
 * **Right-clicking and dragging a selection box** around cases in one segment allows to highlight the selected cases in all other segments (the non-selected cases will be shown in grey). 
 * The **Clear** button in the control panel removes this selection.
 
+
+## Extracting the Training and Test sets from Aggregate PS
+
+It is possible to use the PSM for feature extraction, as described in *Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum*.
+
+First, a configuration of historic and target spectra should be defined in a textual `.psmdataset` file as follows (see an example [here](dataset.psmdataset):
+
+`[GENERAL]`
+
+`spectrumRoot = g:/debug/ps`  ; the PS directory
+
+`datasetDir = g:/debug/data`  ; the output root training and test sets directory`
+
+`experimentName = experiment_1` ; textual name of the dataset
+
+`dayStartOffsetHours = 10` ; for each day of the dataset: offset, hours
+
+`dayDurationHours = 12` ; for each day of the dataset: duration of operating hours, hours
+
+`howFarInFutureBins = 6`  ; prediction horizon, bins
+
+`historicalDataDurationBins = 4`       ; duration of the historic spectrum, bins
+
+`historicSegments = A3_0:Link1_0 A2_0:A4_0 A1_0:A4_0`  ; historic segments
+
+`targetSegments = E1.TO_SCAN_1_0:E2.SCAN_1`	; target segments
+
+`binsPerLabel = 2`   ; duration of the target spectrum
+
+`firstDayDateTime = 01-09-2018 00:00:00.000` ; start datetime for feature extraction
+
+`totalDaysFromFirstDayInPerformanceSpectrum = 7` ; how many days should be extracted for the training and test sets
+
+`daysNumberInTrainingValidationDataset = 5` ; how many days of  totalDaysFromFirstDayInPerformanceSpectrum should be used for the test set
+
+`aggregation` = 0 ; a code of grouping: start = 0; pending = 1; end = 2; sum = 3
+
+Second, click button "Export" on the main panel to select this file and start the export.
+
+This functionality allows to export only one PS channel. A dataset with more than one PS channel can be obtained by merging several datasets by class `org.processmining.scala.viewers.spectrum.features.DatasetMerge` as follows.
+
+In an OS command line, run `org.processmining.scala.viewers.spectrum.features.DatasetMerge` in the PSM jar file with the following arguments:
+
+`DATASET_WITH_TARGET DATASET_TO_BE_MERGE COLUMNS_TO_SKIP OUTPUT`
+
+* `DATASET_WITH_TARGET` is a file name of a dataset which labels will be used for model training
+* `DATASET_TO_BE_MERGE` is a file name of a dataset which labels will not be used for model training
+* `COLUMNS_TO_SKIP` how many first columns should be skipped during merge (label columns)
+* `OUTPUT` output dataset filename
+
+If labels of more than one PS channel should be used, class `org.processmining.scala.viewers.spectrum.features.DatasetMerge` can be easily adapted for such needs.
+
+Please find more information on feature extraction and model training [here](ppm.md).
+
+
 ## Look and Feel
 
-### Font of Segment Names
+### Font of Segment Names and Line/Bar Colors
 
 To modify segments names font or colors of line, create/edit file `config.ini` in your dataset root directory and specify font name and/or size in section `GENERAL`, for example:
 
