@@ -79,6 +79,8 @@ Examples:
 | Quartile-based  | A class value is assigned to a segment according a quartile number where its duration sits: 0 for the first quartile, 1 for the second and so on.
 | Median-proportional  | A class value is assigned to a segment according to intervals, defined in terms of the median duration for the segment. The intervals are presented in the table below
 
+*A feature of injecting a [custom classifer](https://github.com/processmining-in-logistics/psm/issues/13) will be released soon* 
+
 | Class value        | Quartile (Quartile-based classifier) | Interval (Median-proportional classifier)
 | ------------- |:------------- |:-------------
 | `0` | Q1 | \[0; 0.5m\) 
