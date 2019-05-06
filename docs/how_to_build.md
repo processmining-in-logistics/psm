@@ -14,16 +14,23 @@ v Install [maven](https://maven.apache.org/download.cgi) and add its folder `bin
 1. check out the PSM repository
 1. run `sbt` from your source root directory and execute commands `compile`, `package`
 
-## 2. Working from an IDE (Optional)
-1. make sure that you successfully built the project in the command line (**strongly recommended**)
-1. install your favorite IDE that supports Java and Scala development. This project is developed in [Intellij IDEA](https://www.jetbrains.com/idea/download/#section=windows)
-1. import the **pre-built project** (use 'import the project structure from sbt files')
-1. setup [Scala SDK](https://www.scala-lang.org/download/)
+## 2. Building an Überjar and Running the PSM as a Stand-Alone Application
+
+Read about an Überjar [here](https://stackoverflow.com/questions/11947037/what-is-an-uber-jar).
+
+1. Go to your source root directory and run `sbt "set test in assembly := {}" clean assembly` from command line.
+1. Move resulting `jar` file into a separate directory
+1. Copy file `log4j.properties` into the same directory
+1. Execute `java -cp "perf_spec-assembly-1.1.0.jar" org.processmining.scala.viewers.spectrum.view.Form`
+
+Increase the JVM heap size for working with large event logs.
+
+## 3. Working from an IDE (Optional)
+1. Make sure that you successfully built the project in the command line (i.e., you executed `compile` and `package` in `sbt` and did not `clean` the results by another command). 
+1. Install your favorite IDE that supports Java and Scala development. This project is developed in [Intellij IDEA](https://www.jetbrains.com/idea/download/#section=windows)
+1. Import the **pre-built project** (use 'import the project structure from sbt files')
+1. Setup [Scala SDK](https://www.scala-lang.org/download/)
 
 Configuration stpes depend on the IDE.
 
  
-
-## 3. Building an Überjar
-
-To build an [Überjar](https://stackoverflow.com/questions/11947037/what-is-an-uber-jar), go to your source root directory and run `sbt "set test in assembly := {}" clean assembly` from command line.
