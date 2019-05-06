@@ -1,6 +1,6 @@
 # How to build the PSM from sources
 
-## Building from Command Line
+## 1. Building from Command Line
 
 * Install [JDK 8 64bit](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (do not use JRE!)
 * Install [git](https://git-scm.com/) or [Mercurial](https://www.mercurial-scm.org/wiki/Download) (depends on your repository type)
@@ -15,10 +15,12 @@
 * run `sbt` from your source root directory and execute commands `compile`, `package`
 * to build an Überjar, exit sbt and run `sbt "set test in assembly := {}" clean assembly` from command line
 
-## Working within an IDE
+## 2. Working within an IDE (Optional)
 * make sure that you successfully built the project in the command line (**strongly recommended**)
 * install your favorite IDE that supports Java and Scala development, e.g., [Intellij IDEA](https://www.jetbrains.com/idea/download/#section=windows)
-* import the project (import the project structure from sbt files)
+* import the **pre-built project** (use 'import the project structure from sbt files')
 * setup Scala SDK
 
 Configuration stpes depend on the IDE.
+
+ 
