@@ -13,13 +13,13 @@
 * `mvn install:install-file -Dfile=c:\openxes\spex-1.jar -DgroupId=org.deckfour -DartifactId=Spex -Dversion=1.0 -Dpackaging=jar`
 * check out the PSM repository
 * run `sbt` from your source root directory and execute commands `compile`, `package`
-* to build an Überjar, exit sbt and run `sbt "set test in assembly := {}" clean assembly` from command line
+* to build an [Überjar](https://stackoverflow.com/questions/11947037/what-is-an-uber-jar), exit sbt and run `sbt "set test in assembly := {}" clean assembly` from command line
 
 ## 2. Working from an IDE (Optional)
 * make sure that you successfully built the project in the command line (**strongly recommended**)
 * install your favorite IDE that supports Java and Scala development. This project is developed in [Intellij IDEA](https://www.jetbrains.com/idea/download/#section=windows)
 * import the **pre-built project** (use 'import the project structure from sbt files')
-* setup Scala SDK
+* setup [Scala SDK](https://www.scala-lang.org/download/)
 
 Configuration stpes depend on the IDE.
 
