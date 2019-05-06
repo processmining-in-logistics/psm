@@ -14,6 +14,8 @@ The PSM visualization
 * reveals various **performance patterns** such as queueing disciplines, batching, prioritization and overtaking, slow movers, temporary bottlenecks, changes in process, and many more, and thereby
 * gives insights into different **performance variants** of the process within each step and across steps, and how these change over time.
 
+Additionally the PSM allows [encoding and exporting performance spectrum-based features into a training and test sets](docs/user-manual.md).
+
 The PSM project provides two implementations of the Performance Spectrum Miner as a plugin to the [Process Mining Framework ProM](http://www.promtools.org/) and as a stand-alone application.
 
 ![Screenshots of the standalone application and of the ProM plugin of the Performance Spectrum Miner](/docs/figures/performance_spectrum_miner_standalone_prom_plugin.jpg)
@@ -30,7 +32,7 @@ The PSM project is the result of the joint research project on [Process Mining i
 [BPIC'2018: Mining Concept Drift in Performance Spectra of Processes (BPIC2018)](https://www.researchgate.net/publication/327450029_BPIC'2018_Mining_Concept_Drift_in_Performance_Spectra_of_Processes)
 
 This branch `1.1.x` and the corresponding PSM version is developed as a tool for paper [V. Denisov, D. Fahland, and W. M. P. van der Aalst. **”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum"**, in *International Conference on Process Mining*,
-2019 (article in press)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum). Please find additional paper-specific documentation and related datasets [here](ppm.md).
+2019 (article in press)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum). Please find how to extract performance spectrum-based features [here](docs/user-manual.md) and additional paper-specific documentation and related datasets [here](ppm.md).
 
 
 # How to Install
