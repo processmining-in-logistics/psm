@@ -16,7 +16,7 @@ The PSM project provides two implementations of the Performance Spectrum Miner a
 
 ![Screenshots of the standalone application and of the ProM plugin of the Performance Spectrum Miner](/docs/figures/performance_spectrum_miner_standalone_prom_plugin.jpg)
 
-The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://github.com/vadimmidavvv), [Elena Belkina](https://github.com/ebelkina), and [Dirk Fahland](https://github.com/dfahland).
+The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://www.linkedin.com/in/vadim-denisov-0958274/), [Elena Belkina](https://www.linkedin.com/in/elena-belkina-55524aa1/), and [Dirk Fahland](https://github.com/dfahland).
 
 ## Overview
 
@@ -31,6 +31,7 @@ Analyzing the Performance Spectrum of a process with the PSM has the following s
    * interactively selecting particular cases of the process to analyze
    * filtering of process steps to analyze
    * advanced features to aggregate and order data in a particular way
+1. **Encoding and exporting** Performance Spectrum-based features into a training and test sets
 
 ## Importing Event Logs into Performance Spectrum
 
@@ -254,7 +255,7 @@ The Performance Spectrum can be explored in various ways through selections (wit
 * The **Clear** button in the control panel removes this selection.
 
 
-## Extracting the Training and Test sets from Aggregate PS
+## Encoding and Exporting Performance Spectrum-Based Features into Training and Test Sets
 
 It is possible to use the PSM for feature extraction, as described in *Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum*.
 
