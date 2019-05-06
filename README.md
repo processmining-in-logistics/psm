@@ -14,8 +14,6 @@ The PSM visualization
 * reveals various **performance patterns** such as queueing disciplines, batching, prioritization and overtaking, slow movers, temporary bottlenecks, changes in process, and many more, and thereby
 * gives insights into different **performance variants** of the process within each step and across steps, and how these change over time.
 
-Additionally the PSM allows [encoding and exporting performance spectrum-based features into a training and test sets](docs/user-manual.md).
-
 The PSM project provides two implementations of the Performance Spectrum Miner as a plugin to the [Process Mining Framework ProM](http://www.promtools.org/) and as a stand-alone application.
 
 ![Screenshots of the standalone application and of the ProM plugin of the Performance Spectrum Miner](/docs/figures/performance_spectrum_miner_standalone_prom_plugin.jpg)
@@ -93,7 +91,8 @@ Analyzing the Performance Spectrum of a process with the PSM has three steps:
 1. Transformation of an event log, either in XES or CSV format, to a Performance Spectrum disk (file) representation. Different performance classifiers and aggregation functions can be used.
 1. Opening the transformed data for analysis with the PSM
 1. Exploring the Performance Spectrum
-1. Exporting the aggregate performance spectrum as a training and test sets (if required)
+
+Additionally the PSM allows [encoding and exporting performance spectrum-based features into a training and test sets](docs/user-manual.md).
 
 ## Transforming an event log in the XES format for Performance Spectrum Analysis
 
@@ -123,8 +122,8 @@ Often event data are available in the CSV format as a database or a distributed 
 
 | Field |Sample value | Comment |
 |:------------- |:-------------|:-----|
-| `dateFormat` | `dd-MM-yyyy HH:mm:ss.SSS` | Datetime format in Java `DateTimeFormatter` format |
-| `zoneId` | `Europe/Amsterdam` | Time zone ID in Java `ZoneId` format |
+| `dateFormat` | `dd-MM-yyyy HH:mm:ss.SSS` | Datetime format in Java [`DateTimeFormatter`](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html) format |
+| `zoneId` | `Europe/Amsterdam` | Time zone ID in Java [`ZoneId`](https://docs.oracle.com/javase/8/docs/api/java/time/ZoneId.html) format |
 | `startTime` | `01-09-2018 00:00:00.000` | Since then the performance spectrum should be computed, in the format described above |
 | `endTime` | `08-09-2018 00:00:00.000` | Until then the performance spectrum should be computed, in the format described above |
 | `caseIdColumn` | `CaseID`| Column name for *case ID* |
@@ -184,15 +183,16 @@ The Performance Spectrum can be explored in various ways.
 More detailed information can be found in
 * the [User Manual](docs/user-manual.md)
 * Vadim Denisov, Dirk Fahland, Wil M. P. van der Aalst: *Unbiased, Fine-Grained Description of Processes Performance from Event Data.* BPM 2018: 139-157 (https://doi.org/10.1007/978-3-319-98648-7_9)
+* in other related papers (see Sec. Publications above)
 
 # Project
 
 The Performance Spectrum Miner project is the result of the joint research project on Process Mining in Logistics between Eindhoven University of Technology and Vanderlande Industries, and developed by 
-* Vadim Denisov, Eindhoven University of Technology
+* [Vadim Denisov](https://www.linkedin.com/in/vadim-denisov-0958274/), Eindhoven University of Technology
 * [Elena Belkina](https://www.linkedin.com/in/elena-belkina-55524aa1/), 
 * Dirk Fahland, Eindhoven University of Technology
 
-The project makes the Performance Spectrum Miner available under the [GNU LGPL v3.0](https://www.gnu.org/licenses/lgpl-3.0-standalone.html) (see file LICENSE)
+The project makes the Performance Spectrum Miner available under the [GNU LGPL v3.0](https://www.gnu.org/licenses/lgpl-3.0-standalone.html) (see file [LICENSE](LICENSE))
 
 The objective of the PSM project is to 
 * demonstrate novel insights into non-steady state, time-variable performance of process event data,
@@ -208,15 +208,8 @@ More information about the Process Mining in Logistics project focusing on proce
 
 # Programmer's Guide
 
-## How to build
+Find here information on [how to build the project from sources](docs/how_to_build.md).
 
-1. Install JDK 8
-1. Install [sbt](https://www.scala-sbt.org/download.html) 1.2.1 or a higher version.
-1. Clone this repository into a folder on your local disk
-1. Go to subfolder `perf_spec` and run `sbt`
-1. Execute command `package` to build the PSM without dependecies or command `assembly` to build an Überjar
-
-*You can also use your favorite IDE with support of Java and Scala languages, e.g. [IntelliJ IDEA Community](https://www.jetbrains.com/idea/download/#section=windows), to build the PSM or work with the sources.*
 
 ## Roadmap
 
