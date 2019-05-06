@@ -2,9 +2,6 @@
 
 **This page is under construction...**
 
-This branch `ppm` and the corresponding PSM version `1.1.x` is coupled with paper [V. Denisov, D. Fahland, and W. M. P. van der Aalst. **”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum"**, in *International Conference on Process Mining*,
-2019 (article in press)](https://www.researchgate.net/publication/332766260_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum). Please find additional documentation [here](ppm.md).
-
 # Overview
 
 The Performance Spectrum Miner (PSM) is a visual analytics tool for event data. It takes as input an event log (of events, timestamps, and case identifier) of past process or system executions in CSV or XES format. The PSM visualizes the flow of all cases over all process over time, and gives detailed insights performance characteristics.
@@ -24,21 +21,24 @@ The PSM project provides two implementations of the Performance Spectrum Miner a
 The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://github.com/vadimmidavvv), [Elena Belkina](https://github.com/ebelkina), and [Dirk Fahland](https://github.com/dfahland).
 
 # Publications
+[Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum (ICPM2019)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum)
 
-[Unbiased, Fine-Grained Description of Processes Performance from Event Data](https://www.researchgate.net/publication/326945011_Unbiased_Fine-Grained_Description_of_Processes_Performance_from_Event_Data_16th_International_Conference_BPM_2018_Sydney_NSW_Australia_September_9-14_2018_Proceedings)
+[Unbiased, Fine-Grained Description of Processes Performance from Event Data (BPM2018)](https://www.researchgate.net/publication/326945011_Unbiased_Fine-Grained_Description_of_Processes_Performance_from_Event_Data_16th_International_Conference_BPM_2018_Sydney_NSW_Australia_September_9-14_2018_Proceedings)
 
-[Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum](https://www.researchgate.net/publication/332766260_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum)
+[The Performance Spectrum Miner: Visual Analytics for Fine-Grained Performance Analysis of Processes (BPM2018, Demo)](https://www.researchgate.net/publication/327449848_The_Performance_Spectrum_Miner_Visual_Analytics_for_Fine-Grained_Performance_Analysis_of_Processes)
 
-[The Performance Spectrum Miner: Visual Analytics for Fine-Grained Performance Analysis of Processes](https://www.researchgate.net/publication/327449848_The_Performance_Spectrum_Miner_Visual_Analytics_for_Fine-Grained_Performance_Analysis_of_Processes)
+[BPIC'2018: Mining Concept Drift in Performance Spectra of Processes (BPIC2018)](https://www.researchgate.net/publication/327450029_BPIC'2018_Mining_Concept_Drift_in_Performance_Spectra_of_Processes)
 
-[BPIC'2018: Mining Concept Drift in Performance Spectra of Processes](https://www.researchgate.net/publication/327450029_BPIC'2018_Mining_Concept_Drift_in_Performance_Spectra_of_Processes)
+This branch `1.1.x` and the corresponding PSM version is developed as a tool for paper [V. Denisov, D. Fahland, and W. M. P. van der Aalst. **”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum"**, in *International Conference on Process Mining*,
+2019 (article in press)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum). Please find additional paper-specific documentation and related datasets [here](ppm.md).
+
 
 # How to Install
 
 ## System requirements
 
   * Microsoft Windows 7 or higher. The PSM is *not tested* yet on other OS.
-  * 2 GB RAM minimum, 8 GB RAM recommended
+  * 2 GB RAM minimum, 16 GB RAM recommended
   * 100MB hard disk space for ProM, 2 GB hard disk space for caches recommended
   * 1024x768 minimum screen resolution
   
@@ -46,7 +46,7 @@ The PSM project is the result of the joint research project on [Process Mining i
 
 The PSM is implemented and tested with Java 8 and is not compatible with previous Java version (e.g. with Java 7).
 
-1. Install JRE/JDK 1.8, 64bit recommended
+1. Install the most recent JRE/JDK 1.8 64bit
 1. Make sure that a correct installation of Java is configured: execute `java -version` in the command line. You should get a response like this:
 
 `java version "1.8.0_171"`
@@ -60,13 +60,10 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 
 `"C:\Program Files\Java\jre1.8.0_171\bin\java.exe" -jar perf_spec-assembly-1.0.2.jar`
   
- 
-   
-
 
 ## Using ProM release for the ICPM 2019
 
-*Not available yet.*
+[Not available yet...]()
 
 ## Installation of the PSM as a ProM plugin (with a nightly ProM build)
 
