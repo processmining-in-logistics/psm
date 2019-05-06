@@ -303,6 +303,8 @@ In an OS command line, run `org.processmining.scala.viewers.spectrum.features.Da
 * `COLUMNS_TO_SKIP` how many first columns should be skipped during merge (label columns)
 * `OUTPUT` output dataset filename
 
+Command line example: `java -cp "perf_spec-assembly-1.1.0.jar" org.processmining.scala.viewers.spectrum.features.DatasetMerge dataset1.csv dataset2.csv 1 output.csv`
+
 If labels of more than one PS channel should be used, class `org.processmining.scala.viewers.spectrum.features.DatasetMerge` can be easily adapted for such needs.
 
 Please find more information on feature extraction and model training [here](../ppm.md).
