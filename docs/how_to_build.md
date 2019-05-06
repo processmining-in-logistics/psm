@@ -1,4 +1,4 @@
-# How to Build the PSM from Sources
+# How to Build and Run the PSM from Sources
 
 ## 1. Building from Command Line
 
@@ -20,7 +20,7 @@ Read about an Überjar [here](https://stackoverflow.com/questions/11947037/what-
 
 1. Go to your source root directory and run `sbt "set test in assembly := {}" clean assembly` from command line.
 1. Move resulting `jar` file into a separate directory
-1. Copy file `log4j.properties` into the same directory
+1. Copy file [`log4j.properties`](../res/log4j.properties) into the same directory
 1. Execute `java -cp "perf_spec-assembly-1.1.0.jar" org.processmining.scala.viewers.spectrum.view.Form`
 
 Increase the JVM heap size for working with large event logs using `-Xmx` JVM option, e.g., set the heap size to `30Gb` if your machine has `32Gb` RAM as follows: `java -Xmx30G -cp "perf_spec-assembly-1.1.0.jar" org.processmining.scala.viewers.spectrum.view.Form`
