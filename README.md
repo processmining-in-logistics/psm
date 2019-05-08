@@ -208,7 +208,8 @@ More information about the Process Mining in Logistics project focusing on proce
 
 # Programmer's Guide
 
-Find here information on [how to build the project from sources](docs/how_to_build.md).
+* Find [here](docs/how_to_build.md) information on **how to build the project from sources**.
+* Adding **custom classifiers** is described [here](docs/custom_classifier.md).
 
 
 ## Roadmap
