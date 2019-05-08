@@ -20,6 +20,7 @@ That can be done by injecting a jar file with the custom classifier inplementati
 1. Implement method `classify`, which provides segment attributes and segment descriptove statistics as arguments
 1. Implement `legend` to return a legend with the classifier name and class names separated by `%`, e.g. `"Example%Class_0%Class_1"`
 1. Specify class number in `classCount`
+1. If required show a UI dialog in method `initialize` to configure classifier parameters.
 
 A working example can be found here: `org.processmining.scala.viewers.spectrum.view.SegmentClassifierExample`.
 
