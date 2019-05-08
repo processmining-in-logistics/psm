@@ -23,3 +23,6 @@ That can be done by injecting a jar file with the custom classifier inplementati
 
 A working example can be found here: `org.processmining.scala.viewers.spectrum.view.SegmentClassifierExample`.
 
+![Custom classifier](figures/custom_classifier.png)
+
+
