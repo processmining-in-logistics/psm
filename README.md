@@ -118,7 +118,7 @@ Additionally the PSM allows [encoding and exporting performance spectrum-based f
 
 ## Transforming an event log in the CSV format for Performance Spectrum Analysis
 
-Often event data are available in the CSV format as a database or a distributed file storage dump, stored in one or many CSV files. Converting such dumps to XES format can be difficult for large event logs. The PSM supports a direct import of one or many CSV files. To prepare CSV file(s) for import, put the file(s) into a directory and provide a description as a text ini file with extension `.csvdir`. This file must include the following fields (see [example](./docs/csv_event_logs.ini)):
+Often event data are available in the CSV format as a database or a distributed file storage dump, stored in one or many CSV files. Converting such dumps to XES format can be difficult for large event logs. The PSM supports a direct import of one or many CSV files. To prepare CSV file(s) for import, put the file(s) into a directory and provide a description as a text ini file with extension `.csvdir`. This file must include the following fields (see [example](./docs/event_logs.csvdir)):
 
 | Field |Sample value | Comment |
 |:------------- |:-------------|:-----|
