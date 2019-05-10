@@ -138,6 +138,10 @@ Import your `.csvdir` file and use it in the PSM plugin, exactly as XES files.
 ### ... in PSM standalone
 
 Import your `.csvdir` file and use it exactly as XES files.
+
+## Transforming a dataset of segments for Performance Spectrum Analysis
+
+Sometimes event data are availabe not as an event log but as segments. Find [here](/docs/segment_import.md) how to import such data into the PSM.
  
  
  ## Opening the transformed data for analysis with the PSM
