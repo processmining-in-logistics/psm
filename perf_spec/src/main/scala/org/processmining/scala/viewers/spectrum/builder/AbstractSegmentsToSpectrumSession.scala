@@ -34,29 +34,34 @@ abstract class AbstractSegmentsToSpectrumSession {
   def run() = {
     logger.info(s"Segments path='$SegmentsPath'")
     logger.info(s"Spectrum path='$SpectrumRoot'")
-
     val dir = new File(SegmentsPath)
     val files = dir
       .listFiles()
-      .filter(_.getName.toLowerCase.endsWith(".seg"))
+      .filter(_.getName.toLowerCase.endsWith(s".${AbstractSegmentsToSpectrumSession.SegmentsExtension}"))
       .map(_.getPath)
       .toList
     SegmentsToSpectrum.start(files, AbstractSegmentsToSpectrumSession.filenameToSegment, startTimeMs, twSizeMs, twCount, SpectrumRoot, classifier)
 
   }
-
-
 }
 
 object AbstractSegmentsToSpectrumSession {
+  val SegmentsExtension = "seg"
+
   def filenameToSegment(filename: String): String = {
-
-    val csvIndex = filename.toLowerCase.indexOf(".csv.")
-    val xesIndex = filename.toLowerCase.indexOf(".xes.")
-    val index = if(xesIndex >=0 ) xesIndex else csvIndex
+    val csvPattern = ".csv."
+    val csvIndex = filename.toLowerCase.indexOf(csvPattern)
+    val xesGzPattern = ".xes.gz."
+    val xesGzIndex = filename.toLowerCase.indexOf(xesGzPattern)
+    val xesPattern = ".xes."
+    val xesIndex = filename.toLowerCase.indexOf(xesPattern)
+    val (index, length) = if (xesGzIndex >= 0) (xesGzIndex, xesGzPattern.length)
+    else if (xesIndex >= 0) (xesIndex, xesPattern.length) else (csvIndex, csvPattern.length)
+    if (index < 0) {
+      throw new IllegalArgumentException(s"Cannot find parts containing '$xesPattern', '$xesGzPattern' or '$csvPattern' in '$filename'")
+    }
     SpectrumFileNames.fileNameToSegmentName(filename
-      .substring(index + 5, filename.indexOf(".seg")))
-
+      .substring(index + length, filename.indexOf(s".$SegmentsExtension")))
   }
 
 }

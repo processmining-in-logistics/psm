@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 /**
   * The datasource interface of a Performance Spectrum to be visualized in the PSM
   */
-trait AbstractDataSource {
+abstract class AbstractDataSource {
 
   /**
     *

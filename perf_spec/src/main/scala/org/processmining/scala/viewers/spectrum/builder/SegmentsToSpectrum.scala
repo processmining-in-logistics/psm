@@ -21,7 +21,8 @@ case class SegmentDescriptiveStatisticsEntry(
                                               min: Double,
                                               max: Double,
                                               q25: Double,
-                                              q75: Double) extends Serializable
+                                              q75: Double,
+                                              medianAbsDeviation: Double) extends Serializable
 
 
 class SegmentsToSpectrum(
@@ -48,17 +49,23 @@ class SegmentsToSpectrum(
       importCsvHelper.extractTimestamp(a(1)),
       a(3).toLong,
       "", //a(4),
-      -1)
+      a(4).toInt)
 
-    lines
+    val ret = lines
       .map(factory)
       .toList
+
+    ret
+
   }
 
   private def getDs(segments: List[SegmentImpl]): SegmentDescriptiveStatisticsEntry = {
     val ds = new DescriptiveStatistics()
     segments.foreach(x => ds.addValue(x.duration))
-    SegmentDescriptiveStatisticsEntry(ds.getN, ds.getPercentile(50), ds.getMean, ds.getStandardDeviation, ds.getKurtosis, ds.getSkewness, ds.getMin, ds.getMax, ds.getPercentile(25), ds.getPercentile(75))
+    val median = ds.getPercentile(50)
+    val dsExt = new DescriptiveStatistics()
+    segments.foreach(x => dsExt.addValue((x.duration - median).abs))
+    SegmentDescriptiveStatisticsEntry(ds.getN, median, ds.getMean, ds.getStandardDeviation, ds.getKurtosis, ds.getSkewness, ds.getMin, ds.getMax, ds.getPercentile(25), ds.getPercentile(75), dsExt.getPercentile(50))
   }
 
   private def getTwInterval(timeMs: Long, duration: Long): (Int, Int) =
@@ -75,6 +82,36 @@ class SegmentsToSpectrum(
     spectrum + (twIndex -> triple)
   }
 
+  def classifySegments(segments: List[SegmentImpl], dse: SegmentDescriptiveStatisticsEntry): List[SegmentImpl] =
+    segments.map(x => if (x.clazz < 0)
+    x.copy(clazz = durationClassifier.classify(x.duration, dse.q25, dse.median, dse.q75, x.caseId, x.timeMs, segmentName, dse.medianAbsDeviation))
+  else x
+  )
+
+  // How a segment can be classified based on its left and right neighbours
+  def classifySegmentsExample(segments: List[SegmentImpl], dse: SegmentDescriptiveStatisticsEntry): List[SegmentImpl] = {
+    val segmentArray = segments.toArray
+    val someThreshold = 100L
+
+    //obtaining triples (left, middle, right)
+    val triples = (1 until segments.length - 1)
+      .map(i => (segmentArray(i - 1), segmentArray(i), segmentArray(i + 1)))
+
+    triples.map(x => {
+      //assigning names (for readability)
+      val leftSegment = x._1
+      val middleSegment = x._2
+      val rightSegment = x._3
+
+      //implement real classifier here
+      val clazz = if (middleSegment.timeMs - leftSegment.timeMs > someThreshold) 0 else 1
+
+      //assigning a class to a segment
+      middleSegment.copy(clazz = clazz)
+    }
+    ).toList
+  }
+
   override def call(): (String, Array[Int]) = {
     logger.info(s"Task for '$segmentName' started...")
     new File(fileNames.getDataDir(segmentName)).mkdir()
@@ -83,7 +120,7 @@ class SegmentsToSpectrum(
       .flatMap(readSegmentFile)
       .sortBy(_.timeMs) // files can be sorted to avoid this sorting
     val dse = getDs(segments)
-    val classifiedSegments = segments.map(x => x.copy(clazz = durationClassifier.classify(x.duration, dse.q25, dse.median, dse.q75, x.caseId, x.timeMs, segmentName)))
+    val classifiedSegments = classifySegments(segments, dse)
     // triple: aggregation for start, intersect, stop
     val initialPs: Map[Int, (List[SegmentImpl], List[SegmentImpl], List[SegmentImpl])] = Map()
     val sparsePs = classifiedSegments.foldLeft(initialPs)((ps1, s) => {

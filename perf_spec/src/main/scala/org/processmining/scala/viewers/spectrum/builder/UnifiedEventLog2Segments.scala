@@ -20,12 +20,12 @@ class UnifiedEventLog2Segments(log: UnifiedEventLog,
   private def writeSegments(segmentName: String, orderedSegments: List[(UnifiedTraceId, UnifiedEvent)]) = {
     val filename = segmentsFileName(segmentName)
     val w = new PrintWriter(filename)
-    val header = "CaseID,Timestamp,Activity,Duration"
+    val header = "CaseID,Timestamp,Activity,Duration,Class"
     w.println(header)
 
     orderedSegments
       .map(x =>
-        s"${x._1.id},${csvExportHelper.timestamp2String(x._2.timestamp)},${x._2.activity},${x._2.getAs[Long](CommonAttributeSchemas.AttrNameDuration)}")
+        s"${x._1.id},${csvExportHelper.timestamp2String(x._2.timestamp)},${x._2.activity},${x._2.getAs[Long](CommonAttributeSchemas.AttrNameDuration)},-1")
       .foreach(w.println)
     w.close()
     logger.info(s"'$filename' exported.")

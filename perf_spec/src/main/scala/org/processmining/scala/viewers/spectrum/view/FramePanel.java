@@ -25,6 +25,7 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
     private final Timer singleShotTimer;
     private final boolean useDuration;
     public static final String CSV_DIR = "csvdir";
+    public static final String SEG_DIR = "segdir";
 
     public FramePanel(final String dir, final Consumer<String> title, final boolean isOpenEnabled, final boolean useDuration) {
         this.title = title;
@@ -71,7 +72,7 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
     private void performanceSpectrumFactory(final AbstractDataSource ds, final String dir, final boolean isOpenEnabled) {
         try {
             final MainPanel newMainPanel = new MainPanel(ds, this, isOpenEnabled,
-                    dir.isEmpty() || dir.endsWith(CSV_DIR) ? AppSettings.apply() : AppSettings.apply(String.format("%s/config.ini", dir)));
+                    dir.isEmpty() || dir.endsWith(CSV_DIR) || dir.endsWith(SEG_DIR) ? AppSettings.apply() : AppSettings.apply(String.format("%s/config.ini", dir)));
             if (mainPanel != null) {
                 remove(mainPanel);
             }
@@ -99,9 +100,11 @@ public class FramePanel extends JPanel implements OpenImpl, PsmApi {
             dirDlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
             final FileNameExtensionFilter filterXes = new FileNameExtensionFilter("XES Event Log Files", "xes", "gz", "zip", "xml");
             final FileNameExtensionFilter filterCsv = new FileNameExtensionFilter("Folder with CSV Event Log Files", CSV_DIR);
+            final FileNameExtensionFilter filterSeg = new FileNameExtensionFilter("Folder with Segment Files", SEG_DIR);
             final FileNameExtensionFilter filterPsm = new FileNameExtensionFilter("PSM Session Files", "psm");
             dirDlg.setFileFilter(filterXes);
             dirDlg.setFileFilter(filterCsv);
+            dirDlg.setFileFilter(filterSeg);
             dirDlg.setFileFilter(filterPsm);
 
             if (dirDlg.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
