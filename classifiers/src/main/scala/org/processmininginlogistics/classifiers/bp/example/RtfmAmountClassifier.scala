@@ -4,6 +4,7 @@ import org.processmining.scala.log.common.enhancment.segments.common.AbstractCla
 import org.processmining.scala.log.common.unified.event.UnifiedEvent
 import org.processmining.scala.log.common.unified.trace.UnifiedTraceId
 
+@Deprecated
 class RtfmAmountClassifier extends AbstractClassifier {
   def func(e: (UnifiedTraceId, UnifiedEvent)): Int = {
     val amountOpt = e._2.attributes.get("amount")
