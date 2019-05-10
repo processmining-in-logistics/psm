@@ -1,4 +1,4 @@
-# Transforming a dataset of segments for Performance Spectrum Analysis
+# Transforming a Dataset of Segments for Performance Spectrum Analysis
 
 Data for converting into a Performance Spectrum can be repreented as segments. That is useful when building a Performance Spectrum form an event log cannot produce a desirable view on data. Prepare your segment data as follows.
 
@@ -6,7 +6,7 @@ Data for converting into a Performance Spectrum can be repreented as segments. T
 
 1. For each segment `A:B` create file `log.xes.A!B.seg`
 1. Store each occurence of the segment in this file as following line: `CaseID,unix_timestamp_UTC_ms,segment_name,duration_ms,class`, for example, `N61579,07-02-2005 00:00:00.000,Add penalty:Appeal to Judge,432000000,1`. If you do not provide classes for segments, provide `-1` as a class value.
-1. Create a textual (ini) `.segdir` file in your segment directory and provide a description of the segment dataset. This file must include the following fields (see [example](./docs/segment_dataset.segdir)):
+1. Create a textual (ini) `.segdir` file in your segment directory and provide a description of the segment dataset. This file must include the following fields (see [example](segment_dataset.segdir)):
 
 | Field |Sample value | Comment |
 |:------------- |:-------------|:-----|
