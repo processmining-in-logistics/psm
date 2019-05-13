@@ -5,8 +5,8 @@
 1. Install [JDK 8 64bit](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (do not use JRE!)
 1. Install [git](https://git-scm.com/) or [Mercurial](https://www.mercurial-scm.org/wiki/Download) (depends on your repository type)
 1. Install [sbt 1.2.x](https://www.scala-sbt.org/download.html) or higher
-1. Increase the sbt heap: add system variable `SBT_OPTS` and set it to 4-8Gb: `-Xmx8G`
-v Install [maven](https://maven.apache.org/download.cgi) and add its folder `bin` into the Windows [PATH](https://www.java.com/en/download/help/path.xml)
+1. Install [maven](https://maven.apache.org/download.cgi) and add its folder `bin` into the Windows [PATH](https://www.java.com/en/download/help/path.xml)
+1. Increase the sbt heap: add system variable `SBT_OPTS` and set it to 4-8Gb: `-Xmx8G` (use the same Windows tab as for the previous step)
 1. Download [XES implementation](http://xes-standard.org/): [`OpenXes-XXX.jar`](http://code.deckfour.org/Spex/), [`openxes-xstream-XXX.jar`]((http://www.xes-standard.org/openxes/download)), [`Spex-XXX.jar`]((http://www.xes-standard.org/openxes/download))
 1. Install XES log implementation into your local maven repository, see an example (use the system command line, e.g, `cmd.exe`): 
 1. `mvn install:install-file -Dfile=c:\openxes\OpenXES-XStream-20170216.jar -DgroupId=org.xes-standard -DartifactId=openxes-xstream -Dversion=2.23 -Dpackaging=jar`
