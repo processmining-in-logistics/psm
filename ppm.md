@@ -1,7 +1,5 @@
 # Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum
 
-**This page is under construction...**
-
 This document contains additional materials for paper [Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum (ICPM2019)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum) (in press). 
 
 
