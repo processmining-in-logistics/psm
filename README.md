@@ -1,7 +1,5 @@
 # Performance Spectrum Miner v.1.1.x
 
-**This page is under construction...**
-
 # Overview
 
 The Performance Spectrum Miner (PSM) is a visual analytics tool for event data. It takes as input an event log (of events, timestamps, and case identifier) of past process or system executions in CSV or XES format. The PSM visualizes the flow of all cases over all process over time, and gives detailed insights performance characteristics.
