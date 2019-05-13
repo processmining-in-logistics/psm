@@ -2,15 +2,15 @@ import sbt._
 import Keys._
 
 name := "psm"
-version := "1.1.0"
-scalaVersion := "2.11.8"
+version := "1.1.5"
+scalaVersion := "2.12.8"
 resolvers += Resolver.mavenLocal
 sources in(Compile, doc) ~= (_ filter (x => !x.getName.contains("Test")))
 
 lazy val commonSettings = Seq(
   organization := "org.processmining",
   version := s"$version-SNAPSHOT",
-  scalaVersion := "2.11.8"
+  scalaVersion := "2.12.8"
 )
 
 

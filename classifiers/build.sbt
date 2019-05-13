@@ -3,9 +3,9 @@ import Keys._
 
 name := "classifiers"
 
-version := "1.1.0"
+version := "1.1.5"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.8"
 
 
 resolvers += Resolver.mavenLocal

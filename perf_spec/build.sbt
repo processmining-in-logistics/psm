@@ -3,9 +3,9 @@ import Keys._
 
 name := "perf_spec"
 
-version := "1.1.0"
+version := "1.1.5"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.8"
 
 Compile/mainClass := Some("org.processmining.scala.viewers.spectrum.view.Form")
 

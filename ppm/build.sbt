@@ -3,9 +3,9 @@ import Keys._
 
 name := "ppm"
 
-version := "1.1.0"
+version := "1.1.5"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.8"
 
 //Compile/mainClass := Some("org.processmining.scala.viewers.spectrum.view.Form")
 
@@ -27,7 +27,7 @@ libraryDependencies += "log4j" % "log4j" % "1.2.17"
 libraryDependencies += "javax.xml.bind" % "jaxb-api" % "2.3.0"
 libraryDependencies += "com.google.guava" % "guava" % "26.0-jre"
 libraryDependencies += "com.esotericsoftware" % "kryo" % "4.0.2"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % Test
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.7" % Test
 
 
 
