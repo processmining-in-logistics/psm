@@ -2,20 +2,19 @@
 
 **This page is under construction...**
 
-This document contains additional materials for paper Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum (in press). 
+This document contains additional materials for paper [Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum (ICPM2019)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum) (in press). 
 
 
 ## Event logs of the simulation model of a Baggage Handling System (BHS)
 
-The BHS simulation event log and the computed Performance Spectrum (see the table below) are available [here](https://www.dropbox.com/sh/ueu5r2o5yg34ezk/AADmDbnVxgxsShVxhlHBWNQja?dl=0).
-The source code is available in this branch of the PSM project.
+The BHS simulation event log and the computed Performance Spectrum (see the table below) are available along with other release files [here](TODO). The source code is available in this branch of the PSM project.
 
 
 | File        | Description     | 
 | ------------- |:-------------:|
 | PPM_BHS_Sim_log.zip     | The event log in the XES and CSV formats. |
-| PPM_BHS_Sim_PerfSpec.zip     | The computed Performance Spectrum in the format of the new version of the Performance Spectrum Miner  v.1.1.x |
-| ppm.zip     | Binaries (unzip to run). Java 8 64bit is required. |
+| PPM_BHS_Sim_PerfSpec.zip     | The computed Performance Spectrum in the format of the Performance Spectrum Miner  v.1.1.x |
+
 
 ## Running the simulation model
 
@@ -26,7 +25,7 @@ The source code is available in this branch of the PSM project.
 
 For example, command line 
 
-`java -cp ppm.jar org.processmining.scala.sim.conveyors.experiments.PreSorterStarterCli g:\logs 7 10 12` 
+`java -cp ppm-assembly-1.1.6.jar org.processmining.scala.sim.conveyors.experiments.PreSorterStarterCli g:\logs 7 10 12` 
 
 triggers simulation for 7 days, operating hours start at 10:00am, duration of operating hours is 12 hours.
 
