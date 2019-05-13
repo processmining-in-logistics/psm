@@ -1,48 +1,23 @@
 import sbt._
 import Keys._
 
+ThisBuild / organization := "org.processmining"
+ThisBuild / version      := "1.1.6"
+ThisBuild / scalaVersion := "2.12.8"
+
 name := "psm"
-version := "1.1.5"
-scalaVersion := "2.12.8"
+
 resolvers += Resolver.mavenLocal
 sources in(Compile, doc) ~= (_ filter (x => !x.getName.contains("Test")))
 
-lazy val commonSettings = Seq(
-  organization := "org.processmining",
-  version := s"$version-SNAPSHOT",
-  scalaVersion := "2.12.8"
-)
-
 
 lazy val perf_spec = project
-  .settings(
-    commonSettings
-  )
 
 lazy val classifiers = project
   .dependsOn(perf_spec)
-  .settings(
-    commonSettings
-  )
 
 lazy val ppm = project
   .dependsOn(perf_spec)
-  .settings(
-    commonSettings,
-    libraryDependencies ++= Seq(
-      "org.apache.commons" % "commons-collections4" % "4.1",
-      "org.apache.commons" % "commons-math3" % "3.6.1",
-      "org.ini4j" % "ini4j" % "0.5.4",
-      "com.thoughtworks.xstream" % "xstream" % "1.4.10",
-      "org.xes-standard" % "openxes" % "2.23",
-      "org.xes-standard" % "openxes-xstream" % "2.23",
-      "org.deckfour" % "Spex" % "1.0",
-      "org.scalatest" %% "scalatest" % "3.0.4" % Test,
-      "com.opencsv" % "opencsv" % "4.1",
-      "org.jfree" % "jfreechart" % "1.0.17"
-    )
-  )
-
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs@_*) => MergeStrategy.discard
