@@ -5,7 +5,7 @@ ThisBuild / organization := "org.processmining"
 ThisBuild / version      := "1.1.6"
 ThisBuild / scalaVersion := "2.12.8"
 
-name := "psm"
+name := "everything"
 
 resolvers += Resolver.mavenLocal
 sources in(Compile, doc) ~= (_ filter (x => !x.getName.contains("Test")))
