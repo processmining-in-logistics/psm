@@ -1,5 +1,8 @@
 # Performance Spectrum Miner v.1.1.x
 
+> This branch `1.1.x` and the corresponding PSM version implements the performance prediction method described in the research paper [V. Denisov, D. Fahland, and W. M. P. van der Aalst. **”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum"**, in *International Conference on Process Mining*,
+2019](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum). See //Publications// for usage and experiments.
+
 # Overview
 
 The Performance Spectrum Miner (PSM) is a visual analytics tool for event data. It takes as input an event log (of events, timestamps, and case identifier) of past process or system executions in CSV or XES format. The PSM visualizes the flow of all cases over all process over time, and gives detailed insights performance characteristics.
@@ -19,17 +22,17 @@ The PSM project provides two implementations of the Performance Spectrum Miner a
 The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://github.com/vadimmidavvv), [Elena Belkina](https://github.com/ebelkina), and [Dirk Fahland](https://github.com/dfahland).
 
 # Publications
-[Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum (ICPM2019)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum)
+  * [Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum (ICPM2019)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum)
+    * The paper describes a method to extract features for training a performance predicition model from the performance spectrum. The [User manual](docs/user-manual.md) provides details on how to extract performance spectrum-based features. Additional paper-specific documentation and the datasets used in the experiments are documented [here](ppm.md).
 
-[Unbiased, Fine-Grained Description of Processes Performance from Event Data (BPM2018)](https://www.researchgate.net/publication/326945011_Unbiased_Fine-Grained_Description_of_Processes_Performance_from_Event_Data_16th_International_Conference_BPM_2018_Sydney_NSW_Australia_September_9-14_2018_Proceedings)
 
-[The Performance Spectrum Miner: Visual Analytics for Fine-Grained Performance Analysis of Processes (BPM2018, Demo)](https://www.researchgate.net/publication/327449848_The_Performance_Spectrum_Miner_Visual_Analytics_for_Fine-Grained_Performance_Analysis_of_Processes)
+  * [Unbiased, Fine-Grained Description of Processes Performance from Event Data (BPM2018)](https://www.researchgate.net/publication/326945011_Unbiased_Fine-Grained_Description_of_Processes_Performance_from_Event_Data_16th_International_Conference_BPM_2018_Sydney_NSW_Australia_September_9-14_2018_Proceedings)
 
-[BPIC'2018: Mining Concept Drift in Performance Spectra of Processes (BPIC2018)](https://www.researchgate.net/publication/327450029_BPIC'2018_Mining_Concept_Drift_in_Performance_Spectra_of_Processes)
+  * [The Performance Spectrum Miner: Visual Analytics for Fine-Grained Performance Analysis of Processes (BPM2018, Demo)](https://www.researchgate.net/publication/327449848_The_Performance_Spectrum_Miner_Visual_Analytics_for_Fine-Grained_Performance_Analysis_of_Processes)
 
-This branch `1.1.x` and the corresponding PSM version is developed as a tool for paper [V. Denisov, D. Fahland, and W. M. P. van der Aalst. **”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum"**, in *International Conference on Process Mining*,
-2019 (article in press)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum). Please find how to extract performance spectrum-based features [here](docs/user-manual.md) and additional paper-specific documentation and related datasets [here](ppm.md).
+  * [BPIC'2018: Mining Concept Drift in Performance Spectra of Processes (BPIC2018)](https://www.researchgate.net/publication/327450029_BPIC'2018_Mining_Concept_Drift_in_Performance_Spectra_of_Processes)
 
+ 
 
 # How to Install
 
