@@ -11,9 +11,9 @@ The BHS simulation event log and the computed Performance Spectrum (see the tabl
 | File        | Description     | 
 | ------------- |:-------------:|
 | PPM_BHS_Sim_log.zip     | The event log in the XES and CSV formats. |
-| PPM_BHS_Sim_PerfSpec.zip     | The computed Performance Spectrum in the format of the Performance Spectrum Miner  v.1.1.6 |
-| perf_spec-assembly-1.1.6.jar | The PSM 1.1.6
-| ppm-assembly-1.1.6.jar     | The binaries for running the command line scripts |
+| PPM_BHS_Sim_PerfSpec.zip     | The computed Performance Spectrum in the format of the PSM  v.1.1.6 |
+| perf_spec-assembly-1.1.6.jar | The PSM v.1.1.6
+| ppm-assembly-1.1.6.jar     | The binaries for running the command line scripts descibed below |
 
 
 
