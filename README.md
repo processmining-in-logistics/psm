@@ -23,7 +23,7 @@ The PSM project is the result of the joint research project on [Process Mining i
 
 # Publications
   * [Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum (ICPM2019)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum)
-    * The paper describes a method to extract features for training a performance predicition model from the performance spectrum. The [User manual](docs/user-manual.md) provides details on how to extract performance spectrum-based features. Additional paper-specific documentation and the datasets used in the experiments are documented [here](ppm.md).
+    * The paper describes a method to extract features for training a performance predicition model from the performance spectrum. The [User manual](docs/user-manual.md) provides details on how to extract performance spectrum-based features. Additional paper-specific documentation and the datasets used in the experiments are documented [here](/docs/ICPM2019_ppm.md).
 
 
   * [Unbiased, Fine-Grained Description of Processes Performance from Event Data (BPM2018)](https://www.researchgate.net/publication/326945011_Unbiased_Fine-Grained_Description_of_Processes_Performance_from_Event_Data_16th_International_Conference_BPM_2018_Sydney_NSW_Australia_September_9-14_2018_Proceedings)
