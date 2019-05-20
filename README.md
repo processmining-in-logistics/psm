@@ -1,6 +1,6 @@
-# Performance Spectrum Miner v.1.1.x
+# Performance Spectrum Miner v.1.1.6
 
-> This branch `1.1.x` and the corresponding PSM version implements the performance prediction method described in the research paper [V. Denisov, D. Fahland, and W. M. P. van der Aalst. **”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum"**, in *International Conference on Process Mining*,
+> This branch and the corresponding PSM version implements the performance prediction method described in the research paper [V. Denisov, D. Fahland, and W. M. P. van der Aalst. **”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum"**, in *International Conference on Process Mining*,
 2019](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum). See //Publications// for usage and experiments.
 
 # Overview
