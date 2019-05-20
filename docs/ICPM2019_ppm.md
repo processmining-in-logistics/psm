@@ -5,13 +5,16 @@ This document contains additional materials for paper [Predictive Performance Mo
 
 ## Event logs of the simulation model of a Baggage Handling System (BHS)
 
-The BHS simulation event log and the computed Performance Spectrum (see the table below) are available along with other release files [here](TODO). The source code is available in this branch of the PSM project.
+The BHS simulation event log and the computed Performance Spectrum (see the table below) are available along with other release files [here](https://github.com/processmining-in-logistics/psm/releases/tag/1.1.6). The source code is available in this branch of the PSM project.
 
 
 | File        | Description     | 
 | ------------- |:-------------:|
 | PPM_BHS_Sim_log.zip     | The event log in the XES and CSV formats. |
-| PPM_BHS_Sim_PerfSpec.zip     | The computed Performance Spectrum in the format of the Performance Spectrum Miner  v.1.1.x |
+| PPM_BHS_Sim_PerfSpec.zip     | The computed Performance Spectrum in the format of the Performance Spectrum Miner  v.1.1.6 |
+| perf_spec-assembly-1.1.6.jar | The PSM 1.1.6
+| ppm-assembly-1.1.6.jar     | The binaries for running the command line scripts |
+
 
 
 ## Running the simulation model
