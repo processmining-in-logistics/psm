@@ -31,8 +31,8 @@ Increase the JVM heap size for working with large event logs using `-Xmx` JVM op
 1. Make sure that you successfully built the project in the command line (i.e., you executed `compile` and `package` in `sbt` and did not `clean` the results by another command). 
 1. Install your favorite IDE that supports Java and Scala development. This project has being developed in [Intellij IDEA](https://www.jetbrains.com/idea/download/#section=windows)
 1. Import the **pre-built project** (use 'import the project structure from sbt files')
-1. Setup [Scala 2.12.8 SDK](https://www.scala-lang.org/download/). **Earlier versions are not binary compartible.**
+1. Setup [Scala 2.12.8 SDK](https://www.scala-lang.org/download/). **Earlier versions are not binary compatible.**
 
-Configuration stpes depend on the IDE.
+Configuration steps depend on the IDE.
 
  
