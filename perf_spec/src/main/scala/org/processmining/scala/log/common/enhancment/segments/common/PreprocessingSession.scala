@@ -1,15 +1,10 @@
 package org.processmining.scala.log.common.enhancment.segments.common
 
 import java.io.{File, FileReader}
-import java.lang.management.ManagementFactory
-import java.net.{InetAddress, UnknownHostException}
 import java.util.Date
-
 import javax.xml.bind.{JAXBContext, Marshaller}
 import javax.xml.stream.XMLInputFactory
-import org.slf4j.Logger
-
-import scala.collection.JavaConversions._
+import org.processmining.scala.log.utils.common.errorhandling.JvmParams
 
 
 case class PreprocessingSession(
@@ -22,13 +17,15 @@ case class PreprocessingSession(
                                  userInfo: String,
                                  legend: String,
                                  aggregationFunction: String,
-                                 durationClassifier: String
+                                 durationClassifier: String,
+                                 version: String
                                )
 
 
 object PreprocessingSession {
 
-  val Version: String = getSpecificationVersion()
+  val Version: String = JvmParams.getSpecificationVersion()
+  val PerformanceSpectrumFormatVersion = "1.1.0"
 
   def apply(startMs: Long,
             endMs: Long,
@@ -37,7 +34,7 @@ object PreprocessingSession {
             aggregationFunction: String,
             durationClassifier: String
            ): PreprocessingSession =
-    PreprocessingSession(startMs, endMs, twSizeMs, classCount, new Date().getTime, -1L, getHostName(), "", aggregationFunction, durationClassifier)
+    PreprocessingSession(startMs, endMs, twSizeMs, classCount, new Date().getTime, -1L, JvmParams.getHostName(), "", aggregationFunction, durationClassifier, PerformanceSpectrumFormatVersion)
 
   def apply(filename: String): PreprocessingSession = {
     val jaxbContext = JAXBContext.newInstance(classOf[InternalPreProcessingSession])
@@ -46,7 +43,7 @@ object PreprocessingSession {
     val fileReader = new FileReader(filename)
     val xmlReader = factory.createXMLStreamReader(fileReader)
     val ips = unmarshaller.unmarshal(xmlReader, classOf[InternalPreProcessingSession]).getValue
-    PreprocessingSession(ips.startMs, ips.endMs, ips.twSizeMs, ips.classCount, ips.preprocessingStartMs, ips.preprocessingEndMs, ips.userInfo, ips.legend, ips.aggregationFunction, ips.durationClassifier)
+    PreprocessingSession(ips.startMs, ips.endMs, ips.twSizeMs, ips.classCount, ips.preprocessingStartMs, ips.preprocessingEndMs, ips.userInfo, ips.legend, ips.aggregationFunction, ips.durationClassifier, ips.version)
   }
 
   def commit(session: PreprocessingSession): PreprocessingSession
@@ -68,7 +65,8 @@ object PreprocessingSession {
       session.userInfo,
       session.legend,
       session.aggregationFunction,
-      session.durationClassifier
+      session.durationClassifier,
+      session.version
     )
 
     val file = new File(canonicalFilename)
@@ -77,58 +75,6 @@ object PreprocessingSession {
     jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true)
     jaxbMarshaller.marshal(internalPreProcessingSession, file)
   }
-
-  def getVmArguments(): String =
-    ManagementFactory
-      .getRuntimeMXBean
-      .getInputArguments
-      .mkString(" ")
-
-  private def toMb(bytes: Long): Long = bytes / (1024 * 1024)
-
-  def getMemoryReport(): String = {
-    val r = Runtime.getRuntime
-    s"Total memory = ${toMb(r.totalMemory())}Mb " +
-      s"Max memory = ${toMb(r.maxMemory())}Mb " +
-      s"Free memory = ${toMb(r.freeMemory())}Mb " +
-      s"Processors = ${r.availableProcessors()} "
-
-  }
-
-
-  def getHostName(): String = {
-    val systemUsername = Some(System.getProperty("user.name"))
-    val username = if (systemUsername.isDefined) systemUsername.get else "Unknown"
-    try {
-      s"${InetAddress.getLocalHost.getHostName}\\$username"
-    } catch {
-      case ex: UnknownHostException => s"Unknown\\$username"
-    }
-  }
-
-  def javaVersion(): String = if (System.getProperty("java.version") != null) System.getProperty("java.version") else "Unknown"
-
-  def javaPlatform(): String = if (System.getProperty("sun.arch.data.model") != null) System.getProperty("sun.arch.data.model") else "Unknown"
-
-  def getSpecificationVersion() : String = getClass().getPackage().getSpecificationVersion()
-
-  def getImplementationVersion() : String = getClass().getPackage().getImplementationVersion()
-
-  def reportToLog(logger: Logger, title: String) = {
-    logger.info(title)
-    logger.info("Specification version: " +  getSpecificationVersion() )
-    logger.info("Implementation version: " +   getImplementationVersion())
-    logger.info("Internal version: " + Version)
-    //logger.info("User: " + PreprocessingSession.getHostName)
-    logger.info("Args: " + PreprocessingSession.getVmArguments)
-    logger.info(PreprocessingSession.getMemoryReport)
-    logger.info("Java: " + javaVersion)
-    logger.info("Platform: " + javaPlatform)
-  }
-
-  def isJavaVersionCorrect(): Boolean = javaVersion.startsWith("1.8.")
-
-  def isJavaPlatformCorrect(): Boolean = javaPlatform == "64"
 
 
 }

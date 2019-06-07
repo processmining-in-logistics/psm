@@ -2,7 +2,7 @@ package org.processmining.scala.log.common.csv.parallel
 
 import java.util.regex.Pattern
 
-import org.processmining.scala.log.common.csv.common.CsvReaderHelper
+import org.processmining.scala.log.utils.common.csv.common.CsvReaderHelper
 
 import scala.collection.parallel.ParSeq
 import scala.io.Source
@@ -15,20 +15,50 @@ class CsvReader(val defaultSep: (String, String) = CsvReaderHelper.EmptySep) {
       create(_)
     }
 
+  def parseSeq[T: ClassTag](lines: Seq[Array[String]], create: (Array[String]) => T): Seq[T] =
+    lines.map {
+      create(_)
+    }
+
   def read(filename: String): (Array[String], ParSeq[Array[String]]) = {
-    val lines = Source.fromFile(filename).getLines.toSeq.par
-    val header = lines.head
-    val (splitterRegEx, wrap) = if (defaultSep == CsvReaderHelper.EmptySep) CsvReaderHelper.detectSep(header) else defaultSep
-    //println(s"Separator for '$filename' is '$splitterRegEx', wrapping charachter is '$wrap'")
-    val splitter = CsvReader.splitterImplV2(Pattern.compile(splitterRegEx), wrap, _: String)
-    val headerColumns = splitter(header)
-    val data =
-      lines
-        .tail
-        .map {
-          splitter(_)
-        }
-    (headerColumns, data)
+
+    val src = Source.fromFile(filename)
+    try {
+      val lines = src.getLines.toSeq.par
+      val header = lines.head
+      val (splitterRegEx, wrap) = if (defaultSep == CsvReaderHelper.EmptySep) CsvReaderHelper.detectSep(header) else defaultSep
+      //println(s"Separator for '$filename' is '$splitterRegEx', wrapping charachter is '$wrap'")
+      val splitter = CsvReader.splitterImplV2(Pattern.compile(splitterRegEx), wrap, _: String)
+      val headerColumns = splitter(header)
+      val data =
+        lines
+          .tail
+          .map {
+            splitter(_)
+          }
+      (headerColumns, data)
+    }
+    finally src.close()
+  }
+
+  //TODO: move to common
+  def readNoHeaderSeq(filename: String): Seq[Array[String]] = {
+    val src = Source.fromFile(filename)
+    try {
+      val lines = src.getLines.toSeq
+
+      val (splitterRegEx, wrap) = if (defaultSep == CsvReaderHelper.EmptySep) CsvReaderHelper.detectSep(lines.head) else defaultSep
+      //println(s"Separator for '$filename' is '$splitterRegEx', wrapping charachter is '$wrap'")
+      val splitter = CsvReader.splitterImplV2(Pattern.compile(splitterRegEx), wrap, _: String)
+      val data =
+        lines
+          .map {
+            splitter(_)
+          }
+      data
+    }
+    finally src.close()
+
   }
 }
 

@@ -22,8 +22,8 @@ public final class EventAggregatorImpl implements EventAggregator{
         final String[] mappings = mappingNode.keys();
         for (final String mappingName : mappings) {
             final String mappingValuesUnsplitted = mappingNode.get(mappingName, "");
-            //final String[] mappingValues = mappingValuesUnsplitted.split("\\s");
-            final String[] mappingValues = new String[]{ mappingValuesUnsplitted.trim()}; // DO NOT COMMIT THIS!
+            final String[] mappingValues = mappingValuesUnsplitted.split("\\s");
+            //final String[] mappingValues = new String[]{ mappingValuesUnsplitted.trim()}; // DO NOT COMMIT THIS!
             for (final String mappingValue : mappingValues) {
                 mappingMap.add(new ImmutablePair<>(Pattern.compile(mappingValue), mappingName));
             }

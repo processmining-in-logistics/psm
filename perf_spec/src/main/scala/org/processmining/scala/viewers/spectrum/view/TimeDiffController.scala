@@ -4,8 +4,10 @@ import java.awt.datatransfer.StringSelection
 import java.awt.{BasicStroke, Color, Font, Graphics2D, Rectangle, Toolkit}
 
 import org.apache.commons.lang3.tuple.Pair
+import org.processmining.scala.viewers.spectrum.features.{FeaturesExtractorForOneSegmentPatternsClassifiers, FeaturesPointer, PositionsExtractor, PositionsInCell}
 import org.slf4j.LoggerFactory
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource
+import org.processmining.scala.viewers.spectrum.patterns.{OneSegmentPatternsDetector, OneSegmentPerformancePattern}
 import org.processmining.scala.viewers.spectrum.view.TimeDiffController.palettes
 
 
@@ -24,16 +26,62 @@ private[viewers] case class PaintParams(g: Graphics2D,
 
 private[viewers] class TimeDiffController(val ds: AbstractDataSource, val appSettings: AppSettings) {
 
-  //val appSettings = AppSettings("config.ini");
   val fontSize = appSettings.fontSize
   val font = new Font(appSettings.fontName, Font.PLAIN, fontSize)
 
   val view: TimeDiffGraphics = new TimeDiffGraphics(this)
   private val logger = LoggerFactory.getLogger(classOf[TimeDiffController].getName)
+  val MinPower = 5
+  val percentileForMaxIntervalsBetweenStartsOrEndsPercent = 50
+  val PosNumber = 5
+  val ClassesNumber = 4
+
+  //val positions = new PositionsExtractor(ds, PosNumber, ClassesNumber).process()
+
+
+  //val oneSegmentPatternsDetector0 = new OneSegmentPatternsDetector(ds, (0, 1), MinPower, percentileForMaxIntervalsBetweenStartsOrEndsPercent)
+
+  //  val patterns0 = oneSegmentPatternsDetector0.processQueues()
+  //  val patterns1 = new OneSegmentPatternsDetector(ds, (1, 2), MinPower, percentileForMaxIntervalsBetweenStartsOrEndsPercent).processQueues()
+  //  val patterns2 = new OneSegmentPatternsDetector(ds, (2, 3), MinPower, percentileForMaxIntervalsBetweenStartsOrEndsPercent).processQueues()
+  //  val oneSegmentPatternsDetector3 = new OneSegmentPatternsDetector(ds, (3, 4), MinPower, percentileForMaxIntervalsBetweenStartsOrEndsPercent)
+  //  val patterns3 = oneSegmentPatternsDetector3.processQueues()
+  //  val patternsIntersections = new OneSegmentPatternsDetector(ds, (0, 0), MinPower, percentileForMaxIntervalsBetweenStartsOrEndsPercent).processIntersections2()
+  //
+  //
+  //  def exportFeatures(): Unit = {
+  //    val segmentForLabeling = "TransferIn_1:Link3B"
+  //    val labels3 = oneSegmentPatternsDetector3.convert(patterns3(segmentForLabeling))
+  //    val labels0 = oneSegmentPatternsDetector0.convert(patterns0(segmentForLabeling))
+  //    val segmentsForFeatures = Set("Link1S_1:F11.TO_MC_1_0", "Link1S_1:E11.TO_SCAN_1_0")
+  //    val segmentsForIncomingFlow = Set("A4_1:Link1_0")
+  //    val fPtr1 = FeaturesPointer(segmentsForIncomingFlow, -5, 5)
+  //    val fPtr2 = FeaturesPointer(segmentsForFeatures, -5, 2)
+  //    val tmp3 = new FeaturesExtractorForOneSegmentPatternsClassifiers(positions,
+  //      labels3,
+  //      fPtr1,
+  //      fPtr2
+  //    )
+  //
+  //    tmp3.export("features3.txt", tmp3.processLabels(), _ => 1)
+  //
+  //    val tmp0 = new FeaturesExtractorForOneSegmentPatternsClassifiers(positions,
+  //      labels0,
+  //      fPtr1,
+  //      fPtr2
+  //    )
+  //    tmp0.export("features0.txt", tmp0.processLabels(), _ => 0)
+  //
+  //  }
+
+
+  //private var selectedIds: Set[String] = intersections.flatMap(_._2).map(_._1).toSet
+  private var selectedIds: Set[String] = Set()
 
   def setZooming(zooming: Zooming): Unit = {
     view.setZooming(zooming)
   }
+
 
   def paint(g: Graphics2D): Unit = {
 
@@ -41,16 +89,24 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource, val appSet
       .map(view.getXIntervalInclusiveByTwIndex(_))
       .toArray
     val names = view.paintInputParameters.names.zipWithIndex
-    val namesCount = names.length
+
     val yy = names.map(x => view.getYIntervalInclusiveByIndex(x._2))
     val pp = PaintParams(g, xx, yy, names)
     if (view.viewerState.showTraces) {
       if (isSelectedTracesDefined) drawTraces(pp, 1)
       drawTraces(pp, 2)
     }
-    if (view.viewerState.showBins) {
+    if (view.viewerState.showBins > 0) {
       if (isSelectedBinsDefined) drawSelectedSegments(pp) else drawNormalSegments(pp)
     }
+    //    drawPatternsForClass(pp, patterns0, getDefaultClazzColor(0, 50))
+    //    drawPatternsForClass(pp, patterns1, getDefaultClazzColor(1, 50))
+    //    drawPatternsForClass(pp, patterns2, getDefaultClazzColor(2, 50))
+    //    drawPatternsForClass(pp, patterns3, getDefaultClazzColor(3, 50))
+    //    drawPatternsForClass(pp, patternsIntersections, new Color(0, 255, 0, 50))
+
+    //drawPositions(pp, positions, Color.black)
+
     view.drawHorizontalGrid(g);
     if (view.viewerState.showGrid) {
       view.drawVerticalGrid(g);
@@ -61,7 +117,7 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource, val appSet
   }
 
   private var selectedBins: Option[Set[(String, Int)]] = None
-  private var selectedIds: Set[String] = Set()
+
   private var selectedClazzOfTraces: Set[Int] = Set()
 
   def addId(ids: String): Unit = {
@@ -73,6 +129,7 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource, val appSet
     selectedBins = None
     selectedIds = Set()
     view.forceRepaint()
+    //exportFeatures()
   }
 
   def showTracesByClazz(clazz: Int): Unit =
@@ -98,19 +155,59 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource, val appSet
     }
 
 
+  def drawPattern(pp: PaintParams, name: (String, Int), pattern: OneSegmentPerformancePattern, color: Color): Unit = {
+    //    val xx1 = pp.xx(pattern.leftTop.asInstanceOf[Int] - view.paintInputParameters.startTwIndex)
+    //    val xx2 = pp.xx(pattern.rightBottom.asInstanceOf[Int] - view.paintInputParameters.startTwIndex)
+
+    val leftTop = view.getXByAbsTime(pattern.leftTop)
+    val leftBottom = view.getXByAbsTime(pattern.leftBottom)
+    val rightTop = view.getXByAbsTime(pattern.rightTop)
+    val rightBottom = view.getXByAbsTime(pattern.rightBottom)
+
+
+    val yy = pp.yy(name._2)
+    pp.g.setColor(color)
+
+    pp.g.fillPolygon(
+      Array(leftTop, rightTop, rightBottom, leftBottom, leftTop),
+      Array(yy.getLeft, yy.getLeft, yy.getRight, yy.getRight, yy.getLeft), 5)
+
+    //pp.g.setStroke(dashed)
+    pp.g.setColor(new Color(10, 128, 10))
+
+    pp.g.drawPolygon(
+      Array(leftTop, rightTop, rightBottom, leftBottom, leftTop),
+      Array(yy.getLeft, yy.getLeft, yy.getRight, yy.getRight, yy.getLeft), 5)
+
+    //    pp.g.fillRect(xx1.getLeft, yy.getLeft, xx2.getLeft - xx1.getLeft, yy.getRight - yy.getLeft)
+    //    pp.g.setColor(new Color(255, 0, 125))
+    //    pp.g.drawRect(xx1.getLeft, yy.getLeft, xx2.getLeft - xx1.getLeft, yy.getRight - yy.getLeft)
+  }
+
+
+  def getAggregationValue(e: (Int, Long, Long, Long)): Long =
+    view.viewerState.showBins match {
+      case 1 => e._2
+      case 2 => e._3
+      case 3 => e._4
+      case 4 => e._2 + e._3 + e._4
+      case _ => throw new IllegalArgumentException(s"Wrong showBins ${view.viewerState.showBins}")
+    }
+
+
   def drawNormalSegment(pp: PaintParams, twIndex: Int, name: (String, Int),
-                        segmentsOriginal: List[(Int, Long)]): Unit = {
+                        segmentsOriginal: List[(Int, Long, Long, Long)]): Unit = {
     val segments = if (view.viewerState.reverseColors) segmentsOriginal.reverse else segmentsOriginal
     val xx = pp.xx(twIndex - view.paintInputParameters.startTwIndex)
     val yy = pp.yy(name._2)
-    val max = ds.maxSegmentsCount(name._1)
+    val max = ds.maxSegmentCountForAggregation(name._1, view.viewerState.showBins)
     val chartXx = (xx.getLeft, Math.max(xx.getRight - 1, xx.getLeft))
     val chartYy = (yy.getLeft, Math.max(yy.getRight - 1, yy.getLeft))
     val height = chartYy._2 - chartYy._1
     val alpha = if (view.viewerState.showTraces) TimeDiffController.Transparant else TimeDiffController.NotTransparent
     segments.foldLeft(chartYy._2)((z, s) => {
       val clazz = s._1
-      val count = s._2
+      val count = getAggregationValue(s)
       val top = z - ((count.toDouble / max) * height).toInt
       pp.g.setColor(if (isSelectedBinsDefined) TimeDiffController.getGrayscaleClazzColor(clazz, alpha) else getDefaultClazzColor(clazz, alpha))
 
@@ -181,6 +278,44 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource, val appSet
       }
       }
 
+  def drawPositionsForSegment(pp: PaintParams, name: (String, Int), twIndex: Int, pic: PositionsInCell, color: Color) = {
+    if (twIndex >= view.paintInputParameters.startTwIndex && twIndex < view.paintInputParameters.lastTwIndexExclusive) {
+      val xx = pp.xx(twIndex - view.paintInputParameters.startTwIndex)
+      val yy = pp.yy(name._2)
+      val countByPos = pic.data
+        .map(x => (x._1, x._2.map(_._2).sum))
+        .toSeq
+        .sortBy(_._1)
+        .mkString(";")
+      pp.g.drawString(countByPos, xx.getLeft, yy.getRight - 1)
+    }
+  }
+
+  def drawPositions(pp: PaintParams, positions: Map[String, Map[Int, PositionsInCell]], color: Color) = {
+    pp.g.setColor(color)
+    pp.names
+      .filter(x => positions.contains(x._1))
+      .foreach(name => {
+        positions(name._1)
+          //          .filter(x => TODO: Fix
+          //            x.leftTop >= view.getXIntervalInclusiveByTwIndex(view.paintInputParameters.startTwIndex).getLeft
+          //              && x.rightBottom < view.getXIntervalInclusiveByTwIndex(view.paintInputParameters.lastTwIndexExclusive).getRight)
+          .map(x => drawPositionsForSegment(pp, name, x._1, x._2, color))
+      }
+      )
+  }
+
+  def drawPatternsForClass(pp: PaintParams, patterns: Map[String, Seq[OneSegmentPerformancePattern]], color: Color) =
+    pp.names
+      .filter(x => patterns.contains(x._1))
+      .foreach(name => {
+        patterns(name._1)
+          //          .filter(x => TODO: Fix
+          //            x.leftTop >= view.getXIntervalInclusiveByTwIndex(view.paintInputParameters.startTwIndex).getLeft
+          //              && x.rightBottom < view.getXIntervalInclusiveByTwIndex(view.paintInputParameters.lastTwIndexExclusive).getRight)
+          .map(drawPattern(pp, name, _, color))
+      }
+      )
 
   def setSelectedIds(selectedSegmentsArea: Rectangle, clazz: Int): Unit = {
 
@@ -191,7 +326,7 @@ private[viewers] class TimeDiffController(val ds: AbstractDataSource, val appSet
     selectedIds = selectedIds ++ (selectedSegmentsArea.x until selectedSegmentsArea.x + selectedSegmentsArea.width)
       .flatMap(twIndex => {
         val nameIdClazz = ds.segmentIds(twIndex)
-        names.map(nameIdClazz.get(_))
+        names.map(nameIdClazz.get)
           .filter(_.isDefined)
           .map(_.get)
           .map(_.filter(clazz == TimeDiffGraphics.AllClasses || _._2 == clazz))
@@ -323,6 +458,8 @@ object TimeDiffController {
 
   def segmentNameLt(order: Array[String]): (String, String) => Boolean =
     segmentNameLt(order.zipWithIndex.toMap)
+
+  def dummy(): String=> Boolean = _ => true
 
   //TODO: make smarter implementation
   private def segmentNameLt(order: Map[String, Int])(x: String, y: String): Boolean = {

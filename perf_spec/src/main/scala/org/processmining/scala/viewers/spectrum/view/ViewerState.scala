@@ -13,7 +13,7 @@ private[viewers] case class ViewerState(pos: Int,
                                         showGrid: Boolean,
                                         show3DBars: Boolean,
                                         reverseColors: Boolean,
-                                        showBins: Boolean,
+                                        showBins: Int,
                                         hideSelected: Boolean,
                                         showNamesOfSegments: Boolean
                                        ) {
@@ -26,5 +26,5 @@ private[viewers] case class ViewerState(pos: Int,
 
 private[viewers] object ViewerState {
 
-  val EmptyState = new ViewerState(0, 0, 0, Array(), Array(), 0, 0, false, false, false, false, true, false, true)
+  val EmptyState = new ViewerState(0, 0, 0, Array(), Array(), 0, 0, false, false, false, false, 0, false, true)
 }

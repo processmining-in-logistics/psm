@@ -2,7 +2,8 @@ package org.processmining.scala.viewers.spectrum.view;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.processmining.scala.log.common.enhancment.segments.common.PreprocessingSession;
-import org.processmining.scala.log.common.utils.common.EH;
+import org.processmining.scala.log.utils.common.errorhandling.EH;
+import org.processmining.scala.log.utils.common.errorhandling.JvmParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ public final class Form extends javax.swing.JFrame {
         try {
             System.setProperty("sun.java2d.opengl", "True");
             PropertyConfigurator.configure("./log4j.properties");
-            PreprocessingSession.reportToLog(logger, "Performance Spectrum Miner started");
+            JvmParams.reportToLog(logger, "Performance Spectrum Miner started");
             if(!FramePanel.checkJvm()){
                 System.exit(0);
             }
@@ -35,8 +36,10 @@ public final class Form extends javax.swing.JFrame {
             } catch (Exception ex) {
                 logger.warn("Nimbus is not available", ex);
             }
+            final boolean useDuration =  !(args.length > 0 && args[0].equals("doNotUseDuration"));
+            logger.info(String.format("useDuration = %b", useDuration));
             frame = new Form();
-            frame.setContentPane(new FramePanel("", (dir) -> frame.onSetTitle(dir), true ));
+            frame.setContentPane(new FramePanel("", (dir) -> frame.onSetTitle(dir), true, useDuration ));
             frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
             frame.onSetTitle("");
             frame.pack();

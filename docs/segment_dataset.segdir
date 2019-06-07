@@ -1,0 +1,8 @@
+[GENERAL]
+dateFormat = dd-MM-yyyy HH:mm:ss.SSS
+zoneId = Europe/Amsterdam
+startTime = 01-01-2005 00:00:00.000
+endTime = 01-01-2006 00:00:00.000
+name = SegmentClassifier
+legend = RandomClass%r0%r1%r2
+classCount = 3

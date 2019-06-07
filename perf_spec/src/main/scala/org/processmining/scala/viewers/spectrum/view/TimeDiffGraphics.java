@@ -2,7 +2,7 @@ package org.processmining.scala.viewers.spectrum.view;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.processmining.scala.log.common.utils.common.EH;
+import org.processmining.scala.log.utils.common.errorhandling.EH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;

@@ -1,0 +1,8 @@
+[GENERAL]
+dateFormat = dd-MM-yyyy HH:mm:ss.SSS
+zoneId = Europe/Amsterdam
+startTime = 01-09-2018 00:00:00.000
+endTime = 08-09-2018 00:00:00.000
+caseIdColumn = CaseID
+activityColumn = Activity
+timestampColumn = Timestamp

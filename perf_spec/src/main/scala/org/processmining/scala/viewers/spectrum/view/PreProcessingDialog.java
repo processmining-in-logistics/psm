@@ -15,18 +15,24 @@ import java.awt.*;
  */
 public class PreProcessingDialog extends javax.swing.JDialog {
 
+    private final Frame parent;
+    private final boolean useDuration;
     /**
      * Creates new form PreProcessingDialog
      */
-    public PreProcessingDialog(java.awt.Frame parent, final String filename) {
+    public PreProcessingDialog(final Frame parent, final String filename, final boolean useDuration) {
         super(parent, true);
+        this.parent = parent;
+        this.useDuration = useDuration;
         initComponents(null);
         preProcessingPanel1.jTextFieldFileName.setText(filename);
         centerWindow(this);
     }
 
-    public PreProcessingDialog(java.awt.Frame parent, final XLog xlog) {
+    public PreProcessingDialog(final Frame parent, final XLog xlog) {
         super(parent, true);
+        this.parent = parent;
+        this.useDuration = true;
         initComponents(xlog);
         centerWindow(this);
 
@@ -60,7 +66,7 @@ public class PreProcessingDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents(final XLog xlog) {
-        preProcessingPanel1 = new PreProcessingPanel(xlog, (dir) -> consumer(dir));
+        preProcessingPanel1 = new PreProcessingPanel(parent, xlog, (dir) -> consumer(dir), useDuration);
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Event Log Pre-Processing");
         setMinimumSize(new java.awt.Dimension(700, 400));

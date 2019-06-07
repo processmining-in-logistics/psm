@@ -16,12 +16,12 @@ The PSM project provides two implementations of the Performance Spectrum Miner a
 
 ![Screenshots of the standalone application and of the ProM plugin of the Performance Spectrum Miner](/docs/figures/performance_spectrum_miner_standalone_prom_plugin.jpg)
 
-The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://github.com/vadimmidavvv), [Elena Belkina](https://github.com/ebelkina), and [Dirk Fahland](https://github.com/dfahland).
+The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://www.linkedin.com/in/vadim-denisov-0958274/), [Elena Belkina](https://www.linkedin.com/in/elena-belkina-55524aa1/), and [Dirk Fahland](https://github.com/dfahland).
 
 ## Overview
 
 Analyzing the Performance Spectrum of a process with the PSM has the following steps that are explained in the following.
-1. **Importing** event log data into the PSM (different performance classifiers and aggregation functions can be used).
+1. **Importing** event log data into the PSM (different performance classifiers can be used).
    * The import allows for choosing various parameters to classify the performance in the process explained later.
    * The results of the import are stored on disk (together with meta-data information).
 1. **Opening** the imported data for analysis with the PSM
@@ -31,6 +31,7 @@ Analyzing the Performance Spectrum of a process with the PSM has the following s
    * interactively selecting particular cases of the process to analyze
    * filtering of process steps to analyze
    * advanced features to aggregate and order data in a particular way
+1. **Encoding and exporting** Performance Spectrum-based features into a training and test sets
 
 ## Importing Event Logs into Performance Spectrum
 
@@ -72,20 +73,14 @@ Examples:
 | `10m`      | 10 minutes
 | `3d`      | 3 days
 
-* values of combobox **Aggregation function** are explained in the following table:
-
-| Function name        | Meaning           
-| ------------- |:-------------
-| Cases pending  | How many segments intersect a bin, or start/stop within a bin
-| Cases started  | How many segments start within a bin
-| Cases stopped  | How many segments stop within a bin
-
 * values of combobox **Duration classifier** are explained in the following table:
 
 | Function name        | Segments classification
 | ------------- |:-------------
 | Quartile-based  | A class value is assigned to a segment according a quartile number where its duration sits: 0 for the first quartile, 1 for the second and so on.
 | Median-proportional  | A class value is assigned to a segment according to intervals, defined in terms of the median duration for the segment. The intervals are presented in the table below
+
+*A feature of injecting a [custom classifer](https://github.com/processmining-in-logistics/psm/issues/13) will be released soon* 
 
 | Class value        | Quartile (Quartile-based classifier) | Interval (Median-proportional classifier)
 | ------------- |:------------- |:-------------
@@ -143,8 +138,7 @@ On the top level an intermediate storage directory contains the following files 
 
 | File name        | Data contained
 | ------------- |:-------------
-| dir. `data`  | A set of CSV files for every bin, each of which contains non-zero values of the chosen aggregation function for each segment and class
-| dir. `segments`  | A set of CSV files for every bin, each of which contains case ID, timestamp, duration and class of segemnts that start in this bin
+| directories `data`, `started`  | A set of binary files for each segment
 | file `max.csv`  | The file contains maximal values of the chosen aggregation function
 | file `sorting_order.txt`  | User-defined soring order of segments (optional)
 | file `aggregator.ini`  | User-defined activity aggregation (optional)
@@ -216,7 +210,17 @@ While the *Lines* show the speed of cases, the amount of cases over time can be 
 
 ![A segment of the Performance Spectrum Miner showing Bars](/docs/figures/getting_started_exploring_03_one_segment_bars.png)
 
-The stacked bars provide aggreate information about how many cases started, ended, or were pending in particular time-window between the two activities of the segment. The parameters of this aggregation are chosen in the transformation step, see the [User Manual](docs/user-manual.md) for details. In the example above, the stacked bars show that the process experienced a very high amount of cases going from *Send Fine* to *Insert Fine Notification* in particular period (the exact time will be shown on the bottom left when hovering the mouse over the respective part of the visualization). The coloring indicates that in this period, the cases were processed much slower than in other period. The number *2988* in the label of the segment tells that there were at a maximum 2988 cases transitioning together through this part of the process.
+The stacked bars provide aggreate information about how many cases started, ended, or were pending in particular time-window between the two activities of the segment. A grouping can be chosen by the combo box: 
+
+| Grouping name        | Meaning           
+| ------------- |:-------------
+| No bars  | Bars are hidden
+| Intersections (pending)  | How many segments intersect a bin
+| Starts  | How many segments start within a bin
+| Ends  | How many segments stop within a bin
+| Sum | The sum of all the groupings
+
+In the example above, the stacked bars show that the process experienced a very high amount of cases going from *Send Fine* to *Insert Fine Notification* in particular period (the exact time will be shown on the bottom left when hovering the mouse over the respective part of the visualization). The coloring indicates that in this period, the cases were processed much slower than in other period. The number *2988* in the label of the segment tells that there were at a maximum 2988 cases transitioning together through this part of the process.
 
 ## Exploring Performance Spectrum
 
@@ -250,11 +254,68 @@ The Performance Spectrum can be explored in various ways through selections (wit
 * **Right-clicking and dragging a selection box** around cases in one segment allows to highlight the selected cases in all other segments (the non-selected cases will be shown in grey). 
 * The **Clear** button in the control panel removes this selection.
 
+
+## Encoding and Exporting Performance Spectrum-Based Features into Training and Test Sets
+
+It is possible to use the PSM for feature extraction, as described in *Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum*.
+
+First, a configuration of historic and target spectra should be defined in a textual `.psmdataset` file as follows (see an example [here](dataset.psmdataset):
+
+`[GENERAL]`
+
+`spectrumRoot = g:/debug/ps`  ; the PS directory
+
+`datasetDir = g:/debug/data`  ; the output root training and test sets directory`
+
+`experimentName = experiment_1` ; textual name of the dataset
+
+`dayStartOffsetHours = 10` ; for each day of the dataset: offset, hours
+
+`dayDurationHours = 12` ; for each day of the dataset: duration of operating hours, hours
+
+`howFarInFutureBins = 6`  ; prediction horizon, bins
+
+`historicalDataDurationBins = 4`       ; duration of the historic spectrum, bins
+
+`historicSegments = A3_0:Link1_0 A2_0:A4_0 A1_0:A4_0`  ; historic segments
+
+`targetSegments = E1.TO_SCAN_1_0:E2.SCAN_1`	; target segments
+
+`binsPerLabel = 2`   ; duration of the target spectrum
+
+`firstDayDateTime = 01-09-2018 00:00:00.000` ; start datetime for feature extraction
+
+`totalDaysFromFirstDayInPerformanceSpectrum = 7` ; how many days should be extracted for the training and test sets
+
+`daysNumberInTrainingValidationDataset = 5` ; how many days of  totalDaysFromFirstDayInPerformanceSpectrum should be used for the test set
+
+`aggregation` = 0 ; a code of grouping: start = 0; pending = 1; end = 2; sum = 3
+
+Second, click button "Export" on the main panel to select this file and start the export.
+
+This functionality allows to export only one PS channel. A dataset with more than one PS channel can be obtained by merging several datasets by class `org.processmining.scala.viewers.spectrum.features.DatasetMerge` as follows.
+
+In an OS command line, run `org.processmining.scala.viewers.spectrum.features.DatasetMerge` in the PSM jar file with the following arguments:
+
+`DATASET_WITH_TARGET DATASET_TO_BE_MERGE COLUMNS_TO_SKIP OUTPUT`
+
+* `DATASET_WITH_TARGET` is a file name of a dataset which labels will be used for model training
+* `DATASET_TO_BE_MERGE` is a file name of a dataset which labels will not be used for model training
+* `COLUMNS_TO_SKIP` how many first columns should be skipped during merge (label columns)
+* `OUTPUT` output dataset filename
+
+Command line example: `java -cp "perf_spec-assembly-1.1.0.jar" org.processmining.scala.viewers.spectrum.features.DatasetMerge dataset1.csv dataset2.csv 1 output.csv`
+
+If labels of more than one PS channel should be used, class `org.processmining.scala.viewers.spectrum.features.DatasetMerge` can be easily adapted for such needs.
+
+Please find more information on feature extraction and model training [here](../ppm.md).
+
+
 ## Look and Feel
 
-### Font of Segment Names
+### Font of Segment Names and Line/Bar Colors
 
-To modify segments names font, create/edit file `config.ini` in your dataset root directory and specify font name and/or size in section `GENERAL`, for example:
+To modify segments names font or colors of line, create/edit file `config.ini` in your dataset root directory and specify font name and/or size in section `GENERAL`, for example:
 
 `[GENERAL]`
 
@@ -262,3 +323,6 @@ To modify segments names font, create/edit file `config.ini` in your dataset roo
 
 `fontName = Courier New`
 
+`paletteId` = 1
+
+Here `paletteId` corresponds to several pre-defined palettes, use numbers from 0 to 3.

@@ -13,11 +13,13 @@ object CsvWriter {
       if (!events.isEmpty) {
         w.println(csvHeader)
         events
+          .seq
           .foreach { e => w.println(toCsv(e)) }
       }
     } finally {
       w.close()
     }
   }
+
 
 }

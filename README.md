@@ -1,4 +1,9 @@
-# Performance Spectrum Miner
+# Performance Spectrum Miner v.1.1.6
+
+> This branch and the corresponding PSM version implements the performance prediction method described in the research paper [V. Denisov, D. Fahland, and W. M. P. van der Aalst. **”Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum"**, in *International Conference on Process Mining*,
+2019](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum). See //Publications// for usage and experiments.
+
+# Overview
 
 The Performance Spectrum Miner (PSM) is a visual analytics tool for event data. It takes as input an event log (of events, timestamps, and case identifier) of past process or system executions in CSV or XES format. The PSM visualizes the flow of all cases over all process over time, and gives detailed insights performance characteristics.
 
@@ -17,19 +22,24 @@ The PSM project provides two implementations of the Performance Spectrum Miner a
 The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://github.com/vadimmidavvv), [Elena Belkina](https://github.com/ebelkina), and [Dirk Fahland](https://github.com/dfahland).
 
 # Publications
+  * [Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum (ICPM2019)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum)
+    * The paper describes a method to extract features for training a performance predicition model from the performance spectrum. The [User manual](docs/user-manual.md) provides details on how to extract performance spectrum-based features. Additional paper-specific documentation and the datasets used in the experiments are documented [here](/docs/ICPM2019_ppm.md).
 
-[Unbiased, Fine-Grained Description of Processes Performance from Event Data](https://www.researchgate.net/publication/326945011_Unbiased_Fine-Grained_Description_of_Processes_Performance_from_Event_Data_16th_International_Conference_BPM_2018_Sydney_NSW_Australia_September_9-14_2018_Proceedings)
 
-[The Performance Spectrum Miner: Visual Analytics for Fine-Grained Performance Analysis of Processes](https://www.researchgate.net/publication/327449848_The_Performance_Spectrum_Miner_Visual_Analytics_for_Fine-Grained_Performance_Analysis_of_Processes)
+  * [Unbiased, Fine-Grained Description of Processes Performance from Event Data (BPM2018)](https://www.researchgate.net/publication/326945011_Unbiased_Fine-Grained_Description_of_Processes_Performance_from_Event_Data_16th_International_Conference_BPM_2018_Sydney_NSW_Australia_September_9-14_2018_Proceedings)
 
-[BPIC'2018: Mining Concept Drift in Performance Spectra of Processes](https://www.researchgate.net/publication/327450029_BPIC'2018_Mining_Concept_Drift_in_Performance_Spectra_of_Processes)
+  * [The Performance Spectrum Miner: Visual Analytics for Fine-Grained Performance Analysis of Processes (BPM2018, Demo)](https://www.researchgate.net/publication/327449848_The_Performance_Spectrum_Miner_Visual_Analytics_for_Fine-Grained_Performance_Analysis_of_Processes)
+
+  * [BPIC'2018: Mining Concept Drift in Performance Spectra of Processes (BPIC2018)](https://www.researchgate.net/publication/327450029_BPIC'2018_Mining_Concept_Drift_in_Performance_Spectra_of_Processes)
+
+ 
 
 # How to Install
 
 ## System requirements
 
-  * Microsoft Windows 10/8/7. The PSM is not *tested* yet on other OS.
-  * 2 GB RAM minimum, 8 GB RAM recommended
+  * Microsoft Windows 7 or higher. The PSM is *not tested* yet on other OS.
+  * 2 GB RAM minimum, 16 GB RAM recommended
   * 100MB hard disk space for ProM, 2 GB hard disk space for caches recommended
   * 1024x768 minimum screen resolution
   
@@ -37,7 +47,7 @@ The PSM project is the result of the joint research project on [Process Mining i
 
 The PSM is implemented and tested with Java 8 and is not compatible with previous Java version (e.g. with Java 7).
 
-1. Install JRE/JDK 1.8, 64bit recommended
+1. Install the most recent JRE/JDK 1.8 64bit
 1. Make sure that a correct installation of Java is configured: execute `java -version` in the command line. You should get a response like this:
 
 `java version "1.8.0_171"`
@@ -51,8 +61,12 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 
 `"C:\Program Files\Java\jre1.8.0_171\bin\java.exe" -jar perf_spec-assembly-1.0.2.jar`
   
-   
-## Installation of the PSM as a ProM plugin
+
+## Using ProM release for the ICPM 2019
+
+[Not available yet...]()
+
+## Installation of the PSM as a ProM plugin (with a nightly ProM build)
 
 1. Download [ProM nightly build](http://www.promtools.org/doku.php?id=nightly). The PSM has been tested with versions 14th August 2018 and later.
 1. Run *ProM Package Manager* (execute `PackageManager.bat`)
@@ -69,17 +83,19 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 
 ## Installation of a stand-alone version of the PSM
 
-1. Download and unzip [perf_spec-assembly-1.0.4.jar](https://github.com/processmining-in-logistics/psm/releases/download/v1.0.4/perf_spec-assembly-1.0.4.jar) 
-1. Execute `java -jar perf_spec-assembly-1.0.4.jar` to run the PSM
+1. Download and unzip perf_spec-assembly-1.1.1.jar
+1. Execute `java -jar perf_spec-assembly-1.1.1.jar` to run the PSM
 
 # Getting Started
 
-Analyzing the Performance Spectrum of a process with the PSM has three steps
-1. Transform an event log (in XES format) into data suitable for the PSM (different performance classifiers and aggregation functions can be used).
+Analyzing the Performance Spectrum of a process with the PSM has three steps:
+1. Transformation of an event log, either in XES or CSV format, to a Performance Spectrum disk (file) representation. Different performance classifiers and aggregation functions can be used.
 1. Opening the transformed data for analysis with the PSM
 1. Exploring the Performance Spectrum
 
-## Transforming an event log for Performance Spectrum Analysis
+Additionally the PSM allows [encoding and exporting performance spectrum-based features into a training and test sets](docs/user-manual.md).
+
+## Transforming an event log in the XES format for Performance Spectrum Analysis
 
 ### ... in ProM
 1. Load the event log into ProM via the *Import...* button.
@@ -101,6 +117,34 @@ Analyzing the Performance Spectrum of a process with the PSM has three steps
    * Choose *Process & open*
    * The transformation may require some time and main memory depending on the *Bin size* chosen. Transformation for larger bin sizes are faster and require less memory.
 
+## Transforming an event log in the CSV format for Performance Spectrum Analysis
+
+Often event data are available in the CSV format as a database or a distributed file storage dump, stored in one or many CSV files. Converting such dumps to XES format can be difficult for large event logs. The PSM supports a direct import of one or many CSV files. To prepare CSV file(s) for import, put the file(s) into a directory and provide a description as a text ini file with extension `.csvdir`. This file must include the following fields (see [example](./docs/event_logs.csvdir)):
+
+| Field |Sample value | Comment |
+|:------------- |:-------------|:-----|
+| `dateFormat` | `dd-MM-yyyy HH:mm:ss.SSS` | Datetime format in Java [`DateTimeFormatter`](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html) format |
+| `zoneId` | `Europe/Amsterdam` | Time zone ID in Java [`ZoneId`](https://docs.oracle.com/javase/8/docs/api/java/time/ZoneId.html) format |
+| `startTime` | `01-09-2018 00:00:00.000` | Since then the performance spectrum should be computed, in the format described above |
+| `endTime` | `08-09-2018 00:00:00.000` | Until then the performance spectrum should be computed, in the format described above |
+| `caseIdColumn` | `CaseID`| Column name for *case ID* |
+| `activityColumn` | `Activity` | Column name for *activity* |
+| `timestampColumn` | `Timestamp` | Column name for *timestamp* |
+
+
+### ... in ProM
+
+Import your `.csvdir` file and use it in the PSM plugin, exactly as XES files.
+
+### ... in PSM standalone
+
+Import your `.csvdir` file and use it exactly as XES files.
+
+## Transforming a dataset of segments for Performance Spectrum Analysis
+
+Sometimes event data are availabe not as an event log but as segments. Find [here](/docs/segment_import.md) how to import such data into the PSM.
+ 
+ 
  ## Opening the transformed data for analysis with the PSM
 
 1. By choosing *Process & open* during data transformation, the transformed data will be opened automatically. Alternatively, you can also load a previously transformed data set by opening the .psm meta-data file (via *Import* in ProM, and choosing *Performance Spectrum Miner View*, or via *Open* in the stand-alone version).
@@ -144,15 +188,16 @@ The Performance Spectrum can be explored in various ways.
 More detailed information can be found in
 * the [User Manual](docs/user-manual.md)
 * Vadim Denisov, Dirk Fahland, Wil M. P. van der Aalst: *Unbiased, Fine-Grained Description of Processes Performance from Event Data.* BPM 2018: 139-157 (https://doi.org/10.1007/978-3-319-98648-7_9)
+* in other related papers (see Sec. Publications above)
 
 # Project
 
 The Performance Spectrum Miner project is the result of the joint research project on Process Mining in Logistics between Eindhoven University of Technology and Vanderlande Industries, and developed by 
-* Vadim Denisov, Eindhoven University of Technology
-* Elena Belkina, 
+* [Vadim Denisov](https://www.linkedin.com/in/vadim-denisov-0958274/), Eindhoven University of Technology
+* [Elena Belkina](https://www.linkedin.com/in/elena-belkina-55524aa1/), 
 * Dirk Fahland, Eindhoven University of Technology
 
-The project makes the Performance Spectrum Miner available under the [GNU LGPL v3.0](https://www.gnu.org/licenses/lgpl-3.0-standalone.html) (see file LICENSE)
+The project makes the Performance Spectrum Miner available under the [GNU LGPL v3.0](https://www.gnu.org/licenses/lgpl-3.0-standalone.html) (see file [LICENSE](LICENSE))
 
 The objective of the PSM project is to 
 * demonstrate novel insights into non-steady state, time-variable performance of process event data,
@@ -168,15 +213,9 @@ More information about the Process Mining in Logistics project focusing on proce
 
 # Programmer's Guide
 
-## How to build
+* Find [here](docs/how_to_build.md) information on **how to build the project from sources**.
+* Adding **custom classifiers** is described [here](docs/custom_classifier.md).
 
-1. Install JDK 8
-1. Install [sbt](https://www.scala-sbt.org/download.html) 1.2.1 or a higher version.
-1. Clone this repository into a folder on your local disk
-1. Go to subfolder `perf_spec` and run `sbt`
-1. Execute command `package` to build the PSM without dependecies or command `assembly` to build an Überjar
-
-*You can also use your favorite IDE with support of Java and Scala languages, e.g. [IntelliJ IDEA Community](https://www.jetbrains.com/idea/download/#section=windows), to build the PSM or work with the sources.*
 
 ## Roadmap
 

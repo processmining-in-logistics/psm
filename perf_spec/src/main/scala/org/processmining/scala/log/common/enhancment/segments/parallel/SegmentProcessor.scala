@@ -7,6 +7,7 @@ import org.processmining.scala.log.common.enhancment.segments.common.{AbstractAg
 import org.processmining.scala.log.common.types.{Segment, SegmentWithClazz}
 import org.processmining.scala.log.common.unified.event.{CommonAttributeSchemas, UnifiedEvent}
 import org.processmining.scala.log.common.unified.log.parallel.UnifiedEventLog
+
 import scala.collection.immutable.SortedMap
 import scala.collection.parallel.{ParMap, ParSeq}
 

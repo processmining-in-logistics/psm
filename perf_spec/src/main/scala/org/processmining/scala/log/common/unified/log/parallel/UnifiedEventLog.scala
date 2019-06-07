@@ -45,12 +45,17 @@ trait UnifiedEventLog extends Serializable {
 
   def project(ex: EventExpression*): UnifiedEventLog
 
+  /** remove events that match provided patterns */
+  def remove(ex: EventExpression*): UnifiedEventLog
+
   def projectAttributes(attrNames: Set[String]): UnifiedEventLog
 
   def find(id: String): Option[UnifiedTrace]
 
   /** returns min and max timestamps or (0, 0) for empty log */
   def minMaxTimestamp(): (Long, Long)
+
+  def take(n: Int): UnifiedEventLog
 }
 
 object UnifiedEventLog {
