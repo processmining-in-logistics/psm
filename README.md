@@ -62,9 +62,9 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 `"C:\Program Files\Java\jre1.8.0_171\bin\java.exe" -jar perf_spec-assembly-1.0.2.jar`
   
 
-## Using ProM release for the ICPM 2019
+## Using ProM 6.9
 
-[Not available yet...]()
+Download ProM 6.9 [here](http://www.promtools.org/).
 
 ## Installation of the PSM as a ProM plugin (with a nightly ProM build)
 
