@@ -3,6 +3,7 @@ package org.processmining.scala.viewers.spectrum.view;
 import org.processmining.scala.log.utils.common.errorhandling.EH;
 import org.processmining.scala.viewers.spectrum.api.PsmApi;
 import org.processmining.scala.viewers.spectrum.api.PsmEvents;
+import org.processmining.scala.viewers.spectrum.export.PsExporter;
 import org.processmining.scala.viewers.spectrum.model.AbstractDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -409,19 +410,29 @@ public final class MainPanel extends javax.swing.JPanel implements Zooming, PsmA
         jButtonExport.setText("Export...");
         jButtonExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // (JComponent) evt.getSource()
+                int result = controller.ds().segmentNames().length == 0 ? JOptionPane.NO_OPTION :
+                        JOptionPane.showConfirmDialog(null,
+                        "Do you want to export the Performance Spectrum as CSV file (YES) or as training/test datasets (NO)?","Export", JOptionPane.YES_NO_CANCEL_OPTION);
+                switch (result){
+                    case JOptionPane.YES_OPTION:
+                        final JFileChooser dirDlg = new JFileChooser();
+                        dirDlg.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                        if (dirDlg.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                            final PsExporter psExporter = new PsExporter(controller.ds());
+                            psExporter.export(dirDlg.getSelectedFile().getPath());
+                            JOptionPane.showMessageDialog(null, "Export is completed.");
+                        }
+                        break;
+                    case JOptionPane.NO_OPTION:
+                        final DatasetExportDialog dlg = new DatasetExportDialog(controller.ds());
+                        dlg.open();
+                        break;
 
-                final DatasetExportDialog dlg = new DatasetExportDialog(controller.ds());
-                dlg.open();
-//                final LegendDialog2 legendDialog =
-//                        new LegendDialog2((JComponent) evt.getSource(), controller.view().ds.legend(), controller);
-//                legendDialog.setVisible(true);
-
+                }
             }
         });
         jPanelL12.add(jButtonLegend, java.awt.BorderLayout.LINE_END);
-
-
-
         jPanelL13.setLayout(new java.awt.BorderLayout());
         jPanelL13.add(jButtonExport, java.awt.BorderLayout.LINE_END);
         jPanelL13.add(jPanelL14, java.awt.BorderLayout.CENTER);

@@ -22,12 +22,41 @@ object SpectrumFileNames {
 
   def getStartedDir(spectrumRootDir: String) = s"$spectrumRootDir/started"
 
-
-  def segmentNameToFileName(segmentName: String): String =
-    segmentName.replace(':', '!')
+  def segmentNameToFileName(segmentName: String): String = {
+    val noExclamations = segmentName.map {
+      case '!' => "[exclamation]"
+      case x: Char => s"$x"
+    }.mkString
+    val escaped = noExclamations
+      .replaceFirst(":", "!")
+      .map {
+        case '/' => "[slash]"
+        case '\\' => "[backslash]"
+        case '<' => "[lessthan]"
+        case '>' => "[greaterthan]"
+        case '"' => "[doublequote]"
+        case '|' => "[pipe]"
+        case '?' => "[questionmark]"
+        case '*' => "[asterisk]"
+        case ':' => "[colon]"
+        case x: Char => s"$x"
+      }.mkString
+    if (escaped.endsWith(" ")) escaped.substring(0, escaped.length - 1) + "[space]" else escaped
+  }
 
   def fileNameToSegmentName(filename: String): String =
-    filename.replace('!', ':')
-
+    filename
+      .replace('!', ':')
+      .replace("[exclamation]", "!")
+      .replace("[slash]", "/")
+      .replace("[backslash]", "\\")
+      .replace("[lessthan]", "<")
+      .replace("[greaterthan]", ">")
+      .replace("[doublequote]", "\"")
+      .replace("[pipe]", "|")
+      .replace("[questionmark]", "?")
+      .replace("[asterisk]", "*")
+      .replace("[colon]", ":")
+      .replace("[space]", " ")
 
 }
