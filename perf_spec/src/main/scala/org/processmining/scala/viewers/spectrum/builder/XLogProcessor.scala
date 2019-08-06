@@ -70,7 +70,7 @@ class PreProcessor(filename: String,
         val ret = unifiedEventLog.minMaxTimestamp()
         (ret._1, ret._2, durationClassifier)
       }
-    val twCount = ((endTimeMs - startTimeMs) / twSize).toInt
+    val twCount = ((endTimeMs - startTimeMs) / twSize).toInt + 1
     handler.run()
     val files = spectrumDir
       .listFiles()
