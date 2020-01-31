@@ -1,6 +1,6 @@
 # Performance Spectrum Miner v.1.2.0
 
-> This branch and the corresponding PSM version implements approach described in the research paper V. Denisov, D. Fahland, and W. M. P. van der Aalst. **Repairing Event Logs with Missing Events to Support Performance Analysis of Systems with Shared Resources**, in submission. See //Publications// for usage and experiments.
+> This branch and the corresponding PSM version implements approach described in the research paper V. Denisov, D. Fahland, and W. M. P. van der Aalst. **Repairing Event Logs with Missing Events to Support Performance Analysis of Systems with Shared Resources**, in submission. See //Publications// for usage and experiments or go [here](/docs/repairing_event_logs.md) directly.
 
 
 # Overview
