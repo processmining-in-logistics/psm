@@ -2,10 +2,10 @@
 
 *(under construction)*
 
-## Baggage Handling System Simulation Model
+## Baggage Handling System (BHS) Simulation Model
 
-(/docs/figures/sim_mfd.png)
+![Material Flow Diagram (MFD) of the BHS](/docs/figures/performance_spectrum_miner_standalone_prom_plugin.jpg)(/docs/figures/sim_mfd.png)
 
-(/docs/figures/sim_model.png)
+![The visualization of the BHS simulation model](/docs/figures/sim_model.png)
 
 
