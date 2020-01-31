@@ -4,7 +4,7 @@
 
 ## Baggage Handling System (BHS) Simulation Model
 
-
+See the animation ![here](https://www.youtube.com/watch?v=O0_tjfRInFo&feature=youtu.be).
 
 ![The visualization of the BHS simulation model](/docs/figures/sim_model.png)
 
