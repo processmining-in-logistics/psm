@@ -2,6 +2,10 @@
 
 *(under construction)*
 
+## Baggage Handling System Simulation Model
 
+(/docs/figures/sim_mfd.png)
+
+(/docs/figures/sim_model.png)
 
 
