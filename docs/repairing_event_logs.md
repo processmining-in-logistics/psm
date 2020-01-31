@@ -19,7 +19,7 @@
 
 ![Load and its error, unstable performance](/docs/figures/sim_unstable_perf_load.png)
 
-## Performance Spectra Built on Repaired Logs of the Real-Life Logs
+## Performance Spectra Built on Repaired Real-Life Logs of a BHS of a Large European Airport
 
 ![Performance Spectrum, mixed performance](/docs/figures/rl_mixed_perf.png)
 
