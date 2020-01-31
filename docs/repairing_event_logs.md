@@ -8,6 +8,9 @@ See the animation ![here](https://www.youtube.com/watch?v=O0_tjfRInFo&feature=yo
 
 ![The visualization of the BHS simulation model](/docs/figures/sim_model.png)
 
+[![The visualization of the BHS simulation model](/docs/figures/sim_model.png)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+
+
 ## Performance Spectra Built on Repaired Logs of the Simulation Model
 
 ![Performance Spectrum, stable performance](/docs/figures/sim_stable_perf.png)
