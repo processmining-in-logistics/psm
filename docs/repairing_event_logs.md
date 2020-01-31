@@ -12,4 +12,8 @@
 
 ![The visualization of the BHS simulation model](/docs/figures/sim_stable_perf.png)
 
+![The visualization of the BHS simulation model](/docs/figures/sim_stable_perf_load.png)
+
+
+
 
