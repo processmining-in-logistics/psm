@@ -1,6 +1,7 @@
-# Performance Spectrum Miner
+# Performance Spectrum Miner v.1.2.0
 
-The latest release is [here](https://github.com/processmining-in-logistics/psm/tree/ppm).
+> This branch and the corresponding PSM version implements approach described in the research paper V. Denisov, D. Fahland, and W. M. P. van der Aalst. **Repairing Event Logs with Missing Events to Support Performance Analysis of Systems with Shared Resources**, in submission. See //Publications// for usage and experiments.
+
 
 # Overview
 
@@ -21,6 +22,8 @@ The PSM project provides two implementations of the Performance Spectrum Miner a
 The PSM project is the result of the joint research project on [Process Mining in Logistics](http://www.win.tue.nl/ais/doku.php?id=research:projects#process_mining_in_logistics) between Eindhoven University of Technology and Vanderlande Industries, and developed by [Vadim Denisov](https://github.com/vadimmidavvv), [Elena Belkina](https://github.com/ebelkina), and [Dirk Fahland](https://github.com/dfahland).
 
 # Publications
+
+  * **Repairing Event Logs with Missing Events to Support Performance Analysis of Systems with Shared Resources**. Additional paper-specific documentation and the datasets used in the experiments are documented [here](/docs/repairing_event_logs.md).
   * [Predictive Performance Monitoring of Material Handling Systems Using the Performance Spectrum (ICPM2019)](https://www.researchgate.net/publication/332877292_Predictive_Performance_Monitoring_of_Material_Handling_Systems_Using_the_Performance_Spectrum)
     * The paper describes a method to extract features for training a performance predicition model from the performance spectrum. The [User manual](docs/user-manual.md) provides details on how to extract performance spectrum-based features. Additional paper-specific documentation and the datasets used in the experiments are documented [here](/docs/ICPM2019_ppm.md).
 
