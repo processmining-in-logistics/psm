@@ -19,6 +19,12 @@
 
 ![Load and its error, unstable performance](/docs/figures/sim_unstable_perf_load.png)
 
+## Performance Spectra Built on Repaired Logs of the Real-Life Logs
+
+![Performance Spectrum, mixed performance](/docs/figures/rl_mixed_perf.png)
+
+![Load and its error, mixed performance](/docs/figures/rl_mixed_perf_load.png)
+
 
 
 
