@@ -2,7 +2,7 @@
 
 *(under construction)*
 
-Binaries are available ![here](releases/tag/1.2.0)
+Binaries are available [here](https://github.com/processmining-in-logistics/psm/releases/tag/1.2.0)
 
 ## Baggage Handling System (BHS) Simulation Model
 
