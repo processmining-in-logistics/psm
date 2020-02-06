@@ -2,6 +2,8 @@
 
 *(under construction)*
 
+Binaries are available ![here](releases/tag/1.2.0)
+
 ## Baggage Handling System (BHS) Simulation Model
 
 *Click on the Fig. below to watch the video*
