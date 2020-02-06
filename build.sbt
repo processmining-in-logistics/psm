@@ -2,7 +2,7 @@ import sbt._
 import Keys._
 
 ThisBuild / organization := "org.processmining"
-ThisBuild / version      := "1.1.7"
+ThisBuild / version      := "1.2.0"
 ThisBuild / scalaVersion := "2.12.8"
 
 name := "everything"
@@ -18,6 +18,12 @@ lazy val classifiers = project
 
 lazy val ppm = project
   .dependsOn(perf_spec)
+
+lazy val framework = project
+  .dependsOn(perf_spec)
+
+lazy val sim_ein = project
+  .dependsOn(framework, ppm)
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs@_*) => MergeStrategy.discard

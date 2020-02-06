@@ -50,6 +50,8 @@ trait UnifiedEvent extends Serializable with Timestamp with Activity {
 /** Events factory */
 object UnifiedEvent {
 
+  val EmptyEvent = apply(-1, "")
+
   /** Creates an event without optional attributes */
   def apply(
              timestamp: Long,

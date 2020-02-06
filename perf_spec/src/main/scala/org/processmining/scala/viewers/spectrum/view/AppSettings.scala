@@ -26,8 +26,8 @@ case class AppSettings(paletteId: Int,
 object AppSettings {
   private val logger = LoggerFactory.getLogger(classOf[AppSettings].getName)
   private val systemZone: ZoneId = ZoneId.systemDefault
-  private val DefaultFontSize = 20
-  private val DefaultFontName = "Gill Sans MT Condensed"
+  val DefaultFontSize = 20
+  val DefaultFontName = "Gill Sans MT Condensed"
 
   private def getDates(line: String, csvImportHelper: CsvImportHelper): Set[Long] =
     line.split("&")
