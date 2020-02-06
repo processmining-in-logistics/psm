@@ -2,7 +2,7 @@
 
 *(under construction)*
 
-Binaries are available [here](https://github.com/processmining-in-logistics/psm/releases/tag/1.2.0)
+Binaries are available [here](https://github.com/processmining-in-logistics/psm/releases/tag/1.2.0). Execute `start_sim.cmd` to run the simulation model and `start_psm.cmd` to run the PSM.
 
 ## Baggage Handling System (BHS) Simulation Model
 
