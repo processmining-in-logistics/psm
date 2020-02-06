@@ -19,12 +19,6 @@ lazy val classifiers = project
 lazy val ppm = project
   .dependsOn(perf_spec)
 
-lazy val framework = project
-  .dependsOn(perf_spec)
-
-lazy val sim_ein = project
-  .dependsOn(framework, ppm)
-
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs@_*) => MergeStrategy.discard
   case x => MergeStrategy.last
