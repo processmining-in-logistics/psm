@@ -35,9 +35,19 @@ The model records two event logs and several internally used files:
 
 **All those files are required to be in the path of the PSM to be opened.**
 
+## Performance Spectrum Miner 1.2.x (with Regions)
+
+The Performance Spectrum Miner 1.2.x implements log repair and supports work with performance spectra built from logs with intervals for time-stamps. Additionaly it is possible to project the ground truth on top of the repaired data. Currently it is pre-configured for work with the output of the simulation model (above) and for work with real-life event logs of the same BHS fragment.
+
+The main window of the PSM is shown in the figure below, where: 
+* 
 
 
-## Performance Spectra Built on Repaired Logs of the Simulation Model
+![PSM 1.2.x](/docs/figures/psm_regions.png)
+
+## Examples of Performance Spectra
+
+### Performance Spectra Built on Repaired Logs of the Simulation Model
 
 ![Performance Spectrum, stable performance](/docs/figures/sim_stable_perf.png)
 
@@ -48,7 +58,7 @@ The model records two event logs and several internally used files:
 
 ![Load and its error, unstable performance](/docs/figures/sim_unstable_perf_load.png)
 
-## Performance Spectra Built on Repaired Real-Life Logs of a BHS of a Large European Airport
+### Performance Spectra Built on Repaired Real-Life Logs of a BHS of a Large European Airport
 
 ![Performance Spectrum, mixed performance](/docs/figures/rl_mixed_perf.png)
 
