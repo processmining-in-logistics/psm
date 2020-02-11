@@ -40,8 +40,16 @@ The model records two event logs and several internally used files:
 The Performance Spectrum Miner 1.2.x implements log repair and supports work with performance spectra built from logs with intervals for time-stamps. Additionaly it is possible to project the ground truth on top of the repaired data. Currently it is pre-configured for work with the output of the simulation model (above) and for work with real-life event logs of the same BHS fragment.
 
 The main window of the PSM is shown in the figure below, where: 
-* 
-
+* (1) is the segment name
+* sliders (2) allows horizontal scrolling
+* sliders (3, 5) allow horizontal and vertical zooming 
+* field (4) shows the absolute time under the mouse pointer in the performance spectrum
+* list box (6) allows to select constraints for log repair (see below)
+* check boxes (7) allow to show/hide regions, their right borders and change their color schemas
+* list box (8) allows to show/hide the ground truth (if available)
+* check boxes (9) allow to show/hide load (base on a repaired log)
+* check boxes (10) allow to show/hide ground thruth load and computed error (if the ground truth is available))
+* field and button (11) allow to set time-window size (in ms)
 
 ![PSM 1.2.x](/docs/figures/psm_regions.png)
 
