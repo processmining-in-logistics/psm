@@ -51,7 +51,7 @@ The main window of the PSM is shown in the figure below, where:
 * check boxes (10) allow to show/hide ground thruth load and computed error (if the ground truth is available))
 * field and button (11) allow to set time-window size (in ms)
 
-![PSM 1.2.x](/docs/figures/psm_regions.png)
+![PSM 1.2.x](/docs/figures/psm_regions_ui.png)
 
 ## Examples of Performance Spectra
 
