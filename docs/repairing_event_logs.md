@@ -23,6 +23,9 @@ The main window of the simulation model application is shown in the figure below
 * button (4) pauses/resumes simulation. Note that recording event logs can be only used (copied) during a pause, i.e., after they are flushed to disk.
 * text field and button (5) allow to send a command to the simulation engine to interactively block/unblock conveyors. Format for blocking: `block conveyor_id period_ms`, e.g., `block x 10000` to block conveyor `x` for 10.000 milliseconds, and `block conveyor_id`, e.g., `block x` to block conveyor `x` forever (or until explict unblocking). Format for unblocking: `unblock conveyor_id`, e.g., `unblock x` to unblock conveyor `x`. 
 * check boxes (6) allow to show/hide IDs of cases and their final destination.
+* other GUI elements may be not implemented yet
+
+![BHS simulation model GUI](/docs/figures/sim_model_ui.png)
 
 The model records two event logs and several internally used files:
 * `!incomplete_log.csv` is an incomplete log (to be repaired)
