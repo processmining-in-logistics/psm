@@ -1,7 +1,5 @@
 # Repairing Event Logs with Missing Events to Support Performance Analysis of Systems with Shared Resources
 
-*(under construction)*
-
 ## Quick Start
 
 Binaries (for Java 8) are available [here](https://github.com/processmining-in-logistics/psm/releases/tag/1.2.1). 
@@ -65,6 +63,8 @@ The PSM 1.2.x allows to project information on top of the Performance Spectrum a
 ![PSM 1.2.x](/docs/figures/psm_overlaid.png)
 
 Each 'region' can be better visible by highlighting it through moving the mouse pointer at the top point of the region. In this case also the griund truth segment is drawn as a thick black dashed line (see the figure above).
+
+In the next section, some examples of performance spectra and load are provided.
 
 
 ## Examples of Performance Spectra
