@@ -97,7 +97,7 @@ class SimPanel(experimentEnv: ExperimentTemplate) extends BorderPanel {
         val velocityAndPlayerPanel = new BorderPanel {
 
           val playButton = new Button(">>")
-          val rewindToStartButton = new Button("|<")
+          //val rewindToStartButton = new Button("|<")
 
           reactions += {
 
@@ -119,9 +119,9 @@ class SimPanel(experimentEnv: ExperimentTemplate) extends BorderPanel {
             }
           }
 
-          listenTo(playButton.mouse.clicks, rewindToStartButton)
+          listenTo(playButton.mouse.clicks)
 
-          val playerPanel = new FlowPanel(playButton, rewindToStartButton)
+          val playerPanel = new FlowPanel(playButton)
           layout(playerPanel) = Position.West
 
           val velocityPanel = new BorderPanel {
@@ -171,7 +171,7 @@ class SimPanel(experimentEnv: ExperimentTemplate) extends BorderPanel {
         listenTo(buttonSendCmd.mouse.clicks)
 
       }
-      val buttonEventLogSnapshot = new Button("Snapshot")
+      //val buttonEventLogSnapshot = new Button("Snapshot")
       val checkBoxShowCaseId = new CheckBox("Show CaseID"){
         mnemonic = Key.I
       }
@@ -179,21 +179,13 @@ class SimPanel(experimentEnv: ExperimentTemplate) extends BorderPanel {
         mnemonic = Key.D
       }
 
-      val bottomPanel = new FlowPanel(cmdPanel, checkBoxShowCaseId, checkBoxShowDst, buttonEventLogSnapshot){
-        listenTo(buttonEventLogSnapshot.mouse.clicks, checkBoxShowCaseId, checkBoxShowDst)
+      val bottomPanel = new FlowPanel(cmdPanel, checkBoxShowCaseId, checkBoxShowDst){
+        listenTo(checkBoxShowCaseId, checkBoxShowDst)
         reactions += {
           case evt@ButtonClicked(`checkBoxShowCaseId`) => interactiveModelPanel.onShowCaseId(checkBoxShowCaseId.selected)
           case evt@ButtonClicked(`checkBoxShowDst`) => interactiveModelPanel.onShowDst(checkBoxShowDst.selected)
 
-          case evt@MouseClicked(`buttonEventLogSnapshot`, pt, _, _, _) => {
-            if (evt.peer.getButton == 1) {
-              try {
-                }
-              catch {
-                case e: Exception => EH.apply().warnAndMessageBox(s"", e)
-              }
-            }
-          }
+
         }
       }
 

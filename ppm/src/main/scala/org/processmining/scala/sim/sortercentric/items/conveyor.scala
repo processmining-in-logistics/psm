@@ -2,6 +2,8 @@ package org.processmining.scala.sim.sortercentric.items
 
 import java.awt.Color
 
+import org.processmining.scala.viewers.spectrum2.model.Separator
+
 case class SensorConfig(id: String, positionMs: Long) {
   override def toString: String = s"'$id'@${positionMs}"
 }
@@ -96,7 +98,7 @@ case class ConveyorConnections(input: AbstractConveyor,
       .map(x => SensorConfig(x.sensorId, x.positionMs))
 
     val mergingSensors = mergingConveyors
-      .map(x => SensorConfig(s"${x._1.id}->${x._2}", x._1.connections.mergePositionMs))
+      .map(x => SensorConfig(s"${x._1.id}${Separator.S}${x._2}", x._1.connections.mergePositionMs))
 
     divertingSensors ::: mergingSensors
   }

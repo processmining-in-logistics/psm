@@ -2,7 +2,7 @@ import sbt._
 import Keys._
 
 ThisBuild / organization := "org.processmining"
-ThisBuild / version      := "1.2.0"
+ThisBuild / version      := "1.2.1"
 ThisBuild / scalaVersion := "2.12.8"
 
 name := "everything"

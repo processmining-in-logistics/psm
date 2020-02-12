@@ -41,7 +41,7 @@ class UnifiedEventLogBasedBuilder(logFactory: CallableWithLevel[UnifiedEventLog]
   }
 
   def loadOverlaidSegments(level: Int): Map[SegmentName, Vector[OverlaidSegment]] = {
-    val loadOverlaidSegmentsFilename = s"$dir/overlaid_segments_$level.csv"
+    val loadOverlaidSegmentsFilename = s"${if (dir.isEmpty) "." else dir}/overlaid_segments_$level.csv"
     val loadOverlaidSegmentsFile = new File(loadOverlaidSegmentsFilename)
     if (loadOverlaidSegmentsFile.exists && loadOverlaidSegmentsFile.isFile) {
       val csvReader = new CsvReader(",", "\"")
@@ -73,7 +73,10 @@ class UnifiedEventLogBasedBuilder(logFactory: CallableWithLevel[UnifiedEventLog]
         .groupBy(x => x.srcSegment)
         .map(x => (x._1, x._2.toVector))
 
-    } else Map()
+    } else {
+      logger.info(s"No overlaid files in '$dir'")
+      Map()
+    }
   }
 
   override def call(level: Int): AbstractDataSource = {

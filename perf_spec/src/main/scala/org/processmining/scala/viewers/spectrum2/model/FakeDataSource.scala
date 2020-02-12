@@ -39,7 +39,7 @@ object A {
 object FakeDataSource {
 
   val FirstLevel = "1. Observed PS"
-  val Levels = Vector(FirstLevel, "2. Unobserved segments", "3. Correct order", "4. Adjusted right border")
+  val Levels = Vector(FirstLevel, "2. Process", "3. Resource", "4. Everything")
 
   def sortingOrder(): Vector[SortingOrderEntry] = {
 
@@ -52,17 +52,17 @@ object FakeDataSource {
       SegmentName(A.IN_4_3_TO_x, A.IN_5_3_TO_x),
       SegmentName(A.IN_5_3_TO_x, A.IN_6_3_TO_x),
       SegmentName(A.IN_6_3_TO_x, A.IN_7_3_TO_x),
-      SegmentName(A.IN_7_3_TO_x, A.y_TO_S1_0),
-      SegmentName(A.y_TO_S1_0, A.y_TO_S2_0),
-      SegmentName(A.y_TO_S2_0, A.y_TO_S3_0),
-      SegmentName(A.y_TO_S3_0, A.y_TO_S4_0),
-      SegmentName(A.y_TO_S4_0, A.y_TO_S5_0),
-      SegmentName(A.y_TO_S5_0, A.y_TO_S6_0),
-      SegmentName(A.y_TO_S6_0, A.y_TO_S7_0)
+      SegmentName(A.IN_7_3_TO_x, A.y_TO_S1_0)
+//      SegmentName(A.y_TO_S1_0, A.y_TO_S2_0),
+//      SegmentName(A.y_TO_S2_0, A.y_TO_S3_0),
+//      SegmentName(A.y_TO_S3_0, A.y_TO_S4_0),
+//      SegmentName(A.y_TO_S4_0, A.y_TO_S5_0),
+//      SegmentName(A.y_TO_S5_0, A.y_TO_S6_0),
+//      SegmentName(A.y_TO_S6_0, A.y_TO_S7_0)
     )
 
     Vector(
-      SortingOrderEntry("PRE-SORTER", sorter, Map(
+      SortingOrderEntry("", sorter, Map(
         SegmentName(A.z_TO_x, A.IN_1_3_TO_x) -> SegmentName(A.IN_1_0, A.IN_1_3_TO_x),
         SegmentName(A.IN_1_3_TO_x, A.IN_2_3_TO_x) -> SegmentName(A.IN_2_0, A.IN_2_3_TO_x),
         SegmentName(A.IN_2_3_TO_x, A.IN_3_3_TO_x) -> SegmentName(A.IN_3_0, A.IN_3_3_TO_x),

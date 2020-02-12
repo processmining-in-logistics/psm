@@ -1,19 +1,17 @@
 package org.processmining.scala.viewers.spectrum2.view
 
 import java.awt.geom.AffineTransform
-import java.awt.image.BufferedImage
-import java.awt.{AlphaComposite, BasicStroke, Color, Font, Rectangle, Toolkit}
+import java.awt.{BasicStroke, Color, Font, Rectangle, Toolkit}
 import java.io.File
 
-import collection.mutable.{HashMap, MultiMap, Set}
 import javax.imageio.ImageIO
 import org.processmining.scala.viewers.spectrum.view.AppSettings
-import org.processmining.scala.viewers.spectrum2.model.{AbstractDataSource, CallableWithLevel, FakeDataSource, LoadSource, Segment, SegmentLoad, SegmentName}
+import org.processmining.scala.viewers.spectrum2.model._
 import org.slf4j.LoggerFactory
 
+import scala.collection.mutable.{HashMap, MultiMap, Set}
 import scala.swing.event.MouseMoved
 import scala.swing.{BorderPanel, Dimension, Graphics2D, Point}
-import scala.util.Random
 
 case class SortingOrderEntry(variantName: String, segmentNames: Vector[SegmentName], slaveSegments: Map[SegmentName, SegmentName])
 
@@ -192,31 +190,31 @@ class PerformanceSpectrumPanel(private var builder: CallableWithLevel[AbstractDa
 
 
   def drawSegmentText(g: Graphics2D, soe: SortingOrderEntry, segments: Vector[Segment], y1: Int, h: Int, segmentName: SegmentName, isMaster: Boolean) = {
-//    val y2 = y1 + h
-//    val middleY = y2 - 5
-//    if (isMaster) {
-//      g.setColor(Color.white)
-//
-//      g.fillRect(30, middleY - 20, 150, 30)
-//      g.fillRect(0, y1 + 2, 20, y2 - y1 - 4) //vertical
-//
-//      g.setColor(Color.black)
-//      g.setFont(segmentFont)
-//      g.drawString(segmentName.toString, 35, middleY)
-//
-//      val affineTransform = new AffineTransform
-//      affineTransform.rotate(Math.toRadians(270), 0, 0)
-//      val rotatedFont = segmentFont.deriveFont(affineTransform)
-//      g.setFont(rotatedFont)
-//      g.setColor(Color.black)
-//      g.drawString(soe.variantName, 15, y2 - 10)
-//    } else {
-//      g.setColor(Color.white)
-//      g.fillRect(20, y1 + 5, 125, 20)
-//      g.setColor(Color.black)
-//      g.setFont(segmentFont)
-//      g.drawString(s"${segmentName.a}${SegmentName.DefaultSeparator}", 25, y1 + 20)
-//    }
+    val y2 = y1 + h
+    val middleY = y2 - 5
+    if (isMaster) {
+      g.setColor(Color.white)
+
+      g.fillRect(30, middleY - 20, 150, 30)
+      g.fillRect(0, y1 + 2, 20, y2 - y1 - 4) //vertical
+
+      g.setColor(Color.black)
+      g.setFont(segmentFont)
+      g.drawString(segmentName.toString, 35, middleY)
+
+      val affineTransform = new AffineTransform
+      affineTransform.rotate(Math.toRadians(270), 0, 0)
+      val rotatedFont = segmentFont.deriveFont(affineTransform)
+      g.setFont(rotatedFont)
+      g.setColor(Color.black)
+      g.drawString(soe.variantName, 15, y2 - 10)
+    } else {
+      g.setColor(Color.white)
+      g.fillRect(20, y1 + 5, 125, 20)
+      g.setColor(Color.black)
+      g.setFont(segmentFont)
+      g.drawString(s"${segmentName.a}${SegmentName.DefaultSeparator}", 25, y1 + 20)
+    }
   }
 
   var foregroundRegions: List[(Array[Int], Array[Int])] = List()
@@ -354,23 +352,23 @@ class PerformanceSpectrumPanel(private var builder: CallableWithLevel[AbstractDa
             if (s.end.isObserved) g.fillOval(x2, y2 - 5, 4, 5)
           }
 
-          //        if (s.start.isObserved) g.drawLine(x1, y1 + 1, x1 + (if (isMaster) dx1 else (dx1 / 2)), y1 + 1)
-          //        if (s.end.isObserved) g.drawLine(x2, y2 - 1, x2 + dx2, y2 - 1)
+                  if (s.start.isObserved) g.drawLine(x1, y1 + 1, x1 + (if (isMaster) dx1 else (dx1 / 2)), y1 + 1)
+                  if (s.end.isObserved) g.drawLine(x2, y2 - 1, x2 + dx2, y2 - 1)
         }
 
         if (isMaster) g.setColor(Color.lightGray) else g.setColor(Color.lightGray)
         g.drawLine(0, y1, 2000, y1)
         g.drawLine(0, y2, 2000, y2)
-        //        if (isMaster){
-        //          g.setColor(Color.lightGray)
-        //          (ds.startTimeMs/1000*1000 until ds.endTimeMs by 2000).foreach(t =>
-        //            {
-        //              val x1 = msToPixels(t)
-        //              val x2 = msToPixels(t + 1000)
-        //              g.drawLine(x1, y2, x2, y2)
-        //            }
-        //          )
-        //        }
+                if (isMaster){
+                  g.setColor(Color.lightGray)
+                  (ds.startTimeMs/1000*1000 until ds.endTimeMs by 2000).foreach(t =>
+                    {
+                      val x1 = msToPixels(t)
+                      val x2 = msToPixels(t + 1000)
+                      g.drawLine(x1, y2, x2, y2)
+                    }
+                  )
+                }
 
         //      g.setColor(Color.black)
         //      g.drawString(s.caseId, x1, y1)
