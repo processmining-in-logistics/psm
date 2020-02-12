@@ -4,7 +4,7 @@
 
 ## Quick Start
 
-Binaries (for Java 8) are available [here](https://github.com/processmining-in-logistics/psm/releases/tag/1.2.0). 
+Binaries (for Java 8) are available [here](https://github.com/processmining-in-logistics/psm/releases/tag/1.2.1). 
 
 Execute `start_sim.cmd` to run the simulation model of the Baggage Handling System (BHS) and click the play button. The app (over)writes the logs in the current directory. Click the pause button to save the logs and then open the logs in the PSM (the previous step).
 
