@@ -19,7 +19,7 @@ The main window of the simulation model application is shown in the figure below
 * sliders (1,2) allow horizontal and vertical zooming 
 * field (3) shows current simulation time (from the start of the epoch) 
 * button (4) pauses/resumes simulation. Note that recording event logs can be only used (copied) during a pause, i.e., after they are flushed to disk.
-* text field and button (5) allow to send a command to the simulation engine to interactively block/unblock conveyors. Format for blocking: `block conveyor_id period_ms`, e.g., `block x 10000` to block conveyor `x` for 10.000 milliseconds, and `block conveyor_id`, e.g., `block x` to block conveyor `x` forever (or until explict unblocking). Format for unblocking: `unblock conveyor_id`, e.g., `unblock x` to unblock conveyor `x`. 
+* text field and button (5) allow to send a command to the simulation engine to interactively block/unblock conveyors. Format for blocking: `block conveyor_id period_ms`, e.g., `block x 10000` to block conveyor `x` for 10.000 milliseconds, and `block conveyor_id`, e.g., `block x` to block conveyor `x` forever (or until explicit unblocking). Format for unblocking: `unblock conveyor_id`, e.g., `unblock x` to unblock conveyor `x`. 
 * check boxes (6) allow to show/hide IDs of cases and their final destination.
 * other GUI elements may be not implemented yet
 
@@ -35,7 +35,7 @@ The model records two event logs and several internally used files:
 
 ## Performance Spectrum Miner 1.2.x (with Regions)
 
-The Performance Spectrum Miner 1.2.x implements log repair and supports work with performance spectra built from logs with intervals for time-stamps. Additionaly it is possible to project the ground truth on top of the repaired data. Currently it is pre-configured for work with the output of the simulation model (above) and for work with real-life event logs of the same BHS fragment.
+The Performance Spectrum Miner 1.2.x implements log repair and supports work with performance spectra built from logs with intervals for time-stamps. Additionally it is possible to project the ground truth on top of the repaired data. Currently it is pre-configured for work with the output of the simulation model (above) and for work with real-life event logs of the same BHS fragment.
 
 The main window of the PSM is shown in the figure below, where: 
 * (1) is the segment name
@@ -46,7 +46,7 @@ The main window of the PSM is shown in the figure below, where:
 * check boxes (7) allow to show/hide regions, their right borders and change their color schemas
 * list box (8) allows to show/hide the ground truth if available (see below)
 * check boxes (9) allow to show/hide load (base on a repaired log)
-* check boxes (10) allow to show/hide ground thruth load and computed error (if the ground truth is available))
+* check boxes (10) allow to show/hide ground truth load and computed error (if the ground truth is available))
 * field and button (11) allow to set time-window size (in ms)
 
 ![PSM 1.2.x](/docs/figures/psm_regions_ui.png)
@@ -62,7 +62,7 @@ The PSM 1.2.x allows to project information on top of the Performance Spectrum a
 
 ![PSM 1.2.x](/docs/figures/psm_overlaid.png)
 
-Each 'region' can be better visible by highlighting it through moving the mouse pointer at the top point of the region. In this case also the griund truth segment is drawn as a thick black dashed line (see the figure above).
+Each 'region' can be better visible by highlighting it through moving the mouse pointer at the top point of the region. In this case also the ground truth segment is drawn as a thick black dashed line (see the figure above).
 
 In the next section, some examples of performance spectra and load are provided.
 
