@@ -44,14 +44,28 @@ The main window of the PSM is shown in the figure below, where:
 * sliders (2) allows horizontal scrolling
 * sliders (3, 5) allow horizontal and vertical zooming 
 * field (4) shows the absolute time under the mouse pointer in the performance spectrum
-* list box (6) allows to select constraints for log repair (see below)
+* list box (6) allows to select constraints for log repair 
 * check boxes (7) allow to show/hide regions, their right borders and change their color schemas
-* list box (8) allows to show/hide the ground truth (if available)
+* list box (8) allows to show/hide the ground truth if available (see below)
 * check boxes (9) allow to show/hide load (base on a repaired log)
 * check boxes (10) allow to show/hide ground thruth load and computed error (if the ground truth is available))
 * field and button (11) allow to set time-window size (in ms)
 
 ![PSM 1.2.x](/docs/figures/psm_regions_ui.png)
+
+### Projecting the Ground Truth Information to the Performance Spectrum
+
+The PSM 1.2.x allows to project information on top of the Performance Spectrum as black lines (see the figure below). This information can be provided in files `overlaid_segments_N.csv`, where N corresponds to the option number (constraints set) of the listbox (6). A user can:
+* project it over the Performance Spectrum, option `Overlaid on top`
+* project it beneath the Performance Spectrum, option `Overlaid beneath`
+* hide it, option `No overlaid`
+* hide the Performance Spectrum, option `Only overlaid`
+* hide everything (e.g., to keep only load), option `None`
+
+![PSM 1.2.x](/docs/figures/psm_overlaid.png)
+
+Each 'region' can be better visible by highlighting it through moving the mouse pointer at the top point of the region. In this case also the griund truth segment is drawn as a thick black dashed line (see the figure above).
+
 
 ## Examples of Performance Spectra
 
