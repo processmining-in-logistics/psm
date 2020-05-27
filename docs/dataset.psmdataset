@@ -2,8 +2,8 @@
 spectrumRoot = C:/perf_spectrum
 datasetDir = C:/dataset
 experimentName = experiment_1
-dayStartOffsetHours = 10
-dayDurationHours = 12
+dayStartOffsetHours = 12
+dayDurationHours = 10
 howFarInFutureBins = 6
 historicalDataDurationBins = 4
 historicSegments = A3_0:Link1_0 A2_0:A4_0 A1_0:A4_0
