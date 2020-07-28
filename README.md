@@ -1,4 +1,12 @@
-# Performance Spectrum Miner
+# Integrated Performance Spectrum Miner and PQR-system
+
+The page is under constraction!
+
+![PQR-system.](/docs/figures/pqr-system.png)
+
+
+
+
 
 The latest release is [here](https://github.com/processmining-in-logistics/psm/tree/ppm).
 
