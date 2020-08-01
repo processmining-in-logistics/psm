@@ -44,11 +44,16 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 The tool consists of three components:
 
 * *MHS System* - the simulation model of a fragment of an airport Baggage Handling System (BHS), a sub-class of Material handling Systems (MHSs), with animation of executing scenarios.
-* *PQR-System* - the panel of a process model, called a PQR-system, that describes the Process, Queue and Resource dimensions of BHS
+* *PQR-System* - the panel visualizing the process model, called a PQR-system, that describes the Process, Queue and Resource dimensions of the simulated BHS
 * *Performance Spectrum Miner-R* (PSM) - the tool for work with Performance Spectra (PSa)
 
-The BHS System generates events in real-time and send them to the PSM. The PSM computes the PS in real time, using the PQR-system for the information about the process dimensions. The PQR-system additionally serves as a GUI for PS segments filtering and sorting.
+The BHS System generates events in real-time and send them to the PSM. The PSM computes the PS in real time, using the PQR-system for the information about the process dimensions. The PQR-system additionally serves as a GUI for PS segments filtering and sorting. 
 
+### MHS System
+
+### PQR-System
+
+### Performance Spectrum Miner
 
 ## Use case
 
