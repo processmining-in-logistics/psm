@@ -119,6 +119,15 @@ We consider the same use case as in the video above step by step.
 The root cause of the performance incident is in the bag.
 
 
+## Troubleshooting
+
+The tool uses UDP ports 60000-60002.
+Other software of your computer might also use them.
+You can change ports by providing file `config.ini` with the following lines, providing other port numbers:
+* `[GENERAL]`
+* `psmServerPort = 60000`
+* `pqrServerPort = 60001`
+* `simServerPort = 60002`
 
 
 
