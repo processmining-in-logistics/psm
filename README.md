@@ -68,6 +68,18 @@ The main window of the simulation model application is shown in the figure below
 
 ### PQR-System
 
+![PQR-System](/docs/figures/pqr-system.png)
+
+As shown in the figure above, the PQR-System panel has the following controls:
+1. Zooming slider
+2. Rotating slider
+3. Text field for searching model elements
+4. Check-box to show/hide transition labels of Q- and R-proclets
+5. Check-box to show/hide transitions of Q- and R-proclets
+
+A user can add/remove segments to the PSM by left/right clicking on places and transitions.
+The complete visulalization of the PQR-system is shown in figures (a,b), the views where Q- and R-proclets are hideen are shown in figures (c,d).
+
 ### Performance Spectrum Miner-R
 
 
