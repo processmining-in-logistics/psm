@@ -1,14 +1,15 @@
-# Integrated Performance Spectrum Miner and PQR-system
+# Multi-Dimensional Performance Analysis and Monitoring Using Integrated Performance Spectra
 
 The page is under constraction!
 
 ## Links
 
-*Click the figure below to watch the demo*
+* The source code and documentation are available [here](https://github.com/processmining-in-logistics/psm/tree/pqr).
+* This documentation as a pdf file is available [here](https://github.com/processmining-in-logistics/psm/tree/pqr).
+* Click the figure below to watch the demo
+
 [![Multi Dimensional Performance Analysis and Monitoring Using Integrated Performance Spectra](/docs/figures/components_screenshot.png)](https://youtu.be/NI6to1pstKM)
 
-The source code and documentation are available [here](https://github.com/processmining-in-logistics/psm/tree/pqr).
-This documentation as a pdf file is available [here](https://github.com/processmining-in-logistics/psm/tree/pqr).
 
 ## Overview
 
