@@ -71,8 +71,8 @@ The main window of the simulation model application is shown in the figure below
 ![PQR-System](/docs/figures/pqr-system.png)
 
 As shown in the figure above, the PQR-System panel has the following controls:
-1. Zooming slider
-2. Rotating slider
+1. Zoom
+2. Rotation
 3. Text field for searching model elements
 4. Check-box to show/hide transition labels of Q- and R-proclets
 5. Check-box to show/hide transitions of Q- and R-proclets
@@ -82,20 +82,16 @@ The complete visulalization of the PQR-system is shown in figures (a,b), the vie
 
 ### Performance Spectrum Miner-R
 
+![PQR-System](/docs/figures/psm.png)
 
-The main window of the PSM is shown in the figure below, where: 
-* (1) is the segment name
-* sliders (2) allows horizontal scrolling
-* sliders (3, 5) allow horizontal and vertical zooming 
-* field (4) shows the absolute time under the mouse pointer in the performance spectrum
-* list box (6) allows to select constraints for log repair 
-* check boxes (7) allow to show/hide regions, their right borders and change their color schemas
-* list box (8) allows to show/hide the ground truth if available (see below)
-* check boxes (9) allow to show/hide load (base on a repaired log)
-* check boxes (10) allow to show/hide ground truth load and computed error (if the ground truth is available))
-* field and button (11) allow to set time-window size (in ms)
+As shown in the figure above, the PSM has the following controls (relevant to the tool described in this document):
 
-![PSM 1.2.x](/docs/figures/psm_regions_ui.png)
+1. Vertical zoom
+2. Position
+3. Horizontal zoom
+4. Check-box to show/hide ongoing segments, where the end timestamps are estimated as fasted possible. Ongoing segments are only estimated for segments whithout choice in the model, e.g., when some activity *a* is only followed by some activity *b*, we estimate end timestamps of occurrences of this segment (a,b). If more activities can follow *a*, we do not estimate as the next activity is unknown.
+5. Start button, press it once to allow the PSM to listen to the simulation model events.
+
 
 
 ## Use case
