@@ -1,6 +1,8 @@
 # Multi-Dimensional Performance Analysis and Monitoring Using Integrated Performance Spectra
 
-The page is under constraction!
+*The page is under constraction!*
+
+This tutorial explains how to use the tool presented in V. Denisov, D. Fahland, and W. M. P. van der Aalst, “Multi-Dimensional Performance Analysis and Monitoring Using Integrated Performance Spectra,” in ICPM 2020 demo track (in submission).
 
 ## Links
 
@@ -9,10 +11,8 @@ The page is under constraction!
 * Click the figure below to watch the demo ([https://youtu.be/NI6to1pstKM](https://youtu.be/NI6to1pstKM))
 [![Multi Dimensional Performance Analysis and Monitoring Using Integrated Performance Spectra](/docs/figures/components_screenshot.png)](https://youtu.be/NI6to1pstKM)
 
-## Overview
 
-
-## How to Install
+## How to Install and Run
 
 ### System requirements
 
@@ -34,8 +34,29 @@ The PSM is implemented and tested with Java 8 and is not compatible with previou
 
 `Java HotSpot(TM) 64-Bit Server VM (build 25.2511-b08, mixed mode)`
 
+### How to run
+
 1. Download and unzip the [binaries](https://github.com/processmining-in-logistics/psm/tree/ppm).
 1. Execute `run_all.cmd` to run the tool components
+
+## Components
+
+The tool consists of three components:
+
+* *MHS System* - the simulation model of a fragment of an airport Baggage Handling System (BHS), a sub-class of Material handling Systems (MHSs), with animation of executing scenarios.
+* *PQR-System* - the panel of a process model, called a PQR-system, that describes the Process, Queue and Resource dimensions of BHS
+* *Performance Spectrum Miner-R* (PSM) - the tool for work with Performance Spectra (PSa)
+
+The BHS System generates events in real-time and send them to the PSM. The PSM computes the PS in real time, using the PQR-system for the information about the process dimensions. The PQR-system additionally serves as a GUI for PS segments filtering and sorting.
+
+
+## Use case
+
+## Limitations
+
+## Other tools using performance spectra
+
+
 
 
 
