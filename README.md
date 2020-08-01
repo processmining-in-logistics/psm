@@ -115,6 +115,7 @@ We consider the same use case as in the video above step by step.
 6. Observe the blocking development in both token animation of the Simulation Model and in the PSM.
 7. When normal work resumes, pause the simulation by clicking button '>'  in the Simulation Model again.
 8. Identify the segment with the earliest delay, click on this segment to locate it in the model, and double-click to show the corresponding Q- and R-segments.
+
 The root cause of the performance incident is in the bag.
 
 
