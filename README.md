@@ -89,10 +89,19 @@ As shown in the figure above, the PSM has the following controls (relevant to th
 1. Vertical zoom
 2. Position
 3. Horizontal zoom
-4. Check-box to show/hide ongoing segments, where the end timestamps are estimated as fasted possible. Ongoing segments are only estimated for segments whithout choice in the model, e.g., when some activity *a* is only followed by some activity *b*, we estimate end timestamps of occurrences of this segment (a,b). If more activities can follow *a*, we do not estimate as the next activity is unknown.
+4. Check-box to show/hide ongoing segments, where the end timestamps are estimated as fasted possible. Ongoing segments are only estimated for segments whithout choice in the model, e.g., when some activity *a* is only followed by some activity *b*, we estimate end timestamps of occurrences of this segment (a,b). If more activities can follow *a*, we do not estimate as the next activity is unknown. Hiding ongoing segments improves the GUI response.
 5. Start button, press it once to allow the PSM to listen to the simulation model events.
 
 
+Additional functionality is available through mouse clicking:
+
+* Click once on a segment to locate it in the PQR-system visualization. The PQR-System will try to scroll the view port to have a transition related to the first segment activity at the top left corner of the window.
+* Double-click on a segment to add the corresponding Q- and R- segments (works only for segments of the P-proclet).
+* Right-click on a segment to remove a segment
+* Drag and drop segments for sorting
+
+
+Note that PSM-R is a proof-of-concept implementation that computes spectra in real-time in memory. The stable version of the 'standard' PSM is available [here](https://github.com/processmining-in-logistics/psm/).
 
 ## Use case
 
