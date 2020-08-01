@@ -295,7 +295,7 @@ public class DatasetOpenDialog extends javax.swing.JDialog implements ActionList
                                                 final Consumer<String> action) throws IOException, BackingStoreException {
         final String sortingOrderFilename = dir + "/sorting_order.txt";
         final File sortingOrderFile = new File(sortingOrderFilename);
-        final String[] sortingOrder = sortingOrderFile.exists() && sortingOrderFile.isFile() ? readSortingOrder(sortingOrderFilename) : new String[0];
+        final String[] sortingOrder = sortingOrderFile.exists() && sortingOrderFile.isFile() ? SortingOrderUtils.readSortingOrder(sortingOrderFilename) : new String[0];
         final String aggregatorFilename = dir + "/aggregator.ini";
         final File aggregatorFile = new File(aggregatorFilename);
         EventAggregator ea;
@@ -311,21 +311,6 @@ public class DatasetOpenDialog extends javax.swing.JDialog implements ActionList
             fds.fetchAll(o -> action.accept(String.format(" (data) %s / %d", o, twCount)));
         }
         return fds;
-    }
-
-
-    private static String[] readSortingOrder(final String filename) throws IOException {
-        final java.util.List<String> list =
-                Files
-                        .lines(Paths.get(filename))
-                        .map(x -> x.trim())
-                        .filter(x -> !x.isEmpty())
-                        .distinct()
-                        .collect(Collectors.toList());
-        ;
-        logger.info("Sorting order:");
-        list.forEach(logger::info);
-        return list.toArray(new String[list.size()]);
     }
 
 
@@ -395,3 +380,4 @@ public class DatasetOpenDialog extends javax.swing.JDialog implements ActionList
 
     }    // End of variables declaration//GEN-END:variables
 }
+

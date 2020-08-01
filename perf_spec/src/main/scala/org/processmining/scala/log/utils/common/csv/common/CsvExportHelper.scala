@@ -28,7 +28,10 @@ class CsvExportHelper(
 
 object CsvExportHelper{
   val DefaultTimestampPattern = "dd-MM-yy HH:mm:ss.SSS"
-  val FullTimestampPattern = "dd-MM-yyyy HH:mm:ss.SSS"
+
+  val FullTimestampPattern = "dd-MM-yyyy HH:mm:ss.SSS" //sim
+  //val FullTimestampPattern = "dd-MM-yy HH:mm:ss.SSS" //real
+
   val ShortTimestampPattern = "dd-MM-yyyy HH:mm:ss"
   val AmsterdamTimeZone = "Europe/Amsterdam"
   val LondonTimeZone = "Europe/London"

@@ -57,7 +57,7 @@ class CsvReader(val defaultSep: (String, String) = CsvReaderHelper.EmptySep) {
           }
       data
     }
-    finally src.close()
+    //finally src.close()
 
   }
 }

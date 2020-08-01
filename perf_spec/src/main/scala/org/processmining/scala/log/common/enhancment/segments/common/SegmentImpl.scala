@@ -11,12 +11,12 @@ object SegmentImplSerializer extends Serializer[SegmentImpl] {
     output.writeString(s.caseId)
     output.writeLong(s.timeMs)
     output.writeLong(s.duration)
-    //output.writeString(s.field0)
+    output.writeString(s.field0) //Thesis
     output.writeByte(s.clazz)
   }
 
   override def read(kryo: Kryo, input: Input, t: Class[SegmentImpl]): SegmentImpl =
-    SegmentImpl(input.readString(), input.readLong(), input.readLong(), "", input.readByte())
+    SegmentImpl(input.readString(), input.readLong(), input.readLong(), input.readString(), input.readByte())
 
   override def isImmutable: Boolean = true
 

@@ -1,6 +1,7 @@
 package org.processmining.scala.log.common.enhancment.segments.common
 
 import com.esotericsoftware.kryo.Kryo
+import org.processmining.scala.viewers.spectrum2.pqr.{PlaceTransition, PlaceTransitionSerializer}
 
 object KryoFactory {
 
@@ -11,6 +12,7 @@ object KryoFactory {
     kryo.register(classOf[ListOfSegments], ListOfSegmentImplSerializer)
     kryo.register(classOf[MapOfInts], MapOfIntsSerializer)
     kryo.register(classOf[ListOfBins], ListOfBinsSerializer)
+    kryo.register(classOf[PlaceTransition], PlaceTransitionSerializer)
     kryo
   }
 

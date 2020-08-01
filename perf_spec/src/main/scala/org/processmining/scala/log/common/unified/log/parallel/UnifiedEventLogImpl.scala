@@ -8,6 +8,7 @@ import org.processmining.scala.log.common.filtering.expressions.traces.{Abstract
 import org.processmining.scala.log.common.unified.event.UnifiedEvent
 import org.processmining.scala.log.common.unified.log.common.UnifiedEventLog.UnifiedTrace
 import org.processmining.scala.log.common.unified.trace.UnifiedTraceId
+import org.processmining.scala.log.common.utils.common.UnifiedEventLogSubtraceUtils
 
 import scala.collection.parallel.ParSeq
 
@@ -61,7 +62,17 @@ private[parallel] class UnifiedEventLogImpl(override val traces: ParSeq[UnifiedT
       traces
         .map(x => (x._1, x._2.filter(_.hasAttributes(attrNames))))
         .filter(_._2.nonEmpty)
+
+
     )
+
+  override def mapSubtrace(p1: UnifiedEvent => Boolean, p2: UnifiedEvent => Boolean, f: (List[UnifiedEvent], Option[UnifiedEvent], Option[UnifiedEvent]) => List[UnifiedEvent]): UnifiedEventLog = {
+    UnifiedEventLog.fromTraces(
+      traces.map(t => (t._1, UnifiedEventLogSubtraceUtils
+        .mapSubtrace(t._2, UnifiedEvent.EmptyEvent)(p1, p2, f)))
+    )
+
+  }
 
   //  override def filter(schema: StructType): UnifiedEventLog = {
   //    schema.simpleString
@@ -120,9 +131,9 @@ private[parallel] class UnifiedEventLogImpl(override val traces: ParSeq[UnifiedT
     }))
   }
 
-  override def project(ex: EventExpression*): UnifiedEventLog = projectImpl(false, ex :_*)
+  override def project(ex: EventExpression*): UnifiedEventLog = projectImpl(false, ex: _*)
 
-  override def remove(ex: EventExpression*): UnifiedEventLog = projectImpl(true, ex :_*)
+  override def remove(ex: EventExpression*): UnifiedEventLog = projectImpl(true, ex: _*)
 
   override def filterByTraceIds(ids: String*): UnifiedEventLog =
     UnifiedEventLog.fromTraces(traces.filter(x => ids.contains(x._1.id)))

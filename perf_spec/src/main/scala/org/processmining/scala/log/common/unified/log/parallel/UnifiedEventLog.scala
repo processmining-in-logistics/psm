@@ -56,6 +56,11 @@ trait UnifiedEventLog extends Serializable {
   def minMaxTimestamp(): (Long, Long)
 
   def take(n: Int): UnifiedEventLog
+
+  def mapSubtrace(p1: UnifiedEvent => Boolean, p2: UnifiedEvent => Boolean, f: (List[UnifiedEvent], Option[UnifiedEvent], Option[UnifiedEvent]) => List[UnifiedEvent]): UnifiedEventLog
+
+  def mapSubtrace(p: UnifiedEvent => Boolean, f: (List[UnifiedEvent], Option[UnifiedEvent], Option[UnifiedEvent]) => List[UnifiedEvent]): UnifiedEventLog = mapSubtrace(p,p,f)
+
 }
 
 object UnifiedEventLog {

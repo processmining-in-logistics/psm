@@ -14,20 +14,33 @@ case class AppSettings(paletteId: Int,
                        customThinVerticalGridDates: Set[Long],
                        zoneId: ZoneId,
                        fontSize: Int,
-                       fontName: String) {
+                       fontName: String,
+                       psmServerPort: Int,
+                       pqrServerPort: Int,
+                       simServerPort: Int
+                      ) {
   logger.info(s"paletteId = $paletteId")
   logger.info(s"customThickVerticalGridDates = $customThickVerticalGridDates")
   logger.info(s"customThinVerticalGridDates = $customThinVerticalGridDates")
   logger.info(s"zoneId = $zoneId")
   logger.info(s"fontSize = $fontSize")
   logger.info(s"fontName = $fontName")
+  logger.info(s"psmServerPort (UDP) = $psmServerPort")
+  logger.info(s"pqrServerPort (UDP) = $pqrServerPort")
+  logger.info(s"simServerPort (UDP) = $simServerPort")
 }
 
 object AppSettings {
   private val logger = LoggerFactory.getLogger(classOf[AppSettings].getName)
   private val systemZone: ZoneId = ZoneId.systemDefault
-  private val DefaultFontSize = 20
-  private val DefaultFontName = "Gill Sans MT Condensed"
+  val DefaultFontSize = 20
+  val DefaultFontName = "Gill Sans MT Condensed"
+
+
+  private val DefaultPsmServerPort = 60000
+  private val DefaultPqrServerPort = 60001
+  private val DefaultSimServerPort = 60002
+  val DefaultFileName = "config.ini"
 
   private def getDates(line: String, csvImportHelper: CsvImportHelper): Set[Long] =
     line.split("&")
@@ -45,12 +58,16 @@ object AppSettings {
         val zoneIdString = generalNode.get("zoneId", systemZone.getId)
         val zoneId = ZoneId.of(zoneIdString)
         val fontSize = generalNode.getInt("fontSize", DefaultFontSize)
+        val psmServerPort = generalNode.getInt("psmServerPort", DefaultPsmServerPort)
+        val pqrServerPort = generalNode.getInt("pqrServerPort", DefaultPqrServerPort)
+        val simServerPort = generalNode.getInt("simServerPort", DefaultSimServerPort)
+
         val fontName = generalNode.get("fontName", DefaultFontName)
         val csvImportHelper = new CsvImportHelper(dateFormat, zoneId.getId)
         val customThickVerticalGridDates = getDates(generalNode.get("customThickVerticalGridDates", ""), csvImportHelper)
         val customThinVerticalGridDates = getDates(generalNode.get("customThinVerticalGridDates", ""), csvImportHelper)
         new AppSettings(generalNode.getInt("paletteId", 3), customThickVerticalGridDates, customThinVerticalGridDates,
-          zoneId, fontSize, fontName)
+          zoneId, fontSize, fontName, psmServerPort, pqrServerPort, simServerPort)
       } else {
         logger.info(s"No $filename found")
         AppSettings()
@@ -62,5 +79,7 @@ object AppSettings {
     }
   }
 
-  def apply() = new AppSettings(3, Set(), Set(), systemZone, DefaultFontSize, DefaultFontName)
+  def apply() = new AppSettings(3, Set(), Set(), systemZone, DefaultFontSize, DefaultFontName, DefaultPsmServerPort, DefaultPqrServerPort, DefaultSimServerPort)
+
+
 }

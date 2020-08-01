@@ -22,7 +22,7 @@ abstract class AbstractDataSource {
 
   /**
     *
-    * @return UNIX time of the beggining of very first PS bin (in ms, UTC time zone)
+    * @return UNIX time of the beginning of very first PS bin (in ms, UTC time zone)
     */
   def startTimeMs: Long
 
