@@ -56,6 +56,8 @@ The BHS System generates events in real-time and send them to the PSM. The PSM c
 
 The simulation model application allows to simulate normal work and scenarios with blockages for a pre-configured sorter of a BHS. The model allows to use various automated scenarios as well as interactive commands from the GUI.
 
+![BHS simulation model GUI](/docs/figures/sim_model_ui.png)
+
 The main window of the simulation model application is shown in the figure below, where: 
 * sliders (1,2) allow horizontal and vertical zooming 
 * field (3) shows current simulation time (from the start of the epoch) 
