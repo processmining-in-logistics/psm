@@ -105,9 +105,18 @@ Note that PSM-R is a proof-of-concept implementation that computes spectra in re
 
 ## Use case
 
-## Limitations
+We consider the same use case as in the video above step by step.
 
-## Other tools using performance spectra
+1. Run all the components and choose a suitable layout on you monitor(s).
+2. Click Start button in the PSM.
+3. Click button '>'  in the Simulation Model.
+4. Wait 1-2 minutes until bags reach all the system conveyor.
+5. Type command 'block z 100000' and click Send in the Simulation Model.
+6. Observe the blocking development in both token animation of the Simulation Model and in the PSM.
+7. When normal work resumes, pause the simulation by clicking button '>'  in the Simulation Model again.
+8. Identify the segment with the earliest delay, click on this segment to locate it in the model, and double-click to show the corresponding Q- and R-segments.
+The root cause of the performance incident is in the bag.
+
 
 
 
