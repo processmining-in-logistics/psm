@@ -4,10 +4,9 @@ The page is under constraction!
 
 ## Links
 
-* The source code and documentation are available [here](https://github.com/processmining-in-logistics/psm/tree/pqr).
-* This documentation as a pdf file is available [here](https://github.com/processmining-in-logistics/psm/tree/pqr).
-* Click the figure below to watch the demo
-
+* This documentation as a pdf file is available [XXX](https://github.com/processmining-in-logistics/psm/tree/pqr).
+* The source code and documentation are available [https://github.com/processmining-in-logistics/psm/tree/pqr](https://github.com/processmining-in-logistics/psm/tree/pqr).
+* Click the figure below to watch the demo [https://youtu.be/NI6to1pstKM](https://youtu.be/NI6to1pstKM)
 [![Multi Dimensional Performance Analysis and Monitoring Using Integrated Performance Spectra](/docs/figures/components_screenshot.png)](https://youtu.be/NI6to1pstKM)
 
 
