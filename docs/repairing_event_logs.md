@@ -8,7 +8,7 @@ Execute `start_sim.cmd` to run the simulation model of the Baggage Handling Syst
 
 Execute `start_psm.cmd` to run the PSM and open `open_me.xes` to open the provided logs. The logs must be in the same directory as the binaries.
 
-*Click on the Fig. below to watch the BHS simulation model animation*
+*Click the figure below to watch the BHS simulation model animation*
 [![The visualization of the BHS simulation model](/docs/figures/sim_model.png)](https://www.youtube.com/watch?v=O0_tjfRInFo&feature=youtu.be)
 
 ## Simulation Model of Baggage Handling System
