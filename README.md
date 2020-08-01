@@ -50,10 +50,39 @@ The tool consists of three components:
 The BHS System generates events in real-time and send them to the PSM. The PSM computes the PS in real time, using the PQR-system for the information about the process dimensions. The PQR-system additionally serves as a GUI for PS segments filtering and sorting. 
 
 ### MHS System
+*Click the figure below to watch the BHS simulation model animation*
+
+[![The visualization of the BHS simulation model](/docs/figures/sim_model.png)](https://youtu.be/O0_tjfRInFo)
+
+The simulation model application allows to simulate normal work and scenarios with blockages for a pre-configured sorter of a BHS. The model allows to use various automated scenarios as well as interactive commands from the GUI.
+
+The main window of the simulation model application is shown in the figure below, where: 
+* sliders (1,2) allow horizontal and vertical zooming 
+* field (3) shows current simulation time (from the start of the epoch) 
+* button (4) pauses/resumes simulation. Note that recording event logs can be only used (copied) during a pause, i.e., after they are flushed to disk.
+* text field and button (5) allow to send a command to the simulation engine to interactively block/unblock conveyors. Format for blocking: `block conveyor_id period_ms`, e.g., `block x 10000` to block conveyor `x` for 10.000 milliseconds, and `block conveyor_id`, e.g., `block x` to block conveyor `x` forever (or until explicit unblocking). Format for unblocking: `unblock conveyor_id`, e.g., `unblock x` to unblock conveyor `x`. 
+* check boxes (6) allow to show/hide IDs of cases and their final destination.
+* other GUI elements may be not implemented yet
 
 ### PQR-System
 
-### Performance Spectrum Miner
+### Performance Spectrum Miner-R
+
+
+The main window of the PSM is shown in the figure below, where: 
+* (1) is the segment name
+* sliders (2) allows horizontal scrolling
+* sliders (3, 5) allow horizontal and vertical zooming 
+* field (4) shows the absolute time under the mouse pointer in the performance spectrum
+* list box (6) allows to select constraints for log repair 
+* check boxes (7) allow to show/hide regions, their right borders and change their color schemas
+* list box (8) allows to show/hide the ground truth if available (see below)
+* check boxes (9) allow to show/hide load (base on a repaired log)
+* check boxes (10) allow to show/hide ground truth load and computed error (if the ground truth is available))
+* field and button (11) allow to set time-window size (in ms)
+
+![PSM 1.2.x](/docs/figures/psm_regions_ui.png)
+
 
 ## Use case
 
