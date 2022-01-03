@@ -7,7 +7,7 @@
 1. Install [sbt 1.2.x](https://www.scala-sbt.org/download.html) or higher
 1. Install [maven](https://maven.apache.org/download.cgi) and add its folder `bin` into the Windows [PATH](https://www.java.com/en/download/help/path.xml)
 1. Increase the sbt heap: add system variable `SBT_OPTS` and set it to 4-8Gb: `-Xmx8G` (use the same Windows tab as for the previous step)
-1. Download XES implementation: [`OpenXes-XXX.jar`](http://xes-standard.org/openxes/download), [`openxes-xstream-XXX.jar`](http://www.xes-standard.org/openxes/download), [`Spex.jar`](http://code.deckfour.org/Spex/). Since OpexXES 2.26, dependency openxes-xstream-XXX.jar is not required/provided, so remove it from perf_spec/build.sbt file if you use recent versions. 
+1. Download XES implementation: [`OpenXes-XXX.jar`](http://xes-standard.org/openxes/download), [`openxes-xstream-XXX.jar`](http://www.xes-standard.org/openxes/download), [`Spex.jar`](http://code.deckfour.org/Spex/). Since OpexXES 2.26, dependency `openxes-xstream-XXX.jar` is not required/provided, so remove it from `perf_spec/build.sbt` file if you use recent versions. 
 1. Install XES log implementation into your local maven repository, see the examples below (use the system command line, e.g, `cmd.exe`, and correct the file names): 
 1. `mvn install:install-file -Dfile=c:\openxes\OpenXES-XStream-20170216.jar -DgroupId=org.xes-standard -DartifactId=openxes-xstream -Dversion=2.23 -Dpackaging=jar`
 1. `mvn install:install-file -Dfile=c:\openxes\OpenXES-20170216.jar -DgroupId=org.xes-standard -DartifactId=openxes -Dversion=2.23 -Dpackaging=jar`
