@@ -1,7 +1,7 @@
 # Performance Spectrum Miner v.1.2.0
 
 > **[Go here directly](/docs/repairing_event_logs.md)** for extra materials on paper
-V. Denisov, D. Fahland, and W. M. P. van der Aalst. **Repairing Event Logs with Missing Events to Support Performance Analysis of Systems with Shared Resources** (in submission). 
+V. Denisov, D. Fahland, and W. M. P. van der Aalst. **Repairing Event Logs with Missing Events to Support Performance Analysis of Systems with Shared Resources**  In *International Conference on Applications and Theory of Petri Nets and Concurrency* (pp. 239-259). Springer, Cham. 
 
 
 # Overview
