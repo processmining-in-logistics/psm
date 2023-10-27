@@ -4,7 +4,7 @@ The latest release is [here](https://github.com/processmining-in-logistics/psm/t
 
 # Overview
 
-The Performance Spectrum Miner (PSM) is a visual analytics tool for event data. It takes as input an event log (of events, timestamps, and case identifier) of past process or system executions in CSV or XES format. The PSM visualizes the flow of all cases over all process over time, and gives detailed insights performance characteristics.
+The Performance Spectrum Miner (PSM) is a visual analytics tool for process performance analysis. It takes an event log in a CSV or XES format, visualizes the flow of all cases over time, and gives detailed insights into performance characteristics.
 
 ![The performance spectrum miner is a visual analytics tool to visualize process performance from event log data on a detailed level in a comprehensive way.](/docs/figures/performance_spectrum_promo.jpg)
 
@@ -37,14 +37,13 @@ The PSM project is the result of the joint research project on [Process Mining i
 
 ## System requirements
 
-  * Microsoft Windows 7 or higher. The PSM is *not tested* yet on other OS.
+  * An OS supporting Java 8, e.g., Microsoft Windows 7 or higher, MacOS, Linux
   * 2 GB RAM minimum, 16 GB RAM recommended
   * 100MB hard disk space for ProM, 2 GB hard disk space for caches recommended
-  * 1024x768 minimum screen resolution
   
 ## Prerequisite: Java 8
 
-The PSM is implemented and tested with Java 8 and is not compatible with previous Java version (e.g. with Java 7).
+The PSM is implemented and tested with Java 8 and is not binary compatible with other Java versions.
 
 1. Install the most recent JRE/JDK 1.8 64bit
 1. Make sure that a correct installation of Java is configured: execute `java -version` in the command line. You should get a response like this:
@@ -191,8 +190,8 @@ More detailed information can be found in
 
 # Project
 
-The Performance Spectrum Miner project is the result of the joint research project on Process Mining in Logistics between Eindhoven University of Technology and Vanderlande Industries, and developed by 
-* [Vadim Denisov](https://www.linkedin.com/in/vadim-denisov-0958274/), Eindhoven University of Technology
+The Performance Spectrum Miner project is the result of the joint research project on Process Mining in Logistics between Eindhoven University of Technology and Vanderlande Industries. It was developed by 
+* [Vadim Denisov](https://www.linkedin.com/in/vadim-denisov-0958274/),
 * [Elena Belkina](https://www.linkedin.com/in/elena-belkina-55524aa1/), 
 * Dirk Fahland, Eindhoven University of Technology
 
