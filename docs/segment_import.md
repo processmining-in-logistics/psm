@@ -1,6 +1,6 @@
 # Importing a Segment Dataset
 
-Event data can be imported as segments. That is useful when an event log is unavailable, or a custom classifier is used. Prepare your segment data as follows.
+Event data can be imported as segments. It's useful when an event log is unavailable or a custom classifier is used. Prepare your segment data in a folder as follows.
 
 ## Segment files
 
@@ -27,6 +27,6 @@ Event data can be imported as segments. That is useful when an event log is unav
 
 Import your `.segdir` file and use it in the PSM plugin, exactly as XES files.
 
-### ... in PSM standalone
+### ... in standalone PSM 
 
 Import your `.segdir` file and use it exactly as XES files.
